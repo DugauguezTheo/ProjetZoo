@@ -36,23 +36,28 @@ public class Achat {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateAchat;
     
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Visiteur visiteur; // Import de la classe Visiteur à faire quand elle sera créée
     
     public Achat() {
     }
 
-    public Achat(Article article, int quantite, double prixReel, LocalDate dateAchat) {
+    public Achat(Article article, int quantite, double prixReel, LocalDate dateAchat, Visiteur visiteur) {
         this.article = article;
         this.quantite = quantite;
         this.prixReel = prixReel;
         this.dateAchat = dateAchat;
+        this.visiteur = visiteur;
     }
 
-    public Achat(Integer reference, Article article, int quantite, double prixReel, LocalDate dateAchat) {
+    public Achat(Integer reference, Article article, int quantite, double prixReel, LocalDate dateAchat, Visiteur visiteur) {
         this.reference = reference;
     	this.article = article;
         this.quantite = quantite;
         this.prixReel = prixReel;
         this.dateAchat = dateAchat;
+        this.visiteur = visiteur;
     }
 
     
@@ -95,11 +100,19 @@ public class Achat {
 	public void setDateAchat(LocalDate dateAchat) {
 		this.dateAchat = dateAchat;
 	}
+	
+	public Visiteur getVisiteur() {
+		return visiteur;
+	}
+	
+	public void setVisiteur(Visiteur visiteur) {
+		this.visiteur = visiteur;
+	}
 
 	@Override
 	public String toString() {
 		return "Achat [reference=" + reference + ", article=" + article + ", quantite=" + quantite + ", prixReel="
-				+ prixReel + ", dateAchat=" + dateAchat + "]";
+				+ prixReel + ", dateAchat=" + dateAchat + ", visiteur = " + visiteur + "]";
 	}
 
 }
