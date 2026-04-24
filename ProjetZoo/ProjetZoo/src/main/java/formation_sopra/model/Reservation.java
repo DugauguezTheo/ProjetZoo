@@ -1,6 +1,7 @@
 package formation_sopra.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -34,6 +36,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(nullable = false, name = "visiteur_id")
     Visiteur visiteur;
+
+    @ManyToMany(mappedBy="spectacle_reservation")
+	protected List<Spectacle> spectacles;
 
     public Reservation() {}
     
@@ -70,6 +75,10 @@ public class Reservation {
         this.visiteur = visiteur;
     }
 
+    public void setSpectacles(List<Spectacle> spectacles) {
+        this.spectacles = spectacles;
+    }
+
     //Getters
     public LocalDate getDateVisite() {
         return dateVisite;
@@ -89,5 +98,9 @@ public class Reservation {
 
     public Visiteur getVisiteur() {
         return visiteur;
+    }
+
+    public List<Spectacle> getSpectacles() {
+        return spectacles;
     }
 }
