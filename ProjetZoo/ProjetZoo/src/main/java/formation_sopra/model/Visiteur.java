@@ -6,14 +6,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table (name = "visiteur")
-public class Visiteur {
+public class Visiteur extends Compte {
 	
 	@Column(name="Nom")
 	private String nom;
@@ -32,16 +31,12 @@ public class Visiteur {
 	@OneToOne(cascade = CascadeType.ALL) //permet d'enregistrer, modifier ou supprimer automatiquement selon la commande
 	private Adresse adresse;
 	
-	@OneToOne
-	private Compte compte;
-	
-	public Visiteur(String nom, String prenom, LocalDate dateNaissance, Integer pointsFidelites, String numero,String voie,String ville,String cp, Compte compte) {
+	public Visiteur(String nom, String prenom, LocalDate dateNaissance, Integer pointsFidelites, String numero,String voie,String ville,String cp) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.dateNaissance = dateNaissance;
 		this.pointsFidelites = pointsFidelites;
 		this.adresse=new Adresse(numero,voie,ville,cp);
-		this.compte = compte;
 	}
 	
 	public Visiteur() {}
@@ -86,18 +81,10 @@ public class Visiteur {
 		this.adresse = adresse;
 	}
 
-	public Compte getCompte() {
-		return compte;
-	}
-
-	public void setCompte(Compte compte) {
-		this.compte = compte;
-	}
-
 	@Override
 	public String toString() {
 		return "Visiteur [nom=" + nom + ", prenom=" + prenom + ", dateNaissance=" + dateNaissance + ", pointsFidelites="
-				+ pointsFidelites + ", adresse=" + adresse + ", compte=" + compte + "]";
+				+ pointsFidelites + ", adresse=" + adresse + "]";
 	}
 	
 

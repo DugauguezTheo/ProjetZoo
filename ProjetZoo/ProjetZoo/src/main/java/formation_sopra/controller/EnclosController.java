@@ -4,7 +4,6 @@ import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.model.Enclos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,23 +26,27 @@ public class EnclosController {
     //IDAOEnclos daoEnclos;
 
     @GetMapping("/{id}") //fonction que tout le monde devrait avoir acces
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
     public String getEnclosById(@PathVariable Integer id) {
         //return daoEnclos.findById(id).orElse(null);
         return null;
     }
 
     @GetMapping //fonction que tout le monde devrait avoir acces
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
     public List<Enclos> getAllEncloss() {
         return daoEnclos.findAll();
     }
 
     @PostMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public Enclos modifyEnclos(@PathVariable Integer id,@ModelAttribute Enclos enclos){
         this.daoEnclos.save(enclos);
         return null;
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public Enclos createEnclos(@RequestBody Enclos enclos) {
         this.daoEnclos.save(enclos);
         return enclos;
