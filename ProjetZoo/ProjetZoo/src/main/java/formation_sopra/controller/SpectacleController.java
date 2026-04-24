@@ -60,7 +60,7 @@ public class SpectacleController {
         spectacle.setDateDebut(request.getDateDebut());
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree()); 
-        spectacle.setEnclos(request.getEnclos())
+        spectacle.setEnclos(request.getEnclos());
         if (request.getReservationIds() != null) {
             List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
             spectacle.setReservations(reservations);
@@ -89,7 +89,7 @@ public class SpectacleController {
         spectacle.setDateDebut(request.getDateDebut());
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree());
-        spectacle.setEnclos(request.getEnclos())
+        spectacle.setEnclos(request.getEnclos());
         if (request.getReservationIds() != null) {
             List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
             spectacle.setReservations(reservations); // replaces the list
