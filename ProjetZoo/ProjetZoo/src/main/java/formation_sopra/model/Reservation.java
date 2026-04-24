@@ -37,7 +37,7 @@ public class Reservation {
     @JoinColumn(nullable = false, name = "visiteur_id")
     Visiteur visiteur;
 
-    @ManyToMany(mappedBy="spectacle_reservation")
+    @ManyToMany(mappedBy="reservations")
 	protected List<Spectacle> spectacles;
 
     public Reservation() {}
@@ -55,6 +55,10 @@ public class Reservation {
 
 
     //Setters
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setDateVisite(LocalDate dateVisite) {
         this.dateVisite = dateVisite;
     }
@@ -80,6 +84,10 @@ public class Reservation {
     }
 
     //Getters
+    public Integer getId() {
+        return id;
+    }
+
     public LocalDate getDateVisite() {
         return dateVisite;
     }
