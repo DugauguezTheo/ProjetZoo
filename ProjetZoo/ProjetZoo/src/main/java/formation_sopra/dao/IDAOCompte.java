@@ -6,4 +6,6 @@ import formation_sopra.model.Compte;
 
 public interface IDAOCompte extends JpaRepository<Compte, Integer> {
 
+    public Compte findByLogin(String login);
+
 }

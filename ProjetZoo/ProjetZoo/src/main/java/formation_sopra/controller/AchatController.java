@@ -5,6 +5,7 @@ import formation_sopra.model.Achat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/achat")
-@PreAuthorize("hasRole('ADMIN')")
 public class AchatController {
 
     private static Logger log = LoggerFactory.getLogger(AchatController.class);
@@ -27,24 +27,33 @@ public class AchatController {
         this.daoAchat = daoAchat;
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public String getAchatById(@PathVariable Integer id) {
         //return daoAchat.findById(id).orElse(null);
         return null;
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Achat', 'read')")
-    @GetMapping("/visiteur/{id}")
-    public List<Achat> getAllAchatsByIdVisiteur(@PathVariable Integer id) {
-        return daoAchat.findAllByVisiteurId(id);
+    @GetMapping("/visiteur")
+    public List<Achat> getAllAchatsByIdVisiteur(Authentication auth) {
+        return daoAchat.findAllByVisiteurId(Integer.parseInt(auth.getName()));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/visiteur/{idVisiteur}")
+    public List<Achat> getAllAchatsByIdVisiteur(@PathVariable Integer idVisiteur) {
+        return daoAchat.findAllByVisiteurId(idVisiteur);
+    }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<Achat> getAllAchats() {
         return daoAchat.findAll();
     }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public Achat modifyAchat(@PathVariable Integer id,@ModelAttribute Achat achat){
         return this.daoAchat.save(achat);
@@ -56,6 +65,8 @@ public class AchatController {
         return achat;
     }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}/delete")
     public void deleteAchatById(@PathVariable Integer id) {
         this.daoAchat.deleteById(id);

@@ -1,4 +1,4 @@
-package formation_sopra.security.config.jwt;
+package formation_sopra.security.jwt;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import formation_sopra.dao.IDAOAchat;
 import formation_sopra.dao.IDAOCompte;
+import formation_sopra.model.Achat;
 import formation_sopra.model.Compte;
 import formation_sopra.model.Visiteur;
 
@@ -26,6 +28,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtHeaderFilter extends OncePerRequestFilter {
     @Autowired
     private IDAOCompte daoCompte;
+
+    @Autowired IDAOAchat daoAchat;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -44,11 +48,11 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
                 String username = optUsername.get();
                 System.out.println("jeton valide, user = " + username);
 
-                Compte compte = this.daoCompte.findByLogin(username).orElseThrow();
+                Compte compte = this.daoCompte.findByLogin(username);
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
 
-                if (compte instanceof Visiteur) {
+                if (compte instanceof Visiteur visiteur) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_VISITEUR"));
                 }
 
@@ -57,7 +61,7 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
                 }
 
                 // Recréer une Authentication Spring Security
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(compte.getId(), null, authorities);
 
                 // Affecter l'authentication dans le contexte de Spring Security -> lui dire OK, l'utilisateur est authentifié !
                 SecurityContextHolder.getContext().setAuthentication(auth);

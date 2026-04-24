@@ -16,7 +16,16 @@ public class CustomPermissionEvaluator implements PermissionEvaluator{
     }
 
     public boolean hasPermission(Authentication auth, Serializable targetId, String targetType, Object permission){
-        return this.hasPrivilege(auth, targetType, permission.toString());
+        return this.hasPrivilege(auth, targetId, targetType, permission.toString());
+    }
+
+    public boolean hasPrivilege(Authentication auth, Serializable targetId, String targetType, String permission){
+        if ((auth == null) || (targetType == null) || !(permission instanceof String)){
+            return false;
+        }
+        return auth.getAuthorities().stream()
+            .anyMatch(gauth -> gauth.getAuthority().startsWith(targetId + "_" + targetType.toUpperCase() + "_" + permission.toUpperCase())
+        );
     }
 
     public boolean hasPrivilege(Authentication auth, String targetType, String permission){
