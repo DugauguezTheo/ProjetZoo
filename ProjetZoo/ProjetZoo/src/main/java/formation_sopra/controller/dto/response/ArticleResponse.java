@@ -1,7 +1,6 @@
 package formation_sopra.controller.dto.response;
 
 import formation_sopra.model.Article;
-import formation_sopra.model.Prix;
 
 public class ArticleResponse {
 
