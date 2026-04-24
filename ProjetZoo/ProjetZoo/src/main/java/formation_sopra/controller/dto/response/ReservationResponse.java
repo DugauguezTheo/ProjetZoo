@@ -1,12 +1,10 @@
 package formation_sopra.controller.dto.response;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import formation_sopra.model.Reservation;
 import formation_sopra.model.Spectacle;
-import formation_sopra.model.Visiteur;
 
 public class ReservationResponse {
 

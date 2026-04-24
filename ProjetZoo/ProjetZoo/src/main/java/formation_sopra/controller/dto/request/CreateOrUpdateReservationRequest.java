@@ -3,7 +3,6 @@ package formation_sopra.controller.dto.request;
 import java.time.LocalDate;
 import java.util.List;
 
-import formation_sopra.model.Visiteur;
 
 public class CreateOrUpdateReservationRequest {
 

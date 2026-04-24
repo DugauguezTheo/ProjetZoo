@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import formation_sopra.model.Enclos;
 
 public class CreateOrUpdateSpectacleRequest {
 
