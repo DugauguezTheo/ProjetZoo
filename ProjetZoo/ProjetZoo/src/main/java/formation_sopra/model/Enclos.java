@@ -16,12 +16,11 @@ public class Enclos {
     private String biome;
     //@Digits(fraction = 0) //Annotation non fonctionnelle --> ajouter une dependance maven?
     private int capacite;
+
     @Enumerated(EnumType.STRING)
-    @OneToOne //besoin de preciser pour un enum?
     private Espece espece;
 
-    @OneToMany(mappedBy = "animal")
-    @JoinColumn(name="animal")
+    @OneToMany(mappedBy = "enclos")
     private List<Animal> animals;
 
     @OneToMany(mappedBy = "enclos")
