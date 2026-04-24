@@ -2,10 +2,8 @@ package formation_sopra.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.attribute.standard.Media;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
