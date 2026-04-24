@@ -3,6 +3,7 @@ package formation_sopra.controller;
 import formation_sopra.controller.dto.request.CreateOrUpdateSpectacleRequest;
 import formation_sopra.controller.dto.response.EntityCreatedOrUpdatedResponse;
 import formation_sopra.controller.dto.response.SpectacleResponse;
+import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.dao.IDAOReservation;
 import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.model.Reservation;
@@ -27,10 +28,11 @@ public class SpectacleController {
 
     private final IDAOSpectacle daoSpectacle;
     private final IDAOReservation daoReservation;
-
-    public SpectacleController(IDAOSpectacle daoSpectacle, IDAOReservation daoReservation) {
+    private final IDAOEnclos daoEnclos;
+    public SpectacleController(IDAOSpectacle daoSpectacle, IDAOReservation daoReservation, IDAOEnclos daoEnclos) {
         this.daoSpectacle = daoSpectacle;
         this.daoReservation = daoReservation;
+        this.daoEnclos = daoEnclos;
     }
 
 
@@ -60,7 +62,7 @@ public class SpectacleController {
         spectacle.setDateDebut(request.getDateDebut());
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree()); 
-        spectacle.setEnclos(request.getEnclos());
+        spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
         if (request.getReservationIds() != null) {
             List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
             spectacle.setReservations(reservations);
@@ -89,7 +91,7 @@ public class SpectacleController {
         spectacle.setDateDebut(request.getDateDebut());
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree());
-        spectacle.setEnclos(request.getEnclos());
+        spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
         if (request.getReservationIds() != null) {
             List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
             spectacle.setReservations(reservations); // replaces the list

@@ -14,7 +14,7 @@ public class CreateOrUpdateSpectacleRequest {
 
     private List<Integer> reservationIds;
 
-    private Enclos enclos;
+    private Integer enclos_id;
 
     public LocalDate getDateDebut() {
         return dateDebut;
@@ -29,8 +29,8 @@ public class CreateOrUpdateSpectacleRequest {
         return reservationIds;
     }
 
-    public Enclos getEnclos() {
-        return enclos;
+    public Integer getEnclosId() {
+        return enclos_id;
     }
 
     public void setDateDebut(LocalDate dateDebut) {
@@ -46,8 +46,8 @@ public class CreateOrUpdateSpectacleRequest {
         this.reservationIds = reservationIds;
     }
 
-    public void setEnclos(Enclos enclos) {
-        this.enclos = enclos;
+    public void setEnclosId(Integer enclos_id) {
+        this.enclos_id = enclos_id;
     }
     
 }

@@ -17,7 +17,7 @@ public class SpectacleResponse {
 
     private List<Integer> reservationIds;
 
-    private Enclos enclos;
+    private Integer enclos_id;
 
     public Integer getId(){
         return this.id;
@@ -59,12 +59,12 @@ public class SpectacleResponse {
         this.reservationIds = reservationIds;
     }
 
-    public Enclos getEnclos(){
-        return this.enclos;
+    public Integer getEnclosId(){
+        return this.enclos_id;
     }
     
-    public void setEnclos(Enclos enclos){
-        this.enclos = enclos;
+    public void setEnclosId(Integer enclos_id){
+        this.enclos_id = enclos_id;
     }
 
 
@@ -75,7 +75,7 @@ public class SpectacleResponse {
         spectacleResponse.setDateDebut(spectacle.getDateDebut());
         spectacleResponse.setHeureDebut(spectacle.getHeureDebut());
         spectacleResponse.setDuree(spectacle.getDuree());
-        spectacleResponse.setEnclos(spectacle.getEnclos());
+        spectacleResponse.setEnclosId(spectacle.getEnclos().getNumero());
         spectacleResponse.setReservationIds(
             spectacle.getReservations()
                 .stream()
