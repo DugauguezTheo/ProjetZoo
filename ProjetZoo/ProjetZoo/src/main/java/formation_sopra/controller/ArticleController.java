@@ -23,9 +23,6 @@ public class ArticleController {
         this.daoArticle = daoArticle;
     }
 
-    //@Autowired
-    //IDAOArticle daoArticle;
-
     @GetMapping("/{id}")
     public ArticleResponse getArticleById(@PathVariable Integer id) {
         return this.daoArticle.findById(id)
@@ -43,7 +40,7 @@ public class ArticleController {
                 ;
     }
 
-    @GetMapping //la seule fonction que tout le monde devrait avoir acces
+    @GetMapping
     public List<ArticleResponse> getAllArticles() {
         return this.daoArticle.findAll()
                 .stream()

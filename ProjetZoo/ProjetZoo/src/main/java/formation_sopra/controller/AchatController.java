@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /*
- * Les autorisations doivent être revues :
- * 		- un visiteur doit pouvoir voir ses achats, mais pas ceux des autres
- * 		- un visiteur peut ajouter un achat, si c'est pour lui ? Ou on gere ça cote front ?
- * 		- l'admin doit pouvoir afficher tous les achats, mais c'est le seul
- * 
+ * 	- un visiteur peut ajouter un achat, si c'est pour lui : côté front, passer l'idVisiteur en hidden
+ * 	
  * L'aspect de la page change surement en fonction des autorisations ?
  */
 @RestController
@@ -30,23 +27,27 @@ public class AchatController {
         this.daoAchat = daoAchat;
     }
     
-
-    /*
     @GetMapping("/{id}")
     public String getAchatById(@PathVariable Integer id) {
         //return daoAchat.findById(id).orElse(null);
         return null;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasPermission(#id, 'Achat', 'read')")
+    @GetMapping("/visiteur/{id}")
+    public List<Achat> getAllAchatsByIdVisiteur(@PathVariable Integer id) {
+        return daoAchat.findAllByVisiteurId(id);
+    }
+
+
     @GetMapping
     public List<Achat> getAllAchats() {
         return daoAchat.findAll();
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public Achat modifyAchat(@PathVariable Integer id,@ModelAttribute Achat achat){
-        this.daoAchat.save(achat);
-        return null;
+        return this.daoAchat.save(achat);
     }
 
     @PostMapping
@@ -56,9 +57,8 @@ public class AchatController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public Achat deleteAchatById(@PathVariable Integer id) {
+    public void deleteAchatById(@PathVariable Integer id) {
         this.daoAchat.deleteById(id);
-        return null;
     }
-    */
+    
 }
