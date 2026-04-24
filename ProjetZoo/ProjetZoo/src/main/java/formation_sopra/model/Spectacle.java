@@ -39,18 +39,22 @@ public class Spectacle {
 	@ManyToMany
 	@JoinTable(
             name="spectacle_reservation",
-			joinColumns = @JoinColumn(name="spectacles"),
-			inverseJoinColumns =  @JoinColumn(name="reservations"),
-			uniqueConstraints = @UniqueConstraint(columnNames = {"spectacles","reservations"})
-			)
+            joinColumns = @JoinColumn(name = "spectacle_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"spectacle_id", "reservation_id"}))
 	private List<Reservation> reservations;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "enclos_id")
+    Enclos enclos;
 
     public Spectacle() {}
     
-    public Spectacle(LocalDate dateDebut, LocalTime heureDebut, Integer duree) {
+    public Spectacle(LocalDate dateDebut, LocalTime heureDebut, Integer duree, Enclos enclos) {
         this.dateDebut = dateDebut;
         this.heureDebut = heureDebut;
         this.duree = duree;
+        this.enclos = enclos;
     }
 
     public LocalDate getDateDebut() {
@@ -91,6 +95,14 @@ public class Spectacle {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public Enclos getEnclos() {
+        return enclos;
+    }
+
+    public void setEnclos(Enclos enclos) {
+        this.enclos = enclos;
     }
 
 }
