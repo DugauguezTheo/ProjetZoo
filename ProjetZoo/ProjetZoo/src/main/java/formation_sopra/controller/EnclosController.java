@@ -27,27 +27,27 @@ public class EnclosController {
     //IDAOEnclos daoEnclos;
 
     @GetMapping("/{id}") //fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE') or hasPermission('Enclos', 'read')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
     public String getEnclosById(@PathVariable Integer id) {
         //return daoEnclos.findById(id).orElse(null);
         return null;
     }
 
     @GetMapping //fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE') or hasPermission('Enclos', 'read')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
     public List<Enclos> getAllEncloss() {
         return daoEnclos.findAll();
     }
 
     @PostMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public Enclos modifyEnclos(@PathVariable Integer id,@ModelAttribute Enclos enclos){
         this.daoEnclos.save(enclos);
         return null;
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public Enclos createEnclos(@RequestBody Enclos enclos) {
         this.daoEnclos.save(enclos);
         return enclos;

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animal")
-@PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE')") //semble pertinent d'ajouter aussi vétos
+@PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')") //semble pertinent d'ajouter aussi vétos
 public class AnimalController {
 
     private static Logger log = LoggerFactory.getLogger(AnimalController.class);
@@ -29,7 +29,7 @@ public class AnimalController {
     //IDAOAnimal daoAnimal;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE') or hasPermission('Animal', 'read')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Animal', 'read')")
     public AnimalResponse getAnimalById(@PathVariable Integer id) {
         return this.daoAnimal.findById(id)
                 .map(AnimalResponse::convert)
@@ -38,7 +38,7 @@ public class AnimalController {
     }
 
     @GetMapping //la seule fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasRole('ADMIN') or hasRole('VETERINAIRE') or hasPermission('Animal', 'read')")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Animal', 'read')")
     public List<AnimalResponse> getAllAnimals() {
         return this.daoAnimal.findAll()
                 .stream()
