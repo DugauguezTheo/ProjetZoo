@@ -75,5 +75,3 @@ public class CompteController {
 	        return true;
 	    }
 	}
-
-}

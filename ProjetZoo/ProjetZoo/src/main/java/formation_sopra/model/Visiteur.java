@@ -3,26 +3,21 @@ package formation_sopra.model;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import model.Compte;
-import view.Views;
 
 @Entity
 @Table (name = "visiteur")
 public class Visiteur extends Compte {
 	
 	@Column(name="Nom")
-	@JsonView(Views.Common.class)
 	private String nom;
 	
 	@Column(name="Prénom")
-	@JsonView(Views.Common.class)
 	private String prenom;
 	
 	@Column(name="Date de naissance")
@@ -30,12 +25,10 @@ public class Visiteur extends Compte {
 	private LocalDate dateNaissance;
 	
 	@Column(name="Points de fidélités")
-	@JsonView(Views.Common.class)
 	private Integer pointsFidelites;
 	
 	//@Embedded pas utile je pense
 	@OneToOne(cascade = CascadeType.ALL) //permet d'enregistrer, modifier ou supprimer automatiquement selon la commande
-	@JsonView(Views.Common.class)
 	private Adresse adresse;
 	
 	public Visiteur(String nom, String prenom, LocalDate dateNaissance, Integer pointsFidelites, String numero,String voie,String ville,String cp) {
