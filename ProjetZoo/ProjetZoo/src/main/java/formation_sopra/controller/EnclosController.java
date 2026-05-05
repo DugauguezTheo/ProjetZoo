@@ -1,7 +1,12 @@
 package formation_sopra.controller;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateEnclosRequest;
 import formation_sopra.controller.dto.response.EnclosResponse;
+import formation_sopra.controller.dto.response.EnclosWithAnimalsResponse;
+import formation_sopra.controller.dto.response.EnclosWithSpectaclesResponse;
+import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOEnclos;
+import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.exception.EnclosNotFoundException;
 import formation_sopra.model.Enclos;
 import org.slf4j.Logger;
@@ -13,31 +18,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/enclos")
-@PreAuthorize("hasRole('ADMIN')")
 public class EnclosController {
 
     private static Logger log = LoggerFactory.getLogger(EnclosController.class);
 
     private final IDAOEnclos daoEnclos;
+    private final IDAOAnimal daoAnimal;
+    private final IDAOSpectacle daoSpectacle;
 
-    public EnclosController(IDAOEnclos daoEnclos) {
+    public EnclosController(IDAOEnclos daoEnclos, IDAOAnimal daoAnimal, IDAOSpectacle daoSpectacle) {
         this.daoEnclos = daoEnclos;
+        this.daoAnimal = daoAnimal;
+        this.daoSpectacle = daoSpectacle;
     }
 
-    @GetMapping("/{numero}") //fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
-    public EnclosResponse getEnclosById(@PathVariable Integer numero) {
+    @GetMapping("/{numero}") 
+    public EnclosWithAnimalsResponse getEnclosById(@PathVariable Integer numero) {
 
         log.debug("Enclos {} ...", numero);
 
-        return this.daoEnclos.findById(numero)
-                .map(EnclosResponse::convert)
+        return this.daoEnclos.findByIdWithAnimals(numero)
+                .map(EnclosWithAnimalsResponse::convert)
                 .orElseThrow(EnclosNotFoundException::new)
                 ;
     }
 
-    @GetMapping //fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Enclos', 'read')")
+    @GetMapping("/{numero}/spectacles") 
+    public EnclosWithSpectaclesResponse getEnclosByIdWithSpectacles(@PathVariable Integer numero) {
+
+        log.debug("Enclos {} ...", numero);
+
+        return this.daoEnclos.findByIdWithSpectacles(numero)
+                .map(EnclosWithSpectaclesResponse::convert)
+                .orElseThrow(EnclosNotFoundException::new)
+                ;
+    }
+
+    @GetMapping
     public List<EnclosResponse> getAllEncloss() {
 
         log.debug("Liste des enclos ...");
@@ -50,29 +67,40 @@ public class EnclosController {
                 ;
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
-    public Enclos modifyEnclos(@PathVariable Integer numero,@RequestBody Enclos enclos){
+    public EnclosResponse modifyEnclos(@PathVariable Integer numero, @RequestBody CreateOrUpdateEnclosRequest request){
 
         if (!daoEnclos.existsById(numero)) {
             throw new EnclosNotFoundException();
         }
 
+        Enclos enclos = new Enclos();
         enclos.setNumero(numero);
+        enclos.setBiome(request.getBiome());
+        enclos.setCapacite(request.getCapacite());
+        enclos.setEspece(request.getEspece());
+        enclos.setAnimals(this.daoAnimal.findAllByEnclosId(numero));
+
         Enclos updated = daoEnclos.save(enclos);
 
         log.info("Enclos mis à jour : {}", updated.getNumero());
-        return updated;
+        return EnclosResponse.convert(updated);
     }
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
-    public Enclos createEnclos(@RequestBody Enclos enclos) {
+    public EnclosResponse createEnclos(@RequestBody CreateOrUpdateEnclosRequest request) {
 
+        Enclos enclos = new Enclos();
+        enclos.setBiome(request.getBiome());
+        enclos.setCapacite(request.getCapacite());
+        enclos.setEspece(request.getEspece());
+        
         log.debug("Nouvel enclos ajouté !");
 
-        this.daoEnclos.save(enclos);
-        return enclos;
+        enclos = this.daoEnclos.save(enclos);
+        return EnclosResponse.convert(enclos);
     }
 
     @DeleteMapping("/{id}/delete")

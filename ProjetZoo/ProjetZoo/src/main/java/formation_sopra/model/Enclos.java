@@ -13,7 +13,8 @@ public class Enclos {
 
     @Column(nullable = false, length = 15)
     private String biome;
-    //@Digits(fraction = 0) //Annotation non fonctionnelle --> ajouter une dependance maven?
+    
+    @Column(columnDefinition = "Decimal(2,0)")
     private int capacite;
 
     @Enumerated(EnumType.STRING)
@@ -23,26 +24,22 @@ public class Enclos {
     private List<Animal> animals;
 
     @OneToMany(mappedBy = "enclos")
-    private List<Spectacle> spectacles; //faire import quand c'est bon
+    private List<Spectacle> spectacles;
 
     public Enclos() {
     }
 
-    public Enclos(String biome, int capacite, Espece espece, List<Animal> animals, List<Spectacle> spectacles) {
+    public Enclos(String biome, int capacite, Espece espece) {
         this.biome = biome;
         this.capacite = capacite;
         this.espece = espece;
-        this.animals = animals;
-        this.spectacles = spectacles;
     }
 
-    public Enclos(Integer numero, String biome, int capacite, Espece espece, List<Animal> animals, List<Spectacle> spectacles) {
+    public Enclos(Integer numero, String biome, int capacite, Espece espece) {
         this.numero = numero;
         this.biome = biome;
         this.capacite = capacite;
         this.espece = espece;
-        this.animals = animals;
-        this.spectacles = spectacles;
     }
 
     public int getCapacite() {
