@@ -1,11 +1,24 @@
 package formation_sopra.controller.dto.request;
 
-import formation_sopra.model.Compte;
 
 public class CreateOrUpdateCompteRequest {
 
     protected String login;
     protected String password;
+    
+    public String getLogin() {
+        return login;
+    }
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     
 }
     

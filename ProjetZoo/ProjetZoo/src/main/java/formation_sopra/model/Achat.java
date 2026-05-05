@@ -36,8 +36,8 @@ public class Achat {
     
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Visiteur visiteur; // Import de la classe Visiteur à faire quand elle sera créée
-    
+    private Visiteur visiteur; 
+	
     public Achat() {
     }
 
