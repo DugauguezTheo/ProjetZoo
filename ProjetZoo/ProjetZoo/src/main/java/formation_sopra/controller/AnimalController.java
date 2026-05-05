@@ -1,7 +1,9 @@
 package formation_sopra.controller;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateAnimalRequest;
 import formation_sopra.controller.dto.response.AnimalResponse;
 import formation_sopra.dao.IDAOAnimal;
+import formation_sopra.dao.IDAOSoin;
 import formation_sopra.exception.AnimalNotFoundException;
 import formation_sopra.model.Animal;
 import org.slf4j.Logger;
@@ -13,19 +15,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animal")
-@PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')") //semble pertinent d'ajouter aussi vétos
 public class AnimalController {
 
     private static Logger log = LoggerFactory.getLogger(AnimalController.class);
 
     private final IDAOAnimal daoAnimal;
+    private final IDAOSoin daoSoin;
 
-    public AnimalController(IDAOAnimal daoAnimal) {
+    public AnimalController(IDAOAnimal daoAnimal, IDAOSoin daoSoin) {
         this.daoAnimal = daoAnimal;
+        this.daoSoin = daoSoin;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Animal', 'read')")
     public AnimalResponse getAnimalById(@PathVariable Integer id) {
 
         log.debug("Animal {} ...", id);
@@ -36,8 +38,7 @@ public class AnimalController {
                 ;
     }
 
-    @GetMapping //la seule fonction que tout le monde devrait avoir acces
-    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE') or hasPermission('Animal', 'read')")
+    @GetMapping
     public List<AnimalResponse> getAllAnimals() {
 
         log.debug("Liste des animaux ...");
@@ -50,26 +51,42 @@ public class AnimalController {
     }
 
     @PutMapping("/{id}")
-    public Animal modifyAnimal(@PathVariable Integer id,@RequestBody Animal animal){
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
+    public AnimalResponse modifyAnimal(@PathVariable Integer id,@RequestBody CreateOrUpdateAnimalRequest request){
 
         if (!daoAnimal.existsById(id)) {
             throw new AnimalNotFoundException();
         }
 
+        Animal animal = new Animal();
         animal.setId(id);
+        animal.setDateNaissance(request.getDateNaissance());
+        animal.setEnclos(request.getEnclos());
+        animal.setEspece(request.getEspece());
+        animal.setPrenom(request.getPrenom());
+        
+        animal.setSoins(this.daoSoin.findAllByAnimalId(id));
         Animal updated = daoAnimal.save(animal);
 
         log.info("Animal mis à jour : {}", updated.getId());
-        return updated;
+        return AnimalResponse.convert(updated);
     }
 
     @PostMapping
-    public Animal createAnimal(@RequestBody Animal animal) {
+    public AnimalResponse createAnimal(@RequestBody CreateOrUpdateAnimalRequest request) {
 
         log.debug("Nouvel animal ajouté !");
 
-        this.daoAnimal.save(animal);
-        return animal;
+        Animal animal = new Animal();
+        animal.setDateNaissance(request.getDateNaissance());
+        animal.setEnclos(request.getEnclos());
+        animal.setEspece(request.getEspece());
+        animal.setPrenom(request.getPrenom());
+        animal = daoAnimal.save(animal);
+
+        AnimalResponse resp = AnimalResponse.convert(animal);
+        resp.setId(animal.getId());
+        return resp;
     }
 
     @DeleteMapping("/{id}/delete")

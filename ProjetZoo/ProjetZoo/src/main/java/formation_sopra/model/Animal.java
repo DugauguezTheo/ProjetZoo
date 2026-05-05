@@ -3,7 +3,7 @@ package formation_sopra.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -28,7 +26,7 @@ public class Animal {
     @Column(nullable = false,length = 15)
     private String prenom;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="date_naissance")
     private LocalDate dateNaissance;
 
@@ -36,36 +34,27 @@ public class Animal {
     private Enclos enclos;
 
     @Enumerated(EnumType.STRING)
-    // @OneToOne //besoin de preciser pour un enum?
     private Espece espece;
 
-    @ManyToOne
-    @JoinColumn(name = "veterinaire")
-    private Veterinaire veterinaire;//faire import quand c'est bon
-
     @OneToMany(mappedBy = "animal")
-    private List<Soin>soins; //faire import quand c'est bon
+    private List<Soin> soins; 
 
     public Animal() {
     }
 
-    public Animal(String prenom, LocalDate dateNaissance, Enclos enclos, Espece espece, Veterinaire veterinaire, List<Soin> soins) {
+    public Animal(String prenom, LocalDate dateNaissance, Enclos enclos, Espece espece) {
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.enclos = enclos;
         this.espece = espece;
-        this.veterinaire = veterinaire;
-        // this.soins = soins;
     }
 
-    public Animal(Integer id, String prenom, LocalDate dateNaissance, Enclos enclos, Espece espece, Veterinaire veterinaire, List<Soin> soins) {
+    public Animal(Integer id, String prenom, LocalDate dateNaissance, Enclos enclos, Espece espece) {
         this.id = id;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.enclos = enclos;
         this.espece = espece;
-        this.veterinaire = veterinaire;
-        // this.soins = soins;
     }
 
     public Integer getId() {
@@ -108,20 +97,12 @@ public class Animal {
         this.espece = espece;
     }
 
-    public Veterinaire getVeterinaire() {
-        return veterinaire;
+    public List<Soin> getSoins() {
+        return soins;
     }
-
-    public void setVeterinaire(Veterinaire veterinaire) {
-        this.veterinaire = veterinaire;
-    }
-
-    // public List<Soin> getSoins() {
-        // return soins;
-    // }
 
     public void setSoins(List<Soin> soins) {
-        // this.soins = soins;
+        this.soins = soins;
     }
 
     @Override
@@ -132,7 +113,6 @@ public class Animal {
                 ", dateNaissance=" + dateNaissance +
                 ", enclos=" + enclos +
                 ", espece=" + espece +
-                ", veterinaire=" + veterinaire +
                 '}';
     }
 }

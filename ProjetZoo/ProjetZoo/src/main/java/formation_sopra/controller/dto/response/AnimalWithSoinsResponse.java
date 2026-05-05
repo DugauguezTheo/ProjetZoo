@@ -1,17 +1,19 @@
 package formation_sopra.controller.dto.response;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import formation_sopra.model.Animal;
 import formation_sopra.model.Espece;
 
-public class AnimalResponse {
+public class AnimalWithSoinsResponse {
 
     private Integer id;
     private String prenom;
     private Espece espece;
     private Integer idEnclos;
     private LocalDate dateNaissance;
+    private List<Integer> soinsIds;
 
     public Integer getId() {
         return id;
@@ -53,15 +55,28 @@ public class AnimalResponse {
         this.dateNaissance = dateNaissance;
     }
 
-    public static AnimalResponse convert(Animal animal){
-        AnimalResponse animalResponse = new AnimalResponse();
+    public List<Integer> getSoinsIds() {
+        return soinsIds;
+    }
+
+    public void setSoinsIds(List<Integer> soinsIds) {
+        this.soinsIds = soinsIds;
+    }
+
+    public static AnimalWithSoinsResponse convert(Animal animal){
+        AnimalWithSoinsResponse animalResponse = new AnimalWithSoinsResponse();
 
         animalResponse.setId(animal.getId());
         animalResponse.setPrenom(animal.getPrenom());
         animalResponse.setEspece(animal.getEspece());
         animalResponse.setIdEnclos(animal.getEnclos().getNumero());
         animalResponse.setDateNaissance(animal.getDateNaissance());
+        animalResponse.setSoinsIds(animal.getSoins().stream()
+            .map(soin -> soin.getId())
+            .toList()
+        );
 
         return animalResponse;
     }
+    
 }
