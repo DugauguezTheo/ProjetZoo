@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +23,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservation")
-// @PreAuthorize("hasRole('ADMIN')") // Still need to decide who can access
-@PreAuthorize("hasAnyRole('ADMIN', 'VISITEUR')")
 public class ReservationController {
 
     private static Logger log = LoggerFactory.getLogger(ReservationController.class);
@@ -41,6 +40,7 @@ public class ReservationController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ReservationResponse findById(@PathVariable Integer id) {
         
         log.debug("Reservation {} ...", id);
@@ -48,7 +48,18 @@ public class ReservationController {
         return daoReservation.findById(id).map(ReservationResponse::convert).orElseThrow(EntityNotFoundException::new);      
     }
 
+    @GetMapping("/mes-reservations")
+    public List<ReservationResponse> findByIdAuthenticated(Authentication auth) {
+        Integer id = Integer.parseInt(auth.getName());
+
+        log.debug("Liste des reservations du visiteur {}...", id);
+
+        Visiteur v = this.daoVisiteur.findById(id).orElseThrow(EntityNotFoundException::new);
+        return this.daoReservation.findAllByVisiteur(v).stream().map(ReservationResponse::convert).toList();
+    }
+
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ReservationResponse> findAll() {
         log.debug("Liste des reservations ...");
 
@@ -56,12 +67,14 @@ public class ReservationController {
     }
 
     @GetMapping("/spectacle/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ReservationResponse> findAllBySpectacleId(@PathVariable Integer spectacle_id) {
         log.debug("Liste des reservations pour le spectacle {}...", spectacle_id);
         return this.daoReservation.findAllBySpectacleId(spectacle_id).stream().map(ReservationResponse::convert).toList();
     }
 
     @GetMapping("/visiteur/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<ReservationResponse> findAllByVisiteurId(@PathVariable Integer visiteur_id) {
         log.debug("Liste des reservations du visiteur {}...", visiteur_id);
         Visiteur v = this.daoVisiteur.findById(visiteur_id).orElseThrow(EntityNotFoundException::new);
@@ -70,6 +83,7 @@ public class ReservationController {
     
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public EntityCreatedOrUpdatedResponse update(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateReservationRequest request) {
         log.debug("Modification de la reservation {} ...", id);
 
@@ -82,18 +96,6 @@ public class ReservationController {
         
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        //Old version
-        // if (request.getSpectacleIds() != null) {
-        //     List<Spectacle> spectacles = daoSpectacle.findAllById(request.getSpectacleIds());
-
-        //     reservation.setSpectacles(spectacles);
-
-        //     for (Spectacle s : spectacles) {
-        //         s.getReservations().add(reservation);
-        //     }
-        // }
-
-        //New version
         reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectacleIds()));
 
 
@@ -105,6 +107,7 @@ public class ReservationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityCreatedOrUpdatedResponse create(@RequestBody CreateOrUpdateReservationRequest request) {
         log.debug("Création d'une nouvelle reservation ...");
@@ -118,18 +121,6 @@ public class ReservationController {
 
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        //Old version
-        // if (request.getSpectacleIds() != null) {
-        //     List<Spectacle> spectacles = daoSpectacle.findAllById(request.getSpectacleIds());
-
-        //     reservation.setSpectacles(spectacles);
-
-        //     for (Spectacle s : spectacles) {
-        //         s.getReservations().add(reservation);
-        //     }
-        // }
-
-        //New version
         reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectacleIds()));
 
 
@@ -141,6 +132,7 @@ public class ReservationController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(@PathVariable Integer id) {
         log.debug("Suppression du reservation {} ...", id);
         this.daoReservation.deleteById(id);

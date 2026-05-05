@@ -3,6 +3,8 @@ package formation_sopra.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,9 +26,11 @@ public class Reservation {
     Integer id;
 
     @Column(name = "date_visite")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate dateVisite;
 
     @Column(name = "date_reservation")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate dateReservation;
 
     @Column(nullable = false)
