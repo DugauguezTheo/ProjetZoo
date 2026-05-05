@@ -36,14 +36,14 @@ public class Animal {
     private Enclos enclos;
 
     @Enumerated(EnumType.STRING)
-    @OneToOne //besoin de preciser pour un enum?
+    // @OneToOne //besoin de preciser pour un enum?
     private Espece espece;
 
     @ManyToOne
     @JoinColumn(name = "veterinaire")
     private Veterinaire veterinaire;//faire import quand c'est bon
 
-    @OneToMany(mappedBy = "soin")
+    @OneToMany(mappedBy = "animal")
     private List<Soin>soins; //faire import quand c'est bon
 
     public Animal() {
@@ -55,7 +55,7 @@ public class Animal {
         this.enclos = enclos;
         this.espece = espece;
         this.veterinaire = veterinaire;
-        this.soins = soins;
+        // this.soins = soins;
     }
 
     public Animal(Integer id, String prenom, LocalDate dateNaissance, Enclos enclos, Espece espece, Veterinaire veterinaire, List<Soin> soins) {
@@ -65,7 +65,7 @@ public class Animal {
         this.enclos = enclos;
         this.espece = espece;
         this.veterinaire = veterinaire;
-        this.soins = soins;
+        // this.soins = soins;
     }
 
     public Integer getId() {
@@ -116,12 +116,12 @@ public class Animal {
         this.veterinaire = veterinaire;
     }
 
-    public List<Soin> getSoins() {
-        return soins;
-    }
+    // public List<Soin> getSoins() {
+        // return soins;
+    // }
 
     public void setSoins(List<Soin> soins) {
-        this.soins = soins;
+        // this.soins = soins;
     }
 
     @Override
