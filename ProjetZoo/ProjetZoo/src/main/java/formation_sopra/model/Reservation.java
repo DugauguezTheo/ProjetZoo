@@ -9,9 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="reservation")
@@ -37,8 +39,14 @@ public class Reservation {
     @JoinColumn(nullable = false, name = "visiteur_id")
     Visiteur visiteur;
 
-    @ManyToMany(mappedBy="reservations")
-	protected List<Spectacle> spectacles;
+   
+    @ManyToMany
+	@JoinTable(
+            name="reservation_spectacle",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "spectacle_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"reservation_id", "spectacle_id"}))
+	private List<Spectacle> spectacles;
 
     public Reservation() {}
     
