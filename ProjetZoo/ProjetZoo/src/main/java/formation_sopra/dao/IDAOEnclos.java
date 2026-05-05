@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface IDAOEnclos extends JpaRepository<Enclos,Integer> {
 
-    @Query("SELECT e FROM Enclos e LEFT JOIN FETCH e.animals WHERE e.id = :id")
-    Optional<Enclos> findByIdWithAnimal(@Param("id") Integer id);
+    @Query("SELECT e FROM Enclos e LEFT JOIN FETCH e.animals WHERE e.numero = :numero")
+    Optional<Enclos> findByIdWithAnimal(@Param("numero") Integer numero);
 
-    @Query("SELECT e FROM Enclos e LEFT JOIN FETCH e.spectacles WHERE e.id = :id")
-    Optional<Enclos> findByIdWithSpectacle(@Param("id") Integer id);
+    @Query("SELECT e FROM Enclos e LEFT JOIN FETCH e.spectacles WHERE e.numero = :numero")
+    Optional<Enclos> findByIdWithSpectacle(@Param("numero") Integer numero);
 }
