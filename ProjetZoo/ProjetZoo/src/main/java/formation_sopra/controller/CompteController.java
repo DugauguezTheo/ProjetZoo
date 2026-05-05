@@ -24,19 +24,20 @@ public class CompteController {
 	        this.daoCompte = daoCompte;
 	    }
 
-	    //@Autowired
-	    //IDAOCompte daoCompte;
-
+		@PreAuthorize("hasRole('ADMIN')")
 	    @GetMapping("/{id}")
 	    public CompteResponse getCompteById(@PathVariable Integer id) {
+			log.debug("Recherche du compte {}", id);
 	        return this.daoCompte.findById(id)
 	                .map(CompteResponse::convert)
 	                .orElseThrow(CompteNotFoundException::new)
 	                ;
 	    }
 
-	    @GetMapping //la seule fonction que tout le monde devrait avoir acces
+		@PreAuthorize("hasRole('ADMIN')")
+	    @GetMapping 
 	    public List<CompteResponse> getAllComptes() {
+			log.debug("Recherche de tous les comptes enregistrés");
 	        return this.daoCompte.findAll()
 	                .stream()
 	                .map(CompteResponse::convert)
@@ -47,14 +48,16 @@ public class CompteController {
 	    @PreAuthorize("hasRole('ADMIN')")
 	    @PutMapping("/{id}")
 	    public Compte modifyCompte(@PathVariable Integer id, @ModelAttribute Compte compte){
-	        this.daoCompte.save(compte);
-	        return null;
+	        log.debug("Modification du compte {}", id);
+			return this.daoCompte.save(compte);
+	        
 	    }
 
-	    @PreAuthorize("hasRole('ADMIN')")
+	  
 	    @PostMapping
 	    public Compte createCompte(@RequestBody Compte compte) {
-	        this.daoCompte.save(compte);
+	        log.debug("Création du compte {}", compte.getId());
+			this.daoCompte.save(compte);
 	        return compte;
 	    }
 
@@ -62,7 +65,7 @@ public class CompteController {
 	    @DeleteMapping("/{id}/delete")
 	    public boolean deleteCompteById(@PathVariable Integer id) {
 	        try {
-	            log.debug("Suppression du compte {} ...", id);
+	            log.debug("Suppression du compte {} ", id);
 	            this.daoCompte.deleteById(id);
 	        }
 
