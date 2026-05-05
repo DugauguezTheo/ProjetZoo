@@ -34,13 +34,16 @@ public class Spectacle {
     @Column(nullable = false)
     Integer duree;
 
-	@ManyToMany
-	@JoinTable(
-            name="spectacle_reservation",
-            joinColumns = @JoinColumn(name = "spectacle_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"spectacle_id", "reservation_id"}))
-	private List<Reservation> reservations;
+	// @ManyToMany
+	// @JoinTable(
+    //         name="spectacle_reservation",
+    //         joinColumns = @JoinColumn(name = "spectacle_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "reservation_id"),
+    //         uniqueConstraints = @UniqueConstraint(columnNames = {"spectacle_id", "reservation_id"}))
+	// private List<Reservation> reservations;
+
+    @ManyToMany(mappedBy="spectacles")
+	protected List<Reservation> reservations;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "enclos_id")

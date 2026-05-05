@@ -6,6 +6,7 @@ import formation_sopra.controller.dto.response.SpectacleResponse;
 import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.dao.IDAOReservation;
 import formation_sopra.dao.IDAOSpectacle;
+import formation_sopra.model.Enclos;
 import formation_sopra.model.Reservation;
 import formation_sopra.model.Spectacle;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/spectacle")
-// @PreAuthorize("hasRole('ADMIN')") // Still need to decide who can access
+@PreAuthorize("hasRole('ADMIN')") // Still need to decide who can access
 public class SpectacleController {
 
     private static Logger log = LoggerFactory.getLogger(SpectacleController.class);
@@ -29,6 +30,7 @@ public class SpectacleController {
     private final IDAOSpectacle daoSpectacle;
     private final IDAOReservation daoReservation;
     private final IDAOEnclos daoEnclos;
+
     public SpectacleController(IDAOSpectacle daoSpectacle, IDAOReservation daoReservation, IDAOEnclos daoEnclos) {
         this.daoSpectacle = daoSpectacle;
         this.daoReservation = daoReservation;
@@ -42,15 +44,25 @@ public class SpectacleController {
         
         log.debug("Spectacle {} ...", id);
 
-        return daoSpectacle.findById(id).map(SpectacleResponse::convert).orElse(null);      
+        // return daoSpectacle.findById(id).map(SpectacleResponse::convert).orElse(null);  
+        return daoSpectacle.findByIdWithReservation(id).map(SpectacleResponse::convert).orElse(null);    
     }
 
     @GetMapping
     public List<SpectacleResponse> findAll() {
         log.debug("Liste des spectacles ...");
 
-        return this.daoSpectacle.findAll().stream().map(SpectacleResponse::convert).toList();
+        // return this.daoSpectacle.findAll().stream().map(SpectacleResponse::convert).toList();
+        return this.daoSpectacle.findAllWithReservation().stream().map(SpectacleResponse::convert).toList();
     }
+
+    @GetMapping("/enclos/{id}")
+    public List<SpectacleResponse> findAllByEnclosId(@PathVariable Integer id) {
+        log.debug("Liste des spectacles pour l'enclos {}...", id);
+        Enclos e = this.daoEnclos.findById(id).orElseThrow(EntityNotFoundException::new);
+        return this.daoSpectacle.findAllByEnclosWithReservation(e).stream().map(SpectacleResponse::convert).toList();
+    }
+    
 
     @PutMapping("/{id}")
     public EntityCreatedOrUpdatedResponse update(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateSpectacleRequest request) {
@@ -63,16 +75,21 @@ public class SpectacleController {
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree()); 
         spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
-        if (request.getReservationIds() != null) {
-            List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
-            spectacle.setReservations(reservations);
+    
+    //Old version
+    //     if (request.getReservationIds() != null) {
+    //         List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
+    //         spectacle.setReservations(reservations);
 
-            spectacle.setReservations(reservations);
+    //         spectacle.setReservations(reservations);
 
-            for (Reservation r : reservations) {
-                r.getSpectacles().add(spectacle);
-            }
-    }
+    //         for (Reservation r : reservations) {
+    //             r.getSpectacles().add(spectacle);
+    //         }
+    // }
+
+    //New version -> spectacle mappedBy reservation
+        // spectacle.setReservations(this.daoReservation.findAllById(request.getReservationIds()));
 
         this.daoSpectacle.save(spectacle);
 
@@ -92,18 +109,21 @@ public class SpectacleController {
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree());
         spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
-        if (request.getReservationIds() != null) {
-            List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
-            spectacle.setReservations(reservations); // replaces the list
-        
+    
+    //Old version
+    //     if (request.getReservationIds() != null) {
+    //         List<Reservation> reservations = daoReservation.findAllById(request.getReservationIds());
+    //         spectacle.setReservations(reservations);
 
-            spectacle.setReservations(reservations);
+    //         spectacle.setReservations(reservations);
 
-            for (Reservation r : reservations) {
-                r.getSpectacles().add(spectacle);
-            }
-        
-        }
+    //         for (Reservation r : reservations) {
+    //             r.getSpectacles().add(spectacle);
+    //         }
+    // }
+
+    //New version -> spectacle mappedBy reservation
+        // spectacle.setReservations(this.daoReservation.findAllById(request.getReservationIds()));
 
         this.daoSpectacle.save(spectacle);
 

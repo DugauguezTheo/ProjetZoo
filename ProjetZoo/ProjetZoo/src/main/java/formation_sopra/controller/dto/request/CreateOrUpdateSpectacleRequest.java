@@ -10,9 +10,7 @@ public class CreateOrUpdateSpectacleRequest {
     private LocalDate dateDebut;
     private LocalTime heureDebut;
     private Integer duree;
-
-    private List<Integer> reservationIds;
-
+    
     private Integer enclos_id;
 
     public LocalDate getDateDebut() {
@@ -24,9 +22,7 @@ public class CreateOrUpdateSpectacleRequest {
     public Integer getDuree() {
         return duree;
     }
-    public List<Integer> getReservationIds() {
-        return reservationIds;
-    }
+
 
     public Integer getEnclosId() {
         return enclos_id;
@@ -41,9 +37,7 @@ public class CreateOrUpdateSpectacleRequest {
     public void setDuree(Integer duree) {
         this.duree = duree;
     }
-    public void setReservationIds(List<Integer> reservationIds) {
-        this.reservationIds = reservationIds;
-    }
+
 
     public void setEnclosId(Integer enclos_id) {
         this.enclos_id = enclos_id;
