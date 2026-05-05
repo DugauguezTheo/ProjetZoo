@@ -2,7 +2,6 @@ package formation_sopra.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

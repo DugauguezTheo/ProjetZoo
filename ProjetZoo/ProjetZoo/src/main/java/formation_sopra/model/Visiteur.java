@@ -3,7 +3,7 @@ package formation_sopra.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,17 +16,17 @@ import jakarta.persistence.Table;
 @Table (name = "visiteur")
 public class Visiteur extends Compte {
 	
-	@Column(name="Nom")
+	@Column(name="nom", length = 80, nullable = false)
 	private String nom;
 	
-	@Column(name="Prénom")
+	@Column(name="prenom", length = 50, nullable = false)
 	private String prenom;
 	
-	@Column(name="Date de naissance")
-	@JsonFormat(pattern = "dd--MM--yyyy")
+	@Column(name="date_naissance", nullable = false)
+	@DateTimeFormat(pattern = "dd--MM--yyyy")
 	private LocalDate dateNaissance;
 	
-	@Column(name="Points de fidélités")
+	@Column(name="points_fildelite")
 	private Integer pointsFidelites;
 
 	@OneToMany(mappedBy = "visiteur")

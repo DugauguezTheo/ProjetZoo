@@ -1,11 +1,8 @@
 package formation_sopra.controller.dto.request;
 
-import formation_sopra.model.Enclos;
 import formation_sopra.model.Espece;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-
-import java.time.LocalDate;
 
 public class CreateOrUpdateEnclosRequest {
 

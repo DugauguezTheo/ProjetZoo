@@ -14,7 +14,7 @@ public record VisiteurResponse(
     LocalDate dateNaissance,
     Integer pointsFidelite,
     List<Integer> achatsIds, 
-    String numero,
+    String numeroVoie,
     String voie,
     String ville,
     String cp

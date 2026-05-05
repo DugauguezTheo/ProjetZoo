@@ -1,6 +1,5 @@
 package formation_sopra.dao;
 
-import formation_sopra.model.Animal;
 import formation_sopra.model.Enclos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
