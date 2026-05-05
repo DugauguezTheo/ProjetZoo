@@ -47,7 +47,7 @@ public class ArticleController {
     @GetMapping("/{id}/ventes")
     public ArticleWithVentesResponse getArticleByIdWithVentes(@PathVariable Integer id) {
         log.debug("Recherche de l'article n°{} ...", id);
-        return this.daoArticle.findById(id)
+        return this.daoArticle.findByIdWithVentes(id)
                 .map(ArticleWithVentesResponse::convert)
                 .orElseThrow(ArticleNotFoundException::new)
                 ;
