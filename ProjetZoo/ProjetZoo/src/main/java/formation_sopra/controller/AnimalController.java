@@ -3,7 +3,6 @@ package formation_sopra.controller;
 import formation_sopra.controller.dto.request.CreateOrUpdateAnimalRequest;
 import formation_sopra.controller.dto.response.AnimalResponse;
 import formation_sopra.controller.dto.response.AnimalWithSoinsResponse;
-import formation_sopra.controller.dto.response.ArticleWithVentesResponse;
 import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOSoin;
 import formation_sopra.exception.AnimalNotFoundException;
