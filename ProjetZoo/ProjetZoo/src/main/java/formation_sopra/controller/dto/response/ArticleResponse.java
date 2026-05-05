@@ -7,6 +7,7 @@ public class ArticleResponse {
     private Integer id;
     private String libelle;
     private double prix;
+    private int quantiteStock;
 
     public Integer getId() {
         return id;
@@ -32,12 +33,21 @@ public class ArticleResponse {
         this.prix = prix;
     }
 
+    public int getQuantiteStock() {
+        return quantiteStock;
+    }
+
+    public void setQuantiteStock(int quantiteStock) {
+        this.quantiteStock = quantiteStock;
+    }
+
     public static ArticleResponse convert(Article article){
         ArticleResponse articleResponse = new ArticleResponse();
 
         articleResponse.setId(article.getId());
         articleResponse.setLibelle(article.getLibelle());
         articleResponse.setPrix(article.getPrix());
+        articleResponse.setQuantiteStock(article.getQuantiteStock());
 
         return articleResponse;
     }

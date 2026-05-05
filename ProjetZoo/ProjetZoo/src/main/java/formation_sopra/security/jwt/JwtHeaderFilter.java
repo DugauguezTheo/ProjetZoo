@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import formation_sopra.dao.IDAOAchat;
 import formation_sopra.dao.IDAOCompte;
-import formation_sopra.model.Achat;
 import formation_sopra.model.Compte;
 import formation_sopra.model.Veterinaire;
 import formation_sopra.model.Visiteur;

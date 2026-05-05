@@ -1,5 +1,6 @@
 package formation_sopra.controller;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateArticleRequest;
 import formation_sopra.controller.dto.response.ArticleResponse;
 import formation_sopra.dao.IDAOArticle;
 import formation_sopra.exception.ArticleNotFoundException;
@@ -25,14 +26,16 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ArticleResponse getArticleById(@PathVariable Integer id) {
+        log.debug("Recherche de l'article n°{} ...", id);
         return this.daoArticle.findById(id)
                 .map(ArticleResponse::convert)
                 .orElseThrow(ArticleNotFoundException::new)
                 ;
     }
     
-    @GetMapping("/{libelle}")
+    @GetMapping("/by-libelle/{libelle}")
     public List<ArticleResponse> getArticlesByLibelleContaining(@PathVariable String libelle) {
+        log.debug("Recherche des articles dont le libelle contient {} ...", libelle);
         return this.daoArticle.findByLibelleContaining(libelle)
         		.stream()
                 .map(ArticleResponse::convert)
@@ -42,6 +45,7 @@ public class ArticleController {
 
     @GetMapping
     public List<ArticleResponse> getAllArticles() {
+        log.debug("Recherche de tous les articles ...");
         return this.daoArticle.findAll()
                 .stream()
                 .map(ArticleResponse::convert)
@@ -51,16 +55,34 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public Article modifyArticle(@PathVariable Integer id,@ModelAttribute Article article){
-        this.daoArticle.save(article);
-        return null;
+    public ArticleResponse modifyArticle(@PathVariable Integer id, @RequestBody CreateOrUpdateArticleRequest request){
+
+        log.debug("Modification de l'article {} ({}) ...", id, request.getLibelle());
+        Article article = new Article();
+
+        article.setLibelle(request.getLibelle());
+        article.setPrix(request.getPrix());
+        article.setQuantiteStock(request.getQuantiteStock());
+
+        article = this.daoArticle.save(article);
+
+        return ArticleResponse.convert(article);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public Article createArticle(@RequestBody Article article) {
-        this.daoArticle.save(article);
-        return article;
+    public ArticleResponse createArticle(@RequestBody CreateOrUpdateArticleRequest request) {
+        
+        log.debug("Creation d'un article appelé {} ...", request.getLibelle());
+        Article article = new Article();
+
+        article.setLibelle(request.getLibelle());
+        article.setPrix(request.getPrix());
+        article.setQuantiteStock(request.getQuantiteStock());
+
+        article = this.daoArticle.save(article);
+
+        return ArticleResponse.convert(article);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
