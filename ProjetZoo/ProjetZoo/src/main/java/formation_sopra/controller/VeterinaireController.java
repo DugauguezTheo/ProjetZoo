@@ -1,5 +1,6 @@
 package formation_sopra.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateVeterinaireRequest;
 import formation_sopra.controller.dto.response.VeterinaireResponse;
 import formation_sopra.dao.IDAOVeterinaire;
 import formation_sopra.model.Veterinaire;
@@ -47,7 +49,13 @@ public class VeterinaireController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public VeterinaireResponse createVeterinaire(@RequestBody Veterinaire veterinaire) {
+    public VeterinaireResponse createVeterinaire(@RequestBody CreateOrUpdateVeterinaireRequest request) {
+        Veterinaire veterinaire = new Veterinaire();
+        // Map the request to the entity (assuming you have a convert method or similar)
+        veterinaire.setLogin(request.getLogin());
+        veterinaire.setPassword(request.getPassword());
+        veterinaire.setAnimaux(new ArrayList<>());
+        veterinaire.setSoins(new ArrayList<>());
         Veterinaire saved = daoVeterinaire.save(veterinaire);
         log.info("Vétérinaire créé : {}", saved.getLogin());
         return VeterinaireResponse.convert(saved);
@@ -56,12 +64,16 @@ public class VeterinaireController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public VeterinaireResponse updateVeterinaire(@PathVariable Integer id,
-                                                 @RequestBody Veterinaire veterinaire) {
+                                                 @RequestBody CreateOrUpdateVeterinaireRequest request) {
 
         if (!daoVeterinaire.existsById(id)) {
             throw new RuntimeException("Vétérinaire non trouvé");
         }
 
+        Veterinaire veterinaire = daoVeterinaire.findById(id).orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
+        // Map the request to the entity (assuming you have a convert method or similar)
+        veterinaire.setLogin(request.getLogin());
+        veterinaire.setPassword(request.getPassword());
         veterinaire.setId(id);
         Veterinaire updated = daoVeterinaire.save(veterinaire);
 

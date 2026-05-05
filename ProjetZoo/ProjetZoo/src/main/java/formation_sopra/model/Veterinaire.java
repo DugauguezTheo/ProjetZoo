@@ -11,6 +11,9 @@ public class Veterinaire extends Compte {
     @OneToMany(mappedBy = "veterinaire")
     private List<Soin> soins;
 
+    @OneToMany(mappedBy = "veterinaire")
+    private List<Animal> animaux;
+
     public Veterinaire() {
     }
 
@@ -18,8 +21,16 @@ public class Veterinaire extends Compte {
         return soins;
     }
 
+    public List<Animal> getAnimaux() {
+        return animaux;
+    }
+
     public void setSoins(List<Soin> soins) {
         this.soins = soins;
+    }
+
+    public void setAnimaux(List<Animal> animaux) {
+        this.animaux = animaux;
     }
 
 }
