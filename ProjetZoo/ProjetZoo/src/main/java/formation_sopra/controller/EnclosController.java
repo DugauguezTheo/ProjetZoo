@@ -81,6 +81,7 @@ public class EnclosController {
         enclos.setCapacite(request.getCapacite());
         enclos.setEspece(request.getEspece());
         enclos.setAnimals(this.daoAnimal.findAllByEnclosId(numero));
+        enclos.setSpectacles(this.daoSpectacle.findAllByEnclosId(numero));
 
         Enclos updated = daoEnclos.save(enclos);
 
