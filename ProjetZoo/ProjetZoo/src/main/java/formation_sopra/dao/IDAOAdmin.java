@@ -6,4 +6,6 @@ import formation_sopra.model.Admin;
 
 public interface IDAOAdmin extends JpaRepository<Admin, Integer> {
 
+    public Admin findByLogin(String login);
+
 }

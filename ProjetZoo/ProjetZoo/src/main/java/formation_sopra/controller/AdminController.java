@@ -2,6 +2,8 @@ package formation_sopra.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,7 @@ public class AdminController {
 
     public final IDAOAdmin daoAdmin;
 
-    public static final org.slf4j.Logger log =
-            org.slf4j.LoggerFactory.getLogger(AdminController.class);
+    public static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     public AdminController(IDAOAdmin daoAdmin) {
         this.daoAdmin = daoAdmin;
