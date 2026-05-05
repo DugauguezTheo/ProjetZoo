@@ -1,9 +1,19 @@
 package formation_sopra.dao;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import formation_sopra.model.Veterinaire;
 
 public interface IDAOVeterinaire extends JpaRepository<Veterinaire, Integer> {
+
+    @Query("SELECT v FROM Veterinaire v LEFT JOIN FETCH v.soins WHERE v.id = :id")
+    Optional<Veterinaire> findByIdWithSoins(@Param("id") Integer id);
+
+    @Query("SELECT v FROM Veterinaire v LEFT JOIN FETCH v.animaux WHERE v.id = :id")
+    Optional<Veterinaire> findByIdWithAnimaux(@Param("id") Integer id);
 
 }
