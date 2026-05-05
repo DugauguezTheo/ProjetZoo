@@ -44,7 +44,6 @@ public class Animal {
     private Veterinaire veterinaire;//faire import quand c'est bon
 
     @OneToMany(mappedBy = "soin")
-    @JoinColumn(name="soin")
     private List<Soin>soins; //faire import quand c'est bon
 
     public Animal() {

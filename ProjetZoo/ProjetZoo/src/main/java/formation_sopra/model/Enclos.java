@@ -24,7 +24,6 @@ public class Enclos {
     private List<Animal> animals;
 
     @OneToMany(mappedBy = "enclos")
-    @JoinColumn(name="enclos")
     private List<Spectacle> spectacles; //faire import quand c'est bon
 
     public Enclos() {
