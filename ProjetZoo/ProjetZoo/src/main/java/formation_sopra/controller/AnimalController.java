@@ -2,9 +2,12 @@ package formation_sopra.controller;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateAnimalRequest;
 import formation_sopra.controller.dto.response.AnimalResponse;
+import formation_sopra.controller.dto.response.AnimalWithSoinsResponse;
+import formation_sopra.controller.dto.response.ArticleWithVentesResponse;
 import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOSoin;
 import formation_sopra.exception.AnimalNotFoundException;
+import formation_sopra.exception.ArticleNotFoundException;
 import formation_sopra.model.Animal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +38,15 @@ public class AnimalController {
         return this.daoAnimal.findById(id)
                 .map(AnimalResponse::convert)
                 .orElseThrow(AnimalNotFoundException::new)
+                ;
+    }
+
+    @GetMapping("/{id}/soins")
+    public AnimalWithSoinsResponse getAnimalByIdWithSoins(@PathVariable Integer id) {
+        log.debug("Recherche de l'animal n°{} avec l'historique des soins", id);
+        return this.daoAnimal.findByIdWithSoins(id)
+                .map(AnimalWithSoinsResponse::convert)
+                .orElseThrow(ArticleNotFoundException::new)
                 ;
     }
 
