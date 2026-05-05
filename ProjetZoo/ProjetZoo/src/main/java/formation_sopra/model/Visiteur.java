@@ -25,14 +25,13 @@ public class Visiteur extends Compte {
 	@DateTimeFormat(pattern = "dd--MM--yyyy")
 	private LocalDate dateNaissance;
 	
-	@Column(name="points_fildelite")
+	@Column(name="points_fildelite", columnDefinition = "int default 0")
 	private Integer pointsFidelites;
 
 	@OneToMany(mappedBy = "visiteur")
 	private List<Achat> achats;
 	
-	@Embedded //pas utile je pense
-	// @OneToOne(cascade = CascadeType.ALL) //permet d'enregistrer, modifier ou supprimer automatiquement selon la commande
+	@Embedded
 	private Adresse adresse;
 	
 	public Visiteur(String nom, String prenom, LocalDate dateNaissance, Integer pointsFidelites, String numero,String voie,String ville,String cp) {

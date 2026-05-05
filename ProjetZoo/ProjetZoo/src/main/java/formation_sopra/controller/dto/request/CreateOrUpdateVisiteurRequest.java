@@ -1,10 +1,11 @@
 package formation_sopra.controller.dto.request;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 public record CreateOrUpdateVisiteurRequest(
     @NotBlank
@@ -19,16 +20,23 @@ public record CreateOrUpdateVisiteurRequest(
     @NotBlank
     String prenom, 
 
-    @NotBlank
+    @PastOrPresent
+    @NotNull
     LocalDate dateNaissance,
 
     @Min(0)
     Integer pointsFidelite,
-    
-    List<Integer> achatsIds,
+
+    @NotBlank
     String numeroVoie,
+
+    @NotBlank
     String voie,
+
+    @NotBlank
     String ville,
+
+    @NotBlank
     String cp
 ) {
 

@@ -20,6 +20,7 @@ public record CreateOrUpdateAchatRequest(
     double prixUnitaireATM, 
 
     @PastOrPresent(message = "La date d'achat a lieu au plus tard aujourd'hui")
+    @NotNull
     LocalDate dateAchat,
     
     @NotNull(message = "Le visiteur qui achète le produit n'est pas Null")

@@ -1,10 +1,10 @@
 package formation_sopra.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateVisiteurRequest;
 import formation_sopra.controller.dto.response.VisiteurResponse;
+import formation_sopra.controller.dto.response.VisiteurWithAchatsResponse;
 import formation_sopra.dao.IDAOAchat;
 import formation_sopra.dao.IDAOVisiteur;
 import formation_sopra.exception.CompteNotFoundException;
@@ -54,14 +54,12 @@ public class VisiteurController {
 	    }
 
 		@GetMapping("/me")
-		public VisiteurResponse getMySelfAsVisitor(Authentication auth) {
+		public VisiteurWithAchatsResponse getMySelfAsVisitor(Authentication auth) {
 			Integer id = Integer.parseInt(auth.getName());
 			log.debug("Recherche du compte n°{} (compte visiteur) ...", id);
 
-			return daoVisiteur.findById(id)
-				.map(VisiteurResponse::convert)
-				.orElseThrow(CompteNotFoundException::new)
-				;
+			Visiteur visiteur = daoVisiteur.findByIdWithAchats(id);
+			return VisiteurWithAchatsResponse.convert(visiteur);
 		}
 
 	    @PreAuthorize("hasRole('ADMIN')")
@@ -70,10 +68,8 @@ public class VisiteurController {
 	        log.debug("Modification du visiteur {}", id);
 
 			Visiteur visiteur = new Visiteur();
-			List<Achat> achats = request.achatsIds().stream()
-				.map(idAchat -> this.daoAchat.findById(idAchat).orElse(null))
-				.toList();
 			Adresse adresse = new Adresse(request.numeroVoie(), request.voie(), request.ville(), request.cp());
+			List<Achat> achats = this.daoAchat.findAllByVisiteurId(id);
 
 			visiteur.setLogin(request.login());
 			visiteur.setPassword(request.password());
@@ -104,8 +100,6 @@ public class VisiteurController {
 			visiteur.setNom(request.nom());
 			visiteur.setPrenom(request.prenom());
 			visiteur.setDateNaissance(request.dateNaissance());
-			visiteur.setPointsFidelites(0);
-			visiteur.setAchats(new ArrayList<>());
 			visiteur.setAdresse(adresse);
 
 			visiteur = this.daoVisiteur.save(visiteur);
