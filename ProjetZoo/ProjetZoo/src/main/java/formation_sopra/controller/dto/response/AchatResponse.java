@@ -9,7 +9,7 @@ public class AchatResponse {
     private Integer reference;
     private Integer idArticle;
     private int quantite;
-    private double prixReel;
+    private double prixUnitaireATM;
     private LocalDate dateAchat;
     private Integer idVisiteur;
 
@@ -31,11 +31,11 @@ public class AchatResponse {
     public void setQuantite(int quantite) {
         this.quantite = quantite;
     }
-    public double getPrixReel() {
-        return prixReel;
+    public double getPrixUnitaireATM() {
+        return prixUnitaireATM;
     }
-    public void setPrixReel(double prixReel) {
-        this.prixReel = prixReel;
+    public void setPrixUnitaireATM(double prixUnitaireATM) {
+        this.prixUnitaireATM = prixUnitaireATM;
     }
     public LocalDate getDateAchat() {
         return dateAchat;
@@ -56,7 +56,7 @@ public class AchatResponse {
         achatResponse.reference = achat.getReference();
         achatResponse.idArticle = achat.getArticle().getId();
         achatResponse.quantite = achat.getQuantite();
-        achatResponse.prixReel = achat.getPrixReel();
+        achatResponse.prixUnitaireATM = achat.getPrixUnitaireATM();
         achatResponse.dateAchat = achat.getDateAchat();
         achatResponse.idVisiteur = achat.getVisiteur().getId();
 

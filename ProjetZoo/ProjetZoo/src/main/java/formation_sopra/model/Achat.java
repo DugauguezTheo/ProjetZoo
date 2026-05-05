@@ -24,11 +24,11 @@ public class Achat {
     @JoinColumn(nullable = false)
     private Article article;
     
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "int default 1")
     private int quantite;
     
-    @Column(name = "prix_reel")
-    private double prixReel;
+    @Column(name = "prix_unitaire_atm", nullable = false)
+    private double prixUnitaireATM;
     
     @Column(name = "date_achat", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -41,19 +41,19 @@ public class Achat {
     public Achat() {
     }
 
-    public Achat(Article article, int quantite, double prixReel, LocalDate dateAchat, Visiteur visiteur) {
+    public Achat(Article article, int quantite, double prixUnitaireATM, LocalDate dateAchat, Visiteur visiteur) {
         this.article = article;
         this.quantite = quantite;
-        this.prixReel = prixReel;
+        this.prixUnitaireATM = prixUnitaireATM;
         this.dateAchat = dateAchat;
         this.visiteur = visiteur;
     }
 
-    public Achat(Integer reference, Article article, int quantite, double prixReel, LocalDate dateAchat, Visiteur visiteur) {
+    public Achat(Integer reference, Article article, int quantite, double prixUnitaireATM, LocalDate dateAchat, Visiteur visiteur) {
         this.reference = reference;
     	this.article = article;
         this.quantite = quantite;
-        this.prixReel = prixReel;
+        this.prixUnitaireATM = prixUnitaireATM;
         this.dateAchat = dateAchat;
         this.visiteur = visiteur;
     }
@@ -83,12 +83,12 @@ public class Achat {
 		this.quantite = quantite;
 	}
 
-	public double getPrixReel() {
-		return prixReel;
+	public double getPrixUnitaireATM() {
+		return prixUnitaireATM;
 	}
 
-	public void setPrixReel(double prixReel) {
-		this.prixReel = prixReel;
+	public void setPrixUnitaireATM(double prixUnitaireATM) {
+		this.prixUnitaireATM = prixUnitaireATM;
 	}
 
 	public LocalDate getDateAchat() {
@@ -109,8 +109,8 @@ public class Achat {
 
 	@Override
 	public String toString() {
-		return "Achat [reference=" + reference + ", article=" + article + ", quantite=" + quantite + ", prixReel="
-				+ prixReel + ", dateAchat=" + dateAchat + ", visiteur = " + visiteur + "]";
+		return "Achat [reference=" + reference + ", article=" + article + ", quantite=" + quantite + ", prixUnitaireATM="
+				+ prixUnitaireATM + ", dateAchat=" + dateAchat + ", visiteur = " + visiteur + "]";
 	}
 
 }

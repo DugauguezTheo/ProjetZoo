@@ -89,7 +89,7 @@ public class AchatController {
 
         achat.setArticle(this.daoArticle.findById(request.idArticle()).orElse(null));
         achat.setQuantite(request.quantite());
-        achat.setPrixReel(request.prixReel());
+        achat.setPrixUnitaireATM(request.prixUnitaireATM());
         achat.setDateAchat(request.dateAchat());
         achat.setVisiteur(this.daoVisiteur.findById(request.idVisiteur()).orElse(null));
 
@@ -108,7 +108,7 @@ public class AchatController {
         
         achat.setArticle(article);
         achat.setQuantite(request.quantite());
-        achat.setPrixReel(request.prixReel());
+        achat.setPrixUnitaireATM(request.prixUnitaireATM());
         achat.setDateAchat(request.dateAchat());
         achat.setVisiteur(visiteur);
 
@@ -119,9 +119,19 @@ public class AchatController {
     
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}/delete")
-    public void deleteAchatById(@PathVariable Integer id) {
-        log.debug("Suppression de l'article {}", id);
-        this.daoAchat.deleteById(id);
+    public boolean deleteAchatById(@PathVariable Integer id) {
+        try {
+            log.debug("Suppression de l'achat {} ...", id);
+            this.daoAchat.deleteById(id);
+        }
+
+        catch (Exception ex) {
+            log.error("Une erreur est survenue pendant la suppression de l'achat {} : {}", id, ex.getMessage());
+
+            return false;
+        }
+
+        return true;
     }
     
 }
