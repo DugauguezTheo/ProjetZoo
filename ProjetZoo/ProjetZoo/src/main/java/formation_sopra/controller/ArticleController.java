@@ -2,6 +2,7 @@ package formation_sopra.controller;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateArticleRequest;
 import formation_sopra.controller.dto.response.ArticleResponse;
+import formation_sopra.controller.dto.response.ArticleWithVentesResponse;
 import formation_sopra.dao.IDAOArticle;
 import formation_sopra.exception.ArticleNotFoundException;
 import formation_sopra.model.Article;
@@ -39,6 +40,25 @@ public class ArticleController {
         return this.daoArticle.findByLibelleContaining(libelle)
         		.stream()
                 .map(ArticleResponse::convert)
+                .toList()
+                ;
+    }
+
+    @GetMapping("/{id}/ventes")
+    public ArticleWithVentesResponse getArticleByIdWithVentes(@PathVariable Integer id) {
+        log.debug("Recherche de l'article n°{} ...", id);
+        return this.daoArticle.findById(id)
+                .map(ArticleWithVentesResponse::convert)
+                .orElseThrow(ArticleNotFoundException::new)
+                ;
+    }
+    
+    @GetMapping("/by-libelle/{libelle}/ventes")
+    public List<ArticleWithVentesResponse> getArticlesWithVentesByLibelleContaining(@PathVariable String libelle) {
+        log.debug("Recherche des articles dont le libelle contient {} ...", libelle);
+        return this.daoArticle.findByLibelleContaining(libelle)
+        		.stream()
+                .map(ArticleWithVentesResponse::convert)
                 .toList()
                 ;
     }

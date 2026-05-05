@@ -34,19 +34,17 @@ public class Article {
     public Article() {
     }
 
-	public Article(Integer id, String libelle, double prix, int quantiteStock, List<Achat> ventes) {
+	public Article(Integer id, String libelle, double prix, int quantiteStock) {
 		this.id = id;
 		this.libelle = libelle;
 		this.prix = prix;
 		this.quantiteStock = quantiteStock;
-		this.ventes = ventes;
 	}
 	
-	public Article(String libelle, double prix, int quantiteStock, List<Achat> ventes) {
+	public Article(String libelle, double prix, int quantiteStock) {
 		this.libelle = libelle;
 		this.prix = prix;
 		this.quantiteStock = quantiteStock;
-		this.ventes = ventes;
 	}
 
 	public Integer getId() {
