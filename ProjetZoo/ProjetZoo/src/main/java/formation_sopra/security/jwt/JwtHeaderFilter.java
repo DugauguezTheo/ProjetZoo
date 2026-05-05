@@ -17,6 +17,7 @@ import formation_sopra.dao.IDAOAchat;
 import formation_sopra.dao.IDAOCompte;
 import formation_sopra.model.Achat;
 import formation_sopra.model.Compte;
+import formation_sopra.model.Veterinaire;
 import formation_sopra.model.Visiteur;
 
 import jakarta.servlet.FilterChain;
@@ -52,12 +53,14 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
 
-                if (compte instanceof Visiteur visiteur) {
+                if (compte instanceof Visiteur) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_VISITEUR"));
                 }
-
+                else if (compte instanceof Veterinaire) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_VETERINAIRE"));
+                }
                 else {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_FORMATEUR"));
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 }
 
                 // Recréer une Authentication Spring Security
