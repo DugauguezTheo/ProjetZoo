@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateVeterinaireRequest;
+import formation_sopra.controller.dto.response.VetWithAnimauxResponse;
+import formation_sopra.controller.dto.response.VetWithSoinsResponse;
 import formation_sopra.controller.dto.response.VeterinaireResponse;
 import formation_sopra.dao.IDAOVeterinaire;
 import formation_sopra.model.Veterinaire;
@@ -35,6 +37,22 @@ public class VeterinaireController {
     public VeterinaireResponse getVeterinaireById(@PathVariable Integer id) {
         return daoVeterinaire.findById(id)
                 .map(VeterinaireResponse::convert)
+                .orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
+    }
+
+    @GetMapping("/{id}/soins")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
+    public VetWithSoinsResponse getVeterinaireWithSoins(@PathVariable Integer id) {
+        return daoVeterinaire.findById(id)
+                .map(VetWithSoinsResponse::convert)
+                .orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
+    }
+
+    @GetMapping("/{id}/animaux")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
+    public VetWithAnimauxResponse getVeterinaireWithAnimaux(@PathVariable Integer id) {
+        return daoVeterinaire.findById(id)
+                .map(VetWithAnimauxResponse::convert)
                 .orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
     }
 
