@@ -1,12 +1,14 @@
 package formation_sopra.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -26,6 +28,9 @@ public class Visiteur extends Compte {
 	
 	@Column(name="Points de fidélités")
 	private Integer pointsFidelites;
+
+	@OneToMany(mappedBy = "visiteur")
+	private List<Achat> achats;
 	
 	//@Embedded pas utile je pense
 	@OneToOne(cascade = CascadeType.ALL) //permet d'enregistrer, modifier ou supprimer automatiquement selon la commande
@@ -79,6 +84,14 @@ public class Visiteur extends Compte {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	public List<Achat> getAchats() {
+		return achats;
+	}
+
+	public void setAchats(List<Achat> achats) {
+		this.achats = achats;
 	}
 
 	@Override
