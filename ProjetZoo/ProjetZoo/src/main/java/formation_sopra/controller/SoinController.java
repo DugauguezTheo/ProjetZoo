@@ -62,6 +62,7 @@ public class SoinController {
 
         Soin soin = new Soin();
 
+        soin.setDescription(request.description());
         soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
         soin.setDateSoin(request.dateSoin());
         soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));
@@ -82,6 +83,7 @@ public class SoinController {
         Soin soin = new Soin();
 
         soin.setId(id);
+        soin.setDescription(request.description());
         soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
         soin.setDateSoin(request.dateSoin());
         soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));

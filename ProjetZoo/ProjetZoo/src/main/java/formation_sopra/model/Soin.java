@@ -24,6 +24,9 @@ public class Soin {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd:HH-mm-ss")
     private LocalDateTime dateSoin;
+
+    @Column(nullable = false, length = 200)
+    private String description;
     
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -36,8 +39,9 @@ public class Soin {
     public Soin() {
     }
 
-    public Soin(LocalDateTime dateSoin, Veterinaire veterinaire, Animal animal) {
+    public Soin(LocalDateTime dateSoin, String description, Veterinaire veterinaire, Animal animal) {
         this.dateSoin = dateSoin;
+        this.description = description;
         this.veterinaire = veterinaire;
         this.animal = animal;
     }
@@ -57,6 +61,15 @@ public class Soin {
     public void setDateSoin(LocalDateTime dateSoin) {
         this.dateSoin = dateSoin;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public Veterinaire getVeterinaire() {
         return veterinaire;
