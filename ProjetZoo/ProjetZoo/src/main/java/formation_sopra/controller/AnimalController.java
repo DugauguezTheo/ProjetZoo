@@ -103,7 +103,7 @@ public class AnimalController {
         return resp;
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public boolean deleteAnimalById(@PathVariable Integer id) {
         try {

@@ -106,7 +106,8 @@ public class EnclosController {
         return EnclosResponse.convert(enclos);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public boolean deleteEnclosById(@PathVariable Integer id) {
         try {
             log.debug("Suppression de l'enclos- {} ...", id);

@@ -108,7 +108,7 @@ public class ArticleController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public boolean deleteArticleById(@PathVariable Integer id) {
         try {
             log.debug("Suppression de l'article {} ...", id);
