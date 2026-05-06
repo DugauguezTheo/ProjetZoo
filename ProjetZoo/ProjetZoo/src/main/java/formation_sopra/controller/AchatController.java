@@ -50,6 +50,7 @@ public class AchatController {
      Un visiteur connecté peut, grâce à son authentification,
      lister tous les achats qu'il a enregistrés (l'authentification contient son id)
     */
+    @PreAuthorize("hasRole('VISITEUR')")
     @GetMapping("/visiteur")
     public List<AchatResponse> getAllAchatsByIdVisiteur(Authentication auth) {
         Integer id = Integer.parseInt(auth.getName());
@@ -61,7 +62,7 @@ public class AchatController {
 
     
     // L'admin peut lister tous les achats enregistrés par le visiteur de son choix
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/visiteur/{idVisiteur}")
     public List<AchatResponse> getAllAchatsByIdVisiteur(@PathVariable Integer idVisiteur) {
         log.debug("Recherche en tant qu'admin des achats du visiteur avec l'id {}", idVisiteur);
@@ -97,6 +98,7 @@ public class AchatController {
         return AchatResponse.convert(this.daoAchat.save(achat));
     }
 
+    @PreAuthorize("hasRole('VISITEUR')")
     @PostMapping
     public AchatResponse createAchat(@Valid @RequestBody CreateOrUpdateAchatRequest request) {
         
