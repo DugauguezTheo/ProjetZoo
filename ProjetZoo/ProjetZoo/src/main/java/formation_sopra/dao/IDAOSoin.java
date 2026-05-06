@@ -12,4 +12,5 @@ public interface IDAOSoin extends JpaRepository<Soin, Integer> {
 
     @Query("SELECT s from Soin s WHERE s.animal.id = :id")
     public List<Soin> findAllByAnimalId(@Param("id") Integer id);
+
 }
