@@ -1,22 +1,23 @@
 import { Routes } from '@angular/router';
+import { AnimalPage } from './component/animal-page/animal-page';
+import { authGuard } from './guard/auth-guard';
+import { Connexion } from './component/connexion/connexion';
 
 export const routes: Routes = [
 
-    { path: 'home', component: AccueilPage, canActivate: [authGuard] },
-    { path: 'livre', component: Livres, canActivate: [authGuard] },
-    { path: 'auteur', component: AuteurPage, canActivate: [authGuard] },
-    { path: 'collection', component: CollectionsPage, canActivate: [authGuard] },
-    { path: 'editeur', component: Editeurs, canActivate: [authGuard] },
-    { path: 'avis', component: AvisPage, canActivate: [authGuard] },
+    { path: 'accueil', component: AccueilPage, canActivate: [authGuard] },
+    { path: 'achat', component: AchatPage, canActivate: [authGuard] },
+    { path: 'admin', component: AdminPage, canActivate: [authGuard] },
+    { path: 'animal', component: AnimalPage, canActivate: [authGuard] },
+    { path: 'article', component: ArticlePage, canActivate: [authGuard] },
+    { path: 'compte', component: ComptePage, canActivate: [authGuard] },
+    { path: 'enclos', component: EnclosPage, canActivate: [authGuard] },
+    { path: 'reservation', component: ReservationPage, canActivate: [authGuard] },
+    { path: 'soin', component: SoinPage, canActivate: [authGuard] },
+    { path: 'spectacle', component: SpectaclePage, canActivate: [authGuard] },
+    { path: 'veterinaire', component: VeterinairePage, canActivate: [authGuard] },
+    { path: 'visiteur', component: VisiteurPage, canActivate: [authGuard] },
 
-
-    // { path: 'home', component: AccueilPage },
-    // { path: 'livre', component: Livres },
-    // { path: 'auteur', component: AuteurPage },
-    // { path: 'collection', component: CollectionsPage },
-    // { path: 'editeur', component: Editeurs },
-    // { path: 'avis', component: AvisPage },
-
-    { path: 'login', component: LoginPage },
+    { path: 'connexion', component: Connexion },
     { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
