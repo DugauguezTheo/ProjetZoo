@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,13 +25,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/visiteur") 
 public class VisiteurController {
 
+		private final PasswordEncoder passwordEncoder;
+
+
 	    private static Logger log = LoggerFactory.getLogger(VisiteurController.class);
 
 	    private final IDAOVisiteur daoVisiteur;
 		private final IDAOAchat daoAchat;
 
-	    public VisiteurController(IDAOVisiteur daoVisiteur, IDAOAchat daoAchat) {
-	        this.daoVisiteur = daoVisiteur;
+	    public VisiteurController(PasswordEncoder passwordEncoder, IDAOVisiteur daoVisiteur, IDAOAchat daoAchat) {
+			this.passwordEncoder = passwordEncoder;
+			this.daoVisiteur = daoVisiteur;
 			this.daoAchat = daoAchat;
 	    }
 
@@ -75,7 +80,7 @@ public class VisiteurController {
 			List<Achat> achats = this.daoAchat.findAllByVisiteurId(id);
 
 			visiteur.setLogin(request.login());
-			visiteur.setPassword(request.password());
+			visiteur.setPassword(this.passwordEncoder.encode(request.password())); 
 			visiteur.setNom(request.nom());
 			visiteur.setPrenom(request.prenom());
 			visiteur.setDateNaissance(request.dateNaissance());
@@ -99,7 +104,7 @@ public class VisiteurController {
 			List<Achat> achats = this.daoAchat.findAllByVisiteurId(id);
 
 			visiteur.setLogin(request.login());
-			visiteur.setPassword(request.password());
+			visiteur.setPassword(this.passwordEncoder.encode(request.password())); 
 			visiteur.setNom(request.nom());
 			visiteur.setPrenom(request.prenom());
 			visiteur.setDateNaissance(request.dateNaissance());
@@ -114,7 +119,7 @@ public class VisiteurController {
 
 	  
 	    @PostMapping
-		@PreAuthorize("hasRole('ADMIN', 'VISITEUR')")
+		@PreAuthorize("hasRole('ADMIN')")
 	    public VisiteurResponse createVisiteur(@RequestBody CreateOrUpdateVisiteurRequest request) {
 	        log.debug("Création d'un visiteur...");
 
@@ -123,7 +128,27 @@ public class VisiteurController {
 			Adresse adresse = new Adresse(request.numeroVoie(), request.voie(), request.ville(), request.cp());
 
 			visiteur.setLogin(request.login());
-			visiteur.setPassword(request.password());
+			visiteur.setPassword(this.passwordEncoder.encode(request.password()));
+			visiteur.setNom(request.nom());
+			visiteur.setPrenom(request.prenom());
+			visiteur.setDateNaissance(request.dateNaissance());
+			visiteur.setAdresse(adresse);
+
+			visiteur = this.daoVisiteur.save(visiteur);
+
+			return VisiteurResponse.convert(visiteur);
+	    }
+
+		@PostMapping("/inscription")
+	    public VisiteurResponse inscriptionVisiteur(@RequestBody CreateOrUpdateVisiteurRequest request) {
+	        log.debug("Inscription d'un visiteur...");
+
+			Visiteur visiteur = new Visiteur();
+
+			Adresse adresse = new Adresse(request.numeroVoie(), request.voie(), request.ville(), request.cp());
+
+			visiteur.setLogin(request.login());
+			visiteur.setPassword(this.passwordEncoder.encode(request.password())); 
 			visiteur.setNom(request.nom());
 			visiteur.setPrenom(request.prenom());
 			visiteur.setDateNaissance(request.dateNaissance());
