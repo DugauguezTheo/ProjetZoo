@@ -86,6 +86,7 @@ public class AnimalController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public AnimalResponse createAnimal(@Valid @RequestBody CreateOrUpdateAnimalRequest request) {
 
         log.debug("Nouvel animal ajouté !");
@@ -103,6 +104,7 @@ public class AnimalController {
     }
 
     @DeleteMapping("/{id}/delete")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public boolean deleteAnimalById(@PathVariable Integer id) {
         try {
             log.debug("Suppression de l'animal {} ...", id);
