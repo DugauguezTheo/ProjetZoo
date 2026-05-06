@@ -7,7 +7,6 @@ import formation_sopra.dao.IDAOReservation;
 import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.dao.IDAOVisiteur;
 import formation_sopra.model.Reservation;
-import formation_sopra.model.Visiteur;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -45,7 +44,7 @@ public class ReservationController {
         
         log.debug("Reservation {} ...", id);
 
-        return daoReservation.findById(id).map(ReservationResponse::convert).orElseThrow(EntityNotFoundException::new);      
+        return daoReservation.findByIdWithSpectacles(id).map(ReservationResponse::convert).orElseThrow(EntityNotFoundException::new);      
     }
 
     @GetMapping("/mes-reservations")
@@ -54,8 +53,7 @@ public class ReservationController {
 
         log.debug("Liste des reservations du visiteur {}...", id);
 
-        Visiteur v = this.daoVisiteur.findById(id).orElseThrow(EntityNotFoundException::new);
-        return this.daoReservation.findAllByVisiteur(v).stream().map(ReservationResponse::convert).toList();
+        return this.daoReservation.findAllWithSpectaclesByIdVisiteur(id).stream().map(ReservationResponse::convert).toList();
     }
 
     @GetMapping
@@ -63,7 +61,7 @@ public class ReservationController {
     public List<ReservationResponse> findAll() {
         log.debug("Liste des reservations ...");
 
-        return this.daoReservation.findAll().stream().map(ReservationResponse::convert).toList();
+        return this.daoReservation.findAllWithSpectacles().stream().map(ReservationResponse::convert).toList();
     }
 
     @GetMapping("/spectacle/{id}")
@@ -77,8 +75,7 @@ public class ReservationController {
     @PreAuthorize("hasRole('ADMIN')")
     public List<ReservationResponse> findAllByVisiteurId(@PathVariable Integer visiteur_id) {
         log.debug("Liste des reservations du visiteur {}...", visiteur_id);
-        Visiteur v = this.daoVisiteur.findById(visiteur_id).orElseThrow(EntityNotFoundException::new);
-        return this.daoReservation.findAllByVisiteur(v).stream().map(ReservationResponse::convert).toList();
+        return this.daoReservation.findAllWithSpectaclesByIdVisiteur(visiteur_id).stream().map(ReservationResponse::convert).toList();
     }
     
 
@@ -101,7 +98,7 @@ public class ReservationController {
 
         this.daoReservation.save(reservation);
 
-        log.debug("Reservation {} modifié !", id);
+        log.debug("Reservation {} modifiée !", id);
 
         return new EntityCreatedOrUpdatedResponse(reservation.getId());
     }
@@ -109,7 +106,7 @@ public class ReservationController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public EntityCreatedOrUpdatedResponse create(@RequestBody CreateOrUpdateReservationRequest request) {
+    public EntityCreatedOrUpdatedResponse create(@Valid @RequestBody CreateOrUpdateReservationRequest request) {
         log.debug("Création d'une nouvelle reservation ...");
 
         Reservation reservation = new Reservation();
@@ -126,7 +123,7 @@ public class ReservationController {
 
         this.daoReservation.save(reservation);
 
-        log.debug("Reservation créé !");
+        log.debug("Reservation créée !");
 
         return new EntityCreatedOrUpdatedResponse(reservation.getId());
     }
