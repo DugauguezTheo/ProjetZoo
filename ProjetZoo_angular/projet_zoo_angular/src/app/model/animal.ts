@@ -7,5 +7,5 @@ export interface Animal {
     dateNaissance: Date;
     enclos: Enclos;
     espece: Espece;
-    soin: Soin[];
+    soin?: Soin[];
 }

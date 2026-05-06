@@ -6,6 +6,6 @@ export interface Enclos {
     biome: string;
     capacite: number;
     espece : Espece;
-    animal: Animal[];
-    spectacle : Spectacle[];
+    animal?: Animal[];
+    spectacle?: Spectacle[];
 }

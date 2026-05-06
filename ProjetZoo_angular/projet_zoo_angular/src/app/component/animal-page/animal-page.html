@@ -1,1 +1,25 @@
-<p>animal-page works!</p>
+<h1>Liste des animaux</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Prenom</th>
+            <th>Espece</th>
+            <th>Enclos</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let animal of animals$ | async">
+            <td>{{ animal.id }}</td>
+            <td>{{ animal.prenom }}</td>
+            <td>{{ animal.espece }}</td>
+            <td>{{ animal.enclos }}</td>
+            <td>
+                <button (click)="deleteAnimal(animal)">Supprimer</button>
+                <button (click)="editerAnimal(animal)">Modifier</button>
+            </td>
+        </tr>
+</table>
