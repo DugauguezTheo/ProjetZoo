@@ -1,0 +1,46 @@
+html{
+  background-color:#A47251;
+}
+
+figure {
+    text-align:center;
+}
+
+img {
+    width : 25%;
+}
+
+h2 {
+ font-family: 'Cinzel', serif;
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ margin-left: 2%;
+ text-align: center;
+ ;
+}
+
+form {
+    background-color: #F0D8A1;
+    box-shadow: 6px 6px 11px #000000;
+    display: absolute;
+    border-radius: 25px;
+    align-items: center;
+}
+
+fieldset {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  border : none;
+}
+
+input {
+    border-radius: 25px;
+    background-color: #B8815A;
+}
+
+#connexion {
+    display:flex;
+    align-content: center;
+    justify-content: center;
+}
