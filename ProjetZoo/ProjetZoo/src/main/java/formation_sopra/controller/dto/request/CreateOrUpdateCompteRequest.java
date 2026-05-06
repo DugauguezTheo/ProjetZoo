@@ -1,10 +1,12 @@
 package formation_sopra.controller.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class CreateOrUpdateCompteRequest {
 
     @NotBlank
+    @Email
     protected String login;
 
     @NotBlank
