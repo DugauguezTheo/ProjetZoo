@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +33,12 @@ public class VeterinaireController {
             LoggerFactory.getLogger(VeterinaireController.class);
     private final IDAOSoin daoSoin;
 
-    public VeterinaireController(IDAOVeterinaire daoVeterinaire, IDAOSoin daoSoin) {
+    private PasswordEncoder passwordEncoder;
+
+    public VeterinaireController(IDAOVeterinaire daoVeterinaire, IDAOSoin daoSoin, PasswordEncoder passwordEncoder) {
         this.daoVeterinaire = daoVeterinaire;
         this.daoSoin = daoSoin;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/{id}")
@@ -69,7 +73,7 @@ public class VeterinaireController {
         Veterinaire veterinaire = new Veterinaire();
         // Map the request to the entity (assuming you have a convert method or similar)
         veterinaire.setLogin(request.getLogin());
-        veterinaire.setPassword(request.getPassword());
+        veterinaire.setPassword(this.passwordEncoder.encode(request.getPassword()));
         Veterinaire saved = daoVeterinaire.save(veterinaire);
         log.info("Vétérinaire créé : {}", saved.getLogin());
         return VeterinaireResponse.convert(saved);
@@ -87,7 +91,7 @@ public class VeterinaireController {
         Veterinaire veterinaire = daoVeterinaire.findById(id).orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
         // Map the request to the entity (assuming you have a convert method or similar)
         veterinaire.setLogin(request.getLogin());
-        veterinaire.setPassword(request.getPassword());
+        veterinaire.setPassword(this.passwordEncoder.encode(request.getPassword()));
         veterinaire.setId(id);
         veterinaire.setSoins(this.daoSoin.findAllByVeterinaireId(id));
         Veterinaire updated = daoVeterinaire.save(veterinaire);
@@ -108,7 +112,7 @@ public class VeterinaireController {
 			Veterinaire veterinaire = new Veterinaire();
 		
             veterinaire.setId(id);
-			veterinaire.setLogin(request.getLogin());
+			veterinaire.setLogin(this.passwordEncoder.encode(request.getLogin()));
 			veterinaire.setPassword(request.getPassword());
 
 			veterinaire = this.daoVeterinaire.save(veterinaire);
