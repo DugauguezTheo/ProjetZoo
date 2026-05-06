@@ -11,6 +11,8 @@ import formation_sopra.exception.CompteNotFoundException;
 import formation_sopra.model.Achat;
 import formation_sopra.model.Adresse;
 import formation_sopra.model.Visiteur;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,7 +66,7 @@ public class VisiteurController {
 
 	    @PreAuthorize("hasRole('ADMIN')")
 	    @PutMapping("/{id}")
-	    public VisiteurResponse modifyVisiteur(@PathVariable Integer id, @RequestBody CreateOrUpdateVisiteurRequest request){
+	    public VisiteurResponse modifyVisiteur(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateVisiteurRequest request){
 	        log.debug("Modification du visiteur {}", id);
 
 			Visiteur visiteur = new Visiteur();
@@ -85,6 +87,29 @@ public class VisiteurController {
 			return VisiteurResponse.convert(visiteur);
 	        
 	    }
+
+		@PreAuthorize("hasRole('VISITEUR')")
+		@PutMapping("/modifier-mes-infos")
+		public VisiteurResponse modifyMyself(Authentication auth, @Valid @RequestBody CreateOrUpdateVisiteurRequest request) {
+			Integer id = Integer.parseInt(auth.getName());
+
+			Visiteur visiteur = new Visiteur();
+			Adresse adresse = new Adresse(request.numeroVoie(), request.voie(), request.ville(), request.cp());
+			List<Achat> achats = this.daoAchat.findAllByVisiteurId(id);
+
+			visiteur.setLogin(request.login());
+			visiteur.setPassword(request.password());
+			visiteur.setNom(request.nom());
+			visiteur.setPrenom(request.prenom());
+			visiteur.setDateNaissance(request.dateNaissance());
+			visiteur.setPointsFidelites(request.pointsFidelite());
+			visiteur.setAchats(achats);
+			visiteur.setAdresse(adresse);
+
+			visiteur = this.daoVisiteur.save(visiteur);
+
+			return VisiteurResponse.convert(visiteur);
+		}
 
 	  
 	    @PostMapping
