@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import formation_sopra.dao.IDAOAchat;
+import formation_sopra.dao.IDAOAdmin;
 import formation_sopra.dao.IDAOCompte;
 import formation_sopra.model.Compte;
 import formation_sopra.model.Veterinaire;
@@ -28,6 +29,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtHeaderFilter extends OncePerRequestFilter {
     @Autowired
     private IDAOCompte daoCompte;
+
+    @Autowired
+    private IDAOAdmin daoAdmin;
 
     @Autowired IDAOAchat daoAchat;
 
@@ -52,14 +56,14 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
 
-                if (compte instanceof Visiteur) {
+                if (this.daoAdmin.findById(compte.getId()).orElse(null) != null){
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                }
+                else if (compte instanceof Visiteur) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_VISITEUR"));
                 }
                 else if (compte instanceof Veterinaire) {
                     authorities.add(new SimpleGrantedAuthority("ROLE_VETERINAIRE"));
-                }
-                else {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 }
 
                 // Recréer une Authentication Spring Security
