@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import formation_sopra.dao.IDAOAdmin;
 import formation_sopra.model.Admin;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -42,12 +43,12 @@ public class AdminController {
     }
 
     @PostMapping()
-    public Admin createAdmin(@RequestBody Admin admin) {
+    public Admin createAdmin(@Valid @RequestBody Admin admin) {
         return this.daoAdmin.save(admin);
     }
 
     @PutMapping("/{id}")
-    public Admin updateAdmin(@PathVariable Integer id, @RequestBody Admin admin) {
+    public Admin updateAdmin(@PathVariable Integer id, @Valid @RequestBody Admin admin) {
         if (!daoAdmin.existsById(id)) {
             throw new RuntimeException("Admin non trouvé");
         }

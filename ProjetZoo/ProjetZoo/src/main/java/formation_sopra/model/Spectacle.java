@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,11 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="spectacle")
@@ -26,21 +25,15 @@ public class Spectacle {
     Integer id;
 
     @Column(name = "date_debut", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate dateDebut;
 
     @Column(name = "heure_debut", nullable = false)
+    @DateTimeFormat(pattern = "HH-mm-ss")
     LocalTime heureDebut;
 
     @Column(nullable = false)
     Integer duree;
-
-	// @ManyToMany
-	// @JoinTable(
-    //         name="spectacle_reservation",
-    //         joinColumns = @JoinColumn(name = "spectacle_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "reservation_id"),
-    //         uniqueConstraints = @UniqueConstraint(columnNames = {"spectacle_id", "reservation_id"}))
-	// private List<Reservation> reservations;
 
     @ManyToMany(mappedBy="spectacles")
 	protected List<Reservation> reservations;

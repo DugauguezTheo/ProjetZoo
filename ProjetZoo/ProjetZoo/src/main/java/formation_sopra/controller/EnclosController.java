@@ -9,6 +9,8 @@ import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.exception.EnclosNotFoundException;
 import formation_sopra.model.Enclos;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -69,7 +71,7 @@ public class EnclosController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
-    public EnclosResponse modifyEnclos(@PathVariable Integer numero, @RequestBody CreateOrUpdateEnclosRequest request){
+    public EnclosResponse modifyEnclos(@PathVariable Integer numero, @Valid @RequestBody CreateOrUpdateEnclosRequest request){
 
         if (!daoEnclos.existsById(numero)) {
             throw new EnclosNotFoundException();
@@ -91,7 +93,7 @@ public class EnclosController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
-    public EnclosResponse createEnclos(@RequestBody CreateOrUpdateEnclosRequest request) {
+    public EnclosResponse createEnclos(@Valid @RequestBody CreateOrUpdateEnclosRequest request) {
 
         Enclos enclos = new Enclos();
         enclos.setBiome(request.getBiome());

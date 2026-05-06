@@ -18,8 +18,13 @@ public interface IDAOReservation extends JpaRepository<Reservation,Integer> {
 
     public List<Reservation> findAllByVisiteur( Visiteur visiteur);
 
+    @Query("SELECT r FROM Reservation r LEFT JOIN FETCH r.spectacles WHERE r.visiteur.id = :id")
+    public List<Reservation> findAllWithSpectaclesByIdVisiteur(@Param("id") Integer id);
 
+    @Query("Select r from Reservation r LEFT JOIN FETCH r.spectacles")
+    public List<Reservation> findAllWithSpectacles();
 
-
+    @Query("Select r from Reservation r left join fetch r.spectacles where r.id = :id")
+    public Optional<Reservation> findByIdWithSpectacles(@Param("id") Integer id);
     
 }

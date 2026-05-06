@@ -6,6 +6,8 @@ import formation_sopra.controller.dto.response.ArticleWithVentesResponse;
 import formation_sopra.dao.IDAOArticle;
 import formation_sopra.exception.ArticleNotFoundException;
 import formation_sopra.model.Article;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,7 +77,7 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ArticleResponse modifyArticle(@PathVariable Integer id, @RequestBody CreateOrUpdateArticleRequest request){
+    public ArticleResponse modifyArticle(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateArticleRequest request){
 
         log.debug("Modification de l'article {} ({}) ...", id, request.getLibelle());
         Article article = new Article();
@@ -91,7 +93,7 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ArticleResponse createArticle(@RequestBody CreateOrUpdateArticleRequest request) {
+    public ArticleResponse createArticle(@Valid @RequestBody CreateOrUpdateArticleRequest request) {
         
         log.debug("Creation d'un article appelé {} ...", request.getLibelle());
         Article article = new Article();

@@ -2,15 +2,21 @@ package formation_sopra.controller.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+
+import formation_sopra.model.Reservation;
 import formation_sopra.model.Spectacle;
 
-public class SpectacleResponse {
+public class SpectacleWithReservationsResponse {
 
     private Integer id;
     private LocalDate dateDebut;
     private LocalTime heureDebut;
     private Integer duree;
-    private Integer enclosId;
+
+    private List<Integer> reservationIds;
+
+    private Integer enclos_id;
 
     public Integer getId(){
         return this.id;
@@ -44,24 +50,38 @@ public class SpectacleResponse {
         this.duree = duree;
     }
 
-
-    public Integer getEnclosId() {
-        return enclosId;
+    public List<Integer> getReservationIds(){
+        return this.reservationIds;
     }
 
-    public void setEnclosId(Integer enclosId) {
-        this.enclosId = enclosId;
+    public void setReservationIds(List<Integer> reservationIds){
+        this.reservationIds = reservationIds;
     }
 
-    public static SpectacleResponse convert(Spectacle spectacle){
-        SpectacleResponse spectacleResponse = new SpectacleResponse();
+    public Integer getEnclosId(){
+        return this.enclos_id;
+    }
+    
+    public void setEnclosId(Integer enclos_id){
+        this.enclos_id = enclos_id;
+    }
+
+
+    public static SpectacleWithReservationsResponse convert(Spectacle spectacle){
+        SpectacleWithReservationsResponse spectacleResponse = new SpectacleWithReservationsResponse();
 
         spectacleResponse.setId(spectacle.getId());
         spectacleResponse.setDateDebut(spectacle.getDateDebut());
         spectacleResponse.setHeureDebut(spectacle.getHeureDebut());
         spectacleResponse.setDuree(spectacle.getDuree());
         spectacleResponse.setEnclosId(spectacle.getEnclos().getNumero());
-    
+        spectacleResponse.setReservationIds(
+            spectacle.getReservations()
+                .stream()
+                .map(Reservation::getId)
+                .toList()
+        );
+
         return spectacleResponse;
     }
 }

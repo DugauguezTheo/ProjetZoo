@@ -8,6 +8,8 @@ import formation_sopra.dao.IDAOSoin;
 import formation_sopra.exception.AnimalNotFoundException;
 import formation_sopra.exception.ArticleNotFoundException;
 import formation_sopra.model.Animal;
+import jakarta.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,7 +65,7 @@ public class AnimalController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
-    public AnimalResponse modifyAnimal(@PathVariable Integer id,@RequestBody CreateOrUpdateAnimalRequest request){
+    public AnimalResponse modifyAnimal(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateAnimalRequest request){
 
         if (!daoAnimal.existsById(id)) {
             throw new AnimalNotFoundException();
@@ -84,7 +86,7 @@ public class AnimalController {
     }
 
     @PostMapping
-    public AnimalResponse createAnimal(@RequestBody CreateOrUpdateAnimalRequest request) {
+    public AnimalResponse createAnimal(@Valid @RequestBody CreateOrUpdateAnimalRequest request) {
 
         log.debug("Nouvel animal ajouté !");
 

@@ -8,6 +8,7 @@ import formation_sopra.dao.IDAOVisiteur;
 import formation_sopra.model.Achat;
 import formation_sopra.model.Article;
 import formation_sopra.model.Visiteur;
+import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,7 @@ public class AchatController {
     
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public AchatResponse modifyAchat(@PathVariable Integer id, @RequestBody CreateOrUpdateAchatRequest request){
+    public AchatResponse modifyAchat(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateAchatRequest request){
         log.debug("Modification de l'achat n°{}", id);
 
         Achat achat = new Achat();
@@ -97,7 +98,7 @@ public class AchatController {
     }
 
     @PostMapping
-    public AchatResponse createAchat(@RequestBody CreateOrUpdateAchatRequest request) {
+    public AchatResponse createAchat(@Valid @RequestBody CreateOrUpdateAchatRequest request) {
         
         Article article = this.daoArticle.findById(request.idArticle()).orElse(null);
         Visiteur visiteur =this.daoVisiteur.findById(request.idVisiteur()).orElse(null);

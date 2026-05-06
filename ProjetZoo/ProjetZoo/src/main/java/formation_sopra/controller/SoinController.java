@@ -2,6 +2,8 @@ package formation_sopra.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateSoinRequest;
+import formation_sopra.controller.dto.response.SoinResponse;
+import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOSoin;
+import formation_sopra.dao.IDAOVeterinaire;
+import formation_sopra.exception.AnimalNotFoundException;
+import formation_sopra.exception.CompteNotFoundException;
 import formation_sopra.model.Soin;
+import jakarta.validation.Valid;
 
 
 
@@ -23,41 +32,63 @@ import formation_sopra.model.Soin;
 public class SoinController {
 
     private final IDAOSoin daoSoin;
+    private final IDAOAnimal daoAnimal;
+    private final IDAOVeterinaire daoVeterinaire;
 
-    private static final org.slf4j.Logger log =
-            org.slf4j.LoggerFactory.getLogger(SoinController.class);    
+    private static final Logger log = LoggerFactory.getLogger(SoinController.class);    
 
-    public SoinController(formation_sopra.dao.IDAOSoin daoSoin) {
+    public SoinController(IDAOSoin daoSoin, IDAOAnimal daoAnimal, IDAOVeterinaire daoVeterinaire) {
         this.daoSoin = daoSoin;
+        this.daoAnimal = daoAnimal;
+        this.daoVeterinaire = daoVeterinaire;
     }
 
     @GetMapping("/{id}")
-    public Soin getSoinById(@PathVariable Integer id) {
+    public SoinResponse getSoinById(@PathVariable Integer id) {
         return this.daoSoin.findById(id)
+                .map(SoinResponse::convert)
                 .orElseThrow(() -> new RuntimeException("Soin non trouvé"));
     }
 
     @GetMapping()
-    public List<Soin> getAllSoins() {
-        return this.daoSoin.findAll();
+    public List<SoinResponse> getAllSoins() {
+        return this.daoSoin.findAll().stream()
+            .map(SoinResponse::convert)
+            .toList();
     }
 
     @PostMapping()
-    public Soin createSoin(@RequestBody Soin soin) {
+    public SoinResponse createSoin(@Valid @RequestBody CreateOrUpdateSoinRequest request) {
+
+        Soin soin = new Soin();
+
+        soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
+        soin.setDateSoin(request.dateSoin());
+        soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));
+        
         Soin saved = this.daoSoin.save(soin);
+        
         log.info("Soin créé : {}", saved.getId());
-        return saved;
+        
+        return SoinResponse.convert(saved);
     }
 
     @PutMapping("/{id}")
-    public Soin updateSoin(@PathVariable Integer id, @RequestBody Soin soin) {
+    public SoinResponse updateSoin(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateSoinRequest request) {
         if (!this.daoSoin.existsById(id)) {
             throw new RuntimeException("Soin non trouvé");
         }
+
+        Soin soin = new Soin();
+
         soin.setId(id);
+        soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
+        soin.setDateSoin(request.dateSoin());
+        soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));
+        
         Soin updated = this.daoSoin.save(soin);
         log.info("Soin mis à jour : {}", updated.getId());
-        return updated;
+        return SoinResponse.convert(updated);
     }
 
     @DeleteMapping("/{id}")

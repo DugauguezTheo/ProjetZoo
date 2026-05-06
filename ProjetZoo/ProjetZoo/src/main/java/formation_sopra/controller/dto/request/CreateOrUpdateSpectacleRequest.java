@@ -2,16 +2,26 @@ package formation_sopra.controller.dto.request;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
 
 public class CreateOrUpdateSpectacleRequest {
 
+    @NotNull
+    @FutureOrPresent
     private LocalDate dateDebut;
+
+    @NotNull
+    @FutureOrPresent
     private LocalTime heureDebut;
+
+    @NotNull
     private Integer duree;
     
-    private Integer enclos_id;
+    @NotNull
+    private Integer enclosId;
 
     public LocalDate getDateDebut() {
         return dateDebut;
@@ -21,11 +31,6 @@ public class CreateOrUpdateSpectacleRequest {
     }
     public Integer getDuree() {
         return duree;
-    }
-
-
-    public Integer getEnclosId() {
-        return enclos_id;
     }
 
     public void setDateDebut(LocalDate dateDebut) {
@@ -38,9 +43,12 @@ public class CreateOrUpdateSpectacleRequest {
         this.duree = duree;
     }
 
-
-    public void setEnclosId(Integer enclos_id) {
-        this.enclos_id = enclos_id;
+    public Integer getEnclosId() {
+        return enclosId;
     }
+    public void setEnclosId(Integer enclosId) {
+        this.enclosId = enclosId;
+    }
+    
     
 }
