@@ -1,23 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion</title>
 
-    <figure>
-        <img src="/Arche_sans_fond.png" alt="Logo Arche des Joyeux Cachés"/>
-    </figure>
+  <!-- Font moderne -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<h2> Connexion </h2>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #39281c, #A47251);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-<form>
-<fieldset>
-  <legend></legend>
-  <table>
-  <tr><td>Email</td><td><input type="text" placeholder="Paul.Dupont@outlook.fr" name="email"></td></tr>  
-  <tr><td>Mot de passe</td><td><input type="password" placeholder="********" name="password"></td></tr>
-  <tr><td></td><td><input id="connexion" type="submit" id='submit' value='Connexion'></td></tr>
-</table>
-</fieldset>
-</form>
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      text-align: center;
+    }
 
-  <div class="panther-container">
-    <img src="/panthere-qui-court.gif" class="panther" />
-    <!-- <img src="/poissons-qui-nagent.gif" class="poissons" /> -->
-  </div>
+    .logo {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    form {
+      background: rgba(255,255,255,0.05);
+      padding: 25px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input[type="submit"] {
+      background: #d4af37;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background: #f1d46a;
+    }
+
+    .panther {
+      position: fixed;
+      bottom: 0;
+      left: -200px;
+      width: 150px;
+      animation: run 12s linear infinite;
+    }
+
+    @keyframes run {
+  0% {
+    left: -50px;
+  }
+  100% {
+    left: 200vw;
+  }
+}
+
+    /* 📱 Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .logo {
+        width: 120px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+  <h2>Connexion</h2>
+
+  <form>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="ex: paul@email.com" name="email" required>
+    </div>
+
+    <div class="form-group">
+      <label>Mot de passe</label>
+      <input type="password" placeholder="********" name="password" required>
+    </div>
+
+    <input type="submit" value="Connexion">
+  </form>
+
+</div>
+
+<img src="panthere-qui-court.gif" class="panther" alt="Panthère">
+
+</body>
+</html>
