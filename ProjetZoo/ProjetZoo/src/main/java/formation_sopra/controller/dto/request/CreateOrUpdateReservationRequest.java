@@ -27,7 +27,7 @@ public class CreateOrUpdateReservationRequest {
 
     @NotNull
     // Hidden
-    private Integer visiteur_id;
+    private Integer visiteurId;
 
     private List<Integer> spectacleIds;
     
@@ -64,11 +64,11 @@ public class CreateOrUpdateReservationRequest {
     }
 
     public Integer getVisiteurId() {
-        return visiteur_id;
+        return visiteurId;
     }
 
-    public void setVisiteurId(Integer visiteur_id) {
-        this.visiteur_id = visiteur_id;
+    public void setVisiteurId(Integer visiteurId) {
+        this.visiteurId = visiteurId;
     }
 
     public List<Integer> getSpectacleIds() {
