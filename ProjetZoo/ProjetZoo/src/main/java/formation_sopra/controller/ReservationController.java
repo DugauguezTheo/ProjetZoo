@@ -47,6 +47,7 @@ public class ReservationController {
         return daoReservation.findByIdWithSpectacles(id).map(ReservationResponse::convert).orElseThrow(EntityNotFoundException::new);      
     }
 
+    @PreAuthorize("hasRole('VISITEUR')")
     @GetMapping("/mes-reservations")
     public List<ReservationResponse> findByIdAuthenticated(Authentication auth) {
         Integer id = Integer.parseInt(auth.getName());
