@@ -9,44 +9,34 @@
 
 <body>
 
-<div class="container">
+  <div class="container">
 
   <img src="Arche_sans_fond.png" alt="Logo" class="logo">
 
   <h2>Création du compte</h2>
 
-  <form>
-    <label for="prenom">Prénom</label>
-    <input id="prenom" type="text" placeholder="Paul" name="prenom" required> 
-
-    <label for="nom">Nom</label>
-    <input id="nom" type="text" placeholder="Dupont" name="nom" required> 
-
-    <label>Sexe</label>
-    <select name="sexe">
-      <option value="homme">Homme</option>
-      <option value="femme" selected>Femme</option>
-      <option value="nb">NB</option>
+<form>
+  <div class="form-group"></div>
+  <label>Prénom</label><input type="text" placeholder="Paul" name="prenom" required>
+  <label>Nom</label><input type="text" placeholder="Dupont" name="nom" required>
+  <label>Sexe</label>
+    <select name="sexeSelect">
+      <option>Homme</option>
+      <option selected>Femme</option>
+      <option>NB</option>
     </select>
-
-    <label>Adresse postale</label>
-    <input type="text" name="adresse" required> 
-
-    <label>Email</label>
-    <input type="email" name="email" required>
-
-    <label>Téléphone</label>
-    <input type="text" name="telephone">
-
-    <label>Mot de passe</label>
-    <input type="password" name="password" required>
-
-    <input type="submit" value="Inscription">
+  <label>Adresse postale</label><input type="text" placeholder="1 rue de l'Arche 12345 Les-Joyaux" name="adresse" required>
+  <label>Email</label><input type="text" placeholder="Paul.Dupont@outlook.fr" name="email" required>
+  <label>Téléphone</label><input type="text" placeholder="0612345678" name="email" required>
+  <label>Mot de passe</label><input type="password" placeholder="********" name="password" required>
+  <!-- Deuxième demande pour vérification mot de passe ? -->
+  <input type="submit" value="Inscription">
   </form>
 
 </div>
 
 <img src="panthere_final.gif" class="panther" alt="Panthère">
+
 
 </body>
 </html>
