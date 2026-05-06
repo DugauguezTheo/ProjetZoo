@@ -55,8 +55,9 @@ public class VisiteurController {
 	                ;
 	    }
 
-		@GetMapping("/me")
-		public VisiteurWithAchatsResponse getMySelfAsVisitor(Authentication auth) {
+		@GetMapping("/mon-compte")
+		@PreAuthorize("hasRole('VISITEUR')")
+		public VisiteurWithAchatsResponse getMonCompteAsVisiteur(Authentication auth) {
 			Integer id = Integer.parseInt(auth.getName());
 			log.debug("Recherche du compte n°{} (compte visiteur) ...", id);
 
@@ -90,7 +91,7 @@ public class VisiteurController {
 
 		@PreAuthorize("hasRole('VISITEUR')")
 		@PutMapping("/modifier-mes-infos")
-		public VisiteurResponse modifyMyself(Authentication auth, @Valid @RequestBody CreateOrUpdateVisiteurRequest request) {
+		public VisiteurResponse modifyMonCompte(Authentication auth, @Valid @RequestBody CreateOrUpdateVisiteurRequest request) {
 			Integer id = Integer.parseInt(auth.getName());
 
 			Visiteur visiteur = new Visiteur();
@@ -113,6 +114,7 @@ public class VisiteurController {
 
 	  
 	    @PostMapping
+		@PreAuthorize("hasRole('ADMIN', 'VISITEUR')")
 	    public VisiteurResponse createVisiteur(@RequestBody CreateOrUpdateVisiteurRequest request) {
 	        log.debug("Création d'un visiteur...");
 
@@ -133,7 +135,7 @@ public class VisiteurController {
 	    }
 
 	    @PreAuthorize("hasRole('ADMIN')")
-	    @DeleteMapping("/{id}/delete")
+	    @DeleteMapping("/{id}")
 	    public boolean deleteVisiteurById(@PathVariable Integer id) {
 	        try {
 	            log.debug("Suppression du visiteur {} ", id);
