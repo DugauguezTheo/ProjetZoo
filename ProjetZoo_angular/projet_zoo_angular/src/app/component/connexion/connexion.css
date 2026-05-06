@@ -1,0 +1,83 @@
+html{
+  background-color:#A47251;
+}
+
+figure {
+    text-align:center;
+}
+
+img {
+    width : 25%;
+}
+
+h2 {
+ font-family: 'Cinzel', serif;
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ margin-left: 2%;
+ text-align: center;
+ ;
+}
+
+form {
+    background-color: #F0D8A1;
+    box-shadow: 6px 6px 11px #000000;
+    display: absolute;
+    border-radius: 25px;
+    align-items: center;
+}
+
+fieldset {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  border : none;
+}
+
+input {
+    border-radius: 25px;
+    background-color: #B8815A;
+}
+
+#connexion {
+    display:flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.panther-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.panther {
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  left: -150px;
+  transform: translateX(-150px);
+
+  animation: run-across 15s linear infinite;
+}
+
+.poissons {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  left: -150px;
+  transform: translateX(-150px);
+
+  animation: run-across 30s linear infinite;
+}
+
+@keyframes run-across {
+  0% {
+    left: -50px;
+  }
+  100% {
+    left: 200vw;
+  }
+}
