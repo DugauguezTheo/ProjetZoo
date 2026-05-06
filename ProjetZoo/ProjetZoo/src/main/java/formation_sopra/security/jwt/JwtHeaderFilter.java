@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import formation_sopra.dao.IDAOAchat;
-import formation_sopra.dao.IDAOAdmin;
 import formation_sopra.dao.IDAOCompte;
+import formation_sopra.model.Admin;
 import formation_sopra.model.Compte;
 import formation_sopra.model.Veterinaire;
 import formation_sopra.model.Visiteur;
@@ -30,16 +32,30 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
     @Autowired
     private IDAOCompte daoCompte;
 
-    @Autowired
-    private IDAOAdmin daoAdmin;
-
     @Autowired IDAOAchat daoAchat;
+
+    private final Logger logger;
+
+    public JwtHeaderFilter(){
+        this.logger = LoggerFactory.getLogger(JwtHeaderFilter.class);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
 
-        System.out.println("Contenu Authorization : " + authHeader);
+        logger.debug("Contenu Authorization : {}", authHeader);
+
+        String uri = request.getRequestURI();
+
+
+        // On laisse passer la route d'auth sans vérifier le token
+        if (uri.equals("/api/auth")) {
+            logger.debug(">>> /api/auth détecté, on ne vérifie pas le JWT");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
 
         if (authHeader != null) {
             String token = authHeader.substring(7);
@@ -53,10 +69,12 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
                 System.out.println("jeton valide, user = " + username);
 
                 Compte compte = this.daoCompte.findByLogin(username);
+                
+                logger.debug("Classe du compte connecté : {}", compte.getClass());
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
 
-                if (this.daoAdmin.findById(compte.getId()).orElse(null) != null){
+                if (compte instanceof Admin){
                     authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
                 }
                 else if (compte instanceof Visiteur) {
