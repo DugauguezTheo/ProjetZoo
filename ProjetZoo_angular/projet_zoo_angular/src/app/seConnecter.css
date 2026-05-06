@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'StardewPolice';
+  src: url('../assets/fonts/Stardew-Valley-All-Caps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html{
   background-color:#A47251;
 }
@@ -12,11 +19,11 @@ img {
 
 h2 {
  font-family: 'Cinzel', serif;
- letter-spacing: 1px;
- text-transform: uppercase;
- margin-left: 2%;
+  color: #e6d3a3;
+  text-shadow: 
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
  text-align: center;
- ;
 }
 
 form {
