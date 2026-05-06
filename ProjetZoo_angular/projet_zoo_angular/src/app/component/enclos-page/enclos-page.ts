@@ -4,12 +4,10 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { EnclosService } from '../../service/enclos-service';
-import { Observable, startWith, Subject, switchMap, switchMap } from 'rxjs';
+import { Observable, startWith, Subject, switchMap } from 'rxjs';
 import { EspeceService } from '../../service/espece-service';
-import { AnimalService } from '../../service/animal-service';
 import { Enclos } from '../../model/enclos';
 import { Espece } from '../../model/espece';
-import { Animal } from '../../model/animal';
 
 @Component({
   selector: 'app-enclos-page',
@@ -23,15 +21,10 @@ export class EnclosPage implements OnInit {
   private router: Router = inject(Router);
 
   private enclosService: EnclosService = inject(EnclosService);
-  private animalService: AnimalService = inject(AnimalService);
-  protected soinService: SpectacleService = inject(SpectacleService);
-  protected spectacleService: SpectacleService = inject(SpectacleService);
   protected especeService: EspeceService = inject(EspeceService);
   
   protected editingEnclos ?: Enclos | null;
   protected enclos$!: Observable<Enclos[]>;
-  protected animals!: Observable<Animal[]>;
-  protected spectacles!: Observable<Spectacle[]>;
   protected especes!: Observable<Espece[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
@@ -42,7 +35,6 @@ export class EnclosPage implements OnInit {
   protected formCapaciteCtrl! : FormControl;
   protected formEspeceCtrl! : FormControl;
   protected formAnimalCtrl! : FormControl;
-  protected formSpectecleCtrl! : FormControl;
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Enclos');
@@ -52,22 +44,16 @@ export class EnclosPage implements OnInit {
       switchMap(() => this.enclosService.findAllEncloss())
     );
 
-    this.animals = this.animalService.findAllAnimals();
     this.especes = this.especeService.findAllEspeces();
-    this.spectacles = this.spectacleService.findAllSpectacles();
 
     this.formBiomeCtrl = new FormControl("", Validators.required);
     this.formCapaciteCtrl = new FormControl("", Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
-    this.formAnimalCtrl = new FormControl(null, Validators.required);
-    this.formSpectecleCtrl = new FormControl(null, Validators.required);
 
     this.formEnclos = this.formBuilder.group({
       biome: this.formBiomeCtrl,
       capacite: this.formCapaciteCtrl,
-      espece: this.formEspeceCtrl,
-      animal: this.formAnimalCtrl,
-      spectacle: this.formSpectecleCtrl
+      espece: this.formEspeceCtrl
     });
   }
 
@@ -80,8 +66,6 @@ export class EnclosPage implements OnInit {
       biome: this.formBiomeCtrl.value,
       capacite: this.formCapaciteCtrl.value,
       espece: this.formEspeceCtrl.value,
-      animal: this.formAnimalCtrl.value,
-      spectacle: this.formSpectecleCtrl.value,
       numero: this.editingEnclos?.numero
     };
 
@@ -105,11 +89,6 @@ export class EnclosPage implements OnInit {
     this.formBiomeCtrl.setValue(enclos.biome);
     this.formCapaciteCtrl.setValue(enclos.capacite);
     this.formEspeceCtrl.setValue(enclos.espece);
-    this.formAnimalCtrl.setValue(enclos.animal);
-    this.formSpectecleCtrl.setValue(enclos.spectacle);
     this.reload();
   }
-
-  public compareAni
-
 }

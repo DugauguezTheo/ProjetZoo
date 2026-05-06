@@ -10,6 +10,7 @@ import { EspeceService } from '../../service/espece-service';
 import { Espece } from '../../model/espece';
 import { Enclos } from '../../model/enclos';
 import { EnclosService } from '../../service/enclos-service';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-animal-page',
@@ -20,17 +21,16 @@ import { EnclosService } from '../../service/enclos-service';
 export class AnimalPage implements OnInit {
 
   private titleService: Title = inject(Title);
+  private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
   private animalService: AnimalService = inject(AnimalService);
   protected enclosService: EnclosService = inject(EnclosService);
-  protected soinService: SoinService = inject(SoinService);
   protected especeService: EspeceService = inject(EspeceService);
 
   protected editingAnimal ?: Animal | null;
   protected animals$!: Observable<Animal[]>;
   protected enclos!: Observable<Enclos[]>;
-  protected soins!: Observable<Soin[]>
   protected especes!: Observable<Espece[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
@@ -51,22 +51,19 @@ export class AnimalPage implements OnInit {
       switchMap(() => this.animalService.findAllAnimals())
     );
 
-    this.enclos = this.enclosService.findAllEnclos();
-    this.soins = this.soinService.findAllSoins();
+    this.enclos = this.enclosService.findAllEncloss();
     this.especes = this.especeService.findAllEspeces();
 
     this.formPrenomCtrl = new FormControl("", Validators.required);
     this.formDateNaissanceCtrl = new FormControl("", Validators.required);
     this.formEnclosCtrl = new FormControl(null, Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
-    this.formSoinCtrl = new FormControl(null, Validators.required);
   
     this.formAnimal = this.formBuilder.group({
       prenom: this.formPrenomCtrl,
       dateNaissance: this.formDateNaissanceCtrl,
       enclos: this.formEnclosCtrl,
-      espece: this.formEspeceCtrl,
-      soin: this.formSoinCtrl
+      espece: this.formEspeceCtrl
     });
   }
 
@@ -80,7 +77,6 @@ export class AnimalPage implements OnInit {
       dateNaissance: this.formDateNaissanceCtrl.value,
       enclos: this.formEnclosCtrl.value,
       espece: this.formEspeceCtrl.value,
-      soin: this.formSoinCtrl.value,
       id: this.editingAnimal?.id
     };
 
@@ -105,21 +101,12 @@ export class AnimalPage implements OnInit {
     this.formDateNaissanceCtrl.setValue(animal.dateNaissance);
     this.formEnclosCtrl.setValue(animal.enclos);
     this.formEspeceCtrl.setValue(animal.espece);
-    this.formSoinCtrl.setValue(animal.soin);
     this.reload();
   }
 
   public compareEnclos(e1: Enclos, e2: Enclos): boolean {
     return e1 && e2 ? e1.numero === e2.numero : e1 === e2;
   }
-
-  public compareSoin(s1: Soin, s2: Soin): boolean {
-    return s1 && s2 ? s1.id === s2.id : s1 === s2;
-  }
-
-  // public compareEspece(e1: Espece, e2: Espece): boolean {
-  //   return e1 && e2 ? e1.id === e2.id : e1 === e2;
-  // }
 
   public deleteAnimal(animal : Animal) {
     this.animalService.deleteAnimal(animal.id).subscribe(() => {
