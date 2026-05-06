@@ -7,5 +7,5 @@ export interface Enclos {
     capacite: number;
     espece : Espece;
     animal?: Animal[];
-    spectacle?: Spectacle[];
+    // spectacle?: Spectacle[];
 }
