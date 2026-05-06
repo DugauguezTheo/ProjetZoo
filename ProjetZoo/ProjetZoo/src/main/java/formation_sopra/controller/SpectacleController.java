@@ -64,7 +64,7 @@ public class SpectacleController {
         return this.daoSpectacle.findAllWithReservations().stream().map(SpectacleResponse::convert).toList();
     }
 
-    @GetMapping("/as-visiteur")
+    @GetMapping("/between")
     public List<SpectacleResponse> findAllBetween(@RequestParam LocalDate dateDebut, @RequestParam LocalDate dateFin) {
         
         log.debug("Liste des spectacles entre le {} et le {}", dateDebut, dateFin);
@@ -80,7 +80,7 @@ public class SpectacleController {
         return this.daoSpectacle.findAllByEnclosWithReservations(e).stream().map(SpectacleWithReservationsResponse::convert).toList();
     }
 
-    @GetMapping("/enclos/{id}/as-visiteur")
+    @GetMapping("/enclos/{id}/between")
     public List<SpectacleResponse> findAllByEnclosIdBetween(@PathVariable Integer id, @RequestParam LocalDate dateDebut, @RequestParam LocalDate dateFin) {
         log.debug("Liste des spectacles pour l'enclos {} entre le {} et le {}...", id, dateDebut, dateFin);
         return this.daoSpectacle.findAllByEnclosIdBetween(id, dateDebut, dateFin).stream().map(SpectacleResponse::convert).toList();
@@ -109,6 +109,7 @@ public class SpectacleController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityCreatedOrUpdatedResponse create(@Valid @RequestBody CreateOrUpdateSpectacleRequest request) {
         log.debug("Création d'un nouveau spectacle ...");
@@ -128,6 +129,7 @@ public class SpectacleController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(@PathVariable Integer id) {
         log.debug("Suppression du spectacle {} ...", id);
         this.daoSpectacle.deleteById(id);
