@@ -98,7 +98,7 @@ public class VeterinaireController {
 
     @PreAuthorize("hasRole('VETERINAIRE')")
 		@PutMapping("/modifier-mes-infos")
-		public VeterinaireResponse modifyMyself(Authentication auth, @Valid @RequestBody CreateOrUpdateVeterinaireRequest request) {
+		public VeterinaireResponse modifyMonCompte(Authentication auth, @Valid @RequestBody CreateOrUpdateVeterinaireRequest request) {
 			Integer id = Integer.parseInt(auth.getName());
 
             if (!daoVeterinaire.existsById(id)) {
