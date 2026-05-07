@@ -176,3 +176,26 @@ input {
   font-weight: bold;
   text-align: center;
 }
+
+.error {
+  color: #ff6b6b;
+
+  font-size: 0.85rem;
+
+  margin-top: -5px;
+  margin-bottom: 10px;
+
+  text-align: left;
+}
+
+/* Bordure sur les cellules touchés, invalides & valides*/
+input.ng-invalid.ng-touched {
+  border: 2px solid #ff6b6b;
+}
+input.ng-valid.ng-touched:not(.password-mismatch){
+    border: 2px solid #4CAF50;
+}
+
+.password-mismatch {
+  border: 2px solid #ff6b6b !important;
+}

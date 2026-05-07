@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InscriptionRequest } from '../../dto/inscription-request';
 import { Visiteur } from '../../model/visiteur';
@@ -12,7 +12,24 @@ import { CommonModule } from '@angular/common';
   templateUrl: './create-compte-page.html',
   styleUrl: './create-compte-page.css',
 })
+
 export class CreateComptePage {
+
+  
+// Vérification des deux mots de passe
+  passwordMatchValidator: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+
+    if (password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  };
 
   private inscriptionService: InscriptionService = inject(InscriptionService);
 
@@ -32,6 +49,7 @@ export class CreateComptePage {
   protected formLoginCtrl!: FormControl;
   // protected formTelephoneCtrl!: FormControl; Not in database ??
   protected formPasswordCtrl!: FormControl;
+  protected formConfirmPasswordCtrl!: FormControl;
 
   protected inscriptionReussie: boolean = false;
   ngOnInit(): void {
@@ -47,6 +65,8 @@ export class CreateComptePage {
     this.formLoginCtrl = this.formBuilder.control("", [ Validators.required, Validators.email ]);
     // this.formTelephoneCtrl = this.formBuilder.control("", [ Validators.required, Validators.minLength(10), Validators.maxLength(10) ]);
     this.formPasswordCtrl = this.formBuilder.control("", Validators.required);
+    this.formConfirmPasswordCtrl = this.formBuilder.control("", Validators.required);    
+    
    
 
     this.formInscription = this.formBuilder.group({
@@ -60,9 +80,15 @@ export class CreateComptePage {
       dateNaissance: this.formDateNaissanceCtrl,
       // telephone: this.formTelephoneCtrl,
       login: this.formLoginCtrl,
-      password: this.formPasswordCtrl
+      password: this.formPasswordCtrl,
+      confirmPassword: this.formConfirmPasswordCtrl
+    },
+ 
+    {
+      validators: this.passwordMatchValidator
     });
   }
+
 
   public inscription() {
     const visiteur: Visiteur = {

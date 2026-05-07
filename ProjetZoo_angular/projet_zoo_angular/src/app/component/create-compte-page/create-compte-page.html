@@ -29,15 +29,21 @@
     <input type="text"
            placeholder="Paul"
            formControlName="prenom">
+    <div class="error" *ngIf="formPrenomCtrl.touched && formPrenomCtrl.invalid"> 
+      Le prénom est obligatoire</div>  
 
     <label>Nom</label>
     <input type="text"
            placeholder="Dupont"
            formControlName="nom">
+    <div class="error" *ngIf="formNomCtrl.touched && formNomCtrl.invalid"> 
+      Le nom est obligatoire</div>  
 
     <label>Date de naissance</label>
     <input type="date"
            formControlName="dateNaissance">
+    <div class="error" *ngIf="formDateNaissanceCtrl.touched && formDateNaissanceCtrl.invalid"> 
+      La date de naissance est obligatoire</div>  
 
   </div>
 
@@ -50,21 +56,29 @@
     <input type="text"
            placeholder="1"
            formControlName="numeroVoie">
+    <div class="error" *ngIf="formNumeroVoieCtrl.touched && formNumeroVoieCtrl.invalid"> 
+      Le numéro de voie est obligatoire</div>  
 
     <label>Voie</label>
     <input type="text"
            placeholder="Rue de l'Arche"
            formControlName="voie">
+    <div class="error" *ngIf="formVoieCtrl.touched && formVoieCtrl.invalid"> 
+      La voie est obligatoire</div>  
 
     <label>Code postal</label>
     <input type="text"
            placeholder="12345"
            formControlName="cp">
+    <div class="error" *ngIf="formCPCtrl.touched && formCPCtrl.invalid"> 
+      Le code postal est obligatoire</div>  
 
     <label>Ville</label>
     <input type="text"
            placeholder="Les Joyaux"
            formControlName="ville">
+    <div class="error" *ngIf="formVilleCtrl.touched && formVilleCtrl.invalid"> 
+      La ville est obligatoire</div>  
 
   </div>
 
@@ -72,24 +86,65 @@
   <div class="column">
 
     <h3>Informations de connexion</h3>
-
+<!-- Email -->
     <label>Email</label>
     <input type="email"
            placeholder="paul.dupont@outlook.fr"
            formControlName="login">
+    <div class="error"
+     *ngIf="formLoginCtrl.touched && formLoginCtrl.invalid">
 
+    <span *ngIf="formLoginCtrl.errors?.['required']">
+      L'email est obligatoire
+    </span>
+
+    <span *ngIf="formLoginCtrl.errors?.['email']">
+      Format d'email invalide
+    </span>
+
+    </div>
+
+<!-- Password -->
     <label>Mot de passe</label>
     <input type="password"
            placeholder="********"
            formControlName="password">
+    <div class="error" *ngIf="formPasswordCtrl.touched && formPasswordCtrl.invalid">
+      Le mot de passe est obligatoire</div>
+
+<!--Vérification password -->
+    <label>Confirmation du mot de passe</label>
+
+    <input type="password"
+          placeholder="********"
+          formControlName="confirmPassword"
+          [class.password-mismatch]="formConfirmPasswordCtrl.touched
+                                   && formInscription.errors?.['passwordMismatch']">
+
+    <div class="error"
+        *ngIf="formConfirmPasswordCtrl.touched && formConfirmPasswordCtrl.invalid">
+
+      La confirmation du mot de passe est obligatoire
+
+    </div>
+
+    <div class="error"
+        *ngIf="formConfirmPasswordCtrl.touched
+                && formConfirmPasswordCtrl.valid
+                && formInscription.errors?.['passwordMismatch']">
+
+      Les mots de passe ne correspondent pas
+
+    </div>
 
   </div>
 
 </div>
 
-  <input type="submit"
-         value="Inscription"
-         class="submit-btn">
+  <input [disabled]="formInscription.invalid || formInscription.errors?.['passwordMismatch']"
+        type="submit"
+        value="Inscription"
+        class="submit-btn">
 
 </form>
 
