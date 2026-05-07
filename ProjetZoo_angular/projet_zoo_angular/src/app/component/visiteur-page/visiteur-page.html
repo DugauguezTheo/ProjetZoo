@@ -162,24 +162,6 @@
   font-size: 0.9rem;
 }
 
-.logout-btn {
-  margin-left: auto;
-
-  background: #d4af37;
-  border: none;
-  border-radius: 8px;
-
-  padding: 10px 14px;
-  cursor: pointer;
-
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.logout-btn:hover {
-  background: #f1d46a;
-}
-
 .profile-details p {
   margin: 12px 0;
   opacity: 0.9;
@@ -251,15 +233,6 @@
   <div class="spacer"></div>
 </header>
 
-<nav class="menu">
-  <a [routerLink]="[ '/accueil' ]">Accueil</a>
-  <a [routerLink]="[ '/#' ]">Prochaines Visites</a>
-  <a [routerLink]="[ '/#' ]">Spectacles</a>
-  <a [routerLink]="[ '/animal' ]">Animaux</a>
-  <a [routerLink]="[ '/enclos' ]">Enclos</a>
-  <a [routerLink]="[ '/#' ]">Boutique</a>
-</nav>
-
 <div class="page-layout">
   <div class="main-column">
 
@@ -279,13 +252,9 @@
           <div class="avatar">👤</div>
 
           <div class="profile-info">
-            <h3>{{ "login" }}</h3>
-            <span>Visiteur</span>
+            <h3>{{ login }}</h3>
+            <span>{{ role }}</span>
           </div>
-
-          <button class="logout-btn">
-            Déconnexion
-          </button>
         </div>
 
         <div class="profile-details">

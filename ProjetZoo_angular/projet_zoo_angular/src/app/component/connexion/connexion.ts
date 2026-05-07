@@ -45,7 +45,8 @@ export class Connexion implements OnInit{
       if (resp.success) {
         this.authService.token = resp.token;
         this.authService.role = resp.role;
-        this.router.navigate([ '/animal' ]);
+        this.authService.login = resp.login;
+        this.router.navigate([ '/visiteur' ]);
       }
     });
   }

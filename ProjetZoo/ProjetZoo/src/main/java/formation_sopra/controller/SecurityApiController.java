@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import formation_sopra.controller.dto.request.AuthRequest;
 import formation_sopra.controller.dto.response.AuthResponse;
-import formation_sopra.controller.dto.response.EntityCreatedOrUpdatedResponse;
 import formation_sopra.dao.IDAOCompte;
+import formation_sopra.model.Compte;
 import formation_sopra.security.jwt.JwtUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,12 +25,10 @@ public class SecurityApiController {
     private final static Logger log = LoggerFactory.getLogger(SecurityApiController.class);
     private final AuthenticationManager authenticationManager;
     private final IDAOCompte daoCompte;
-    private final PasswordEncoder passwordEncoder;
 
     public SecurityApiController(AuthenticationManager authenticationManager, IDAOCompte daoCompte, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.daoCompte = daoCompte;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/api/auth")
@@ -42,7 +41,13 @@ public class SecurityApiController {
 
             log.debug("Authentification validée !");
 
-            return new AuthResponse(true, JwtUtils.generate(authentication));
+            Compte compte = daoCompte.findByLogin(request.getLogin());
+
+            String token = JwtUtils.generate(authentication, compte);
+
+            Claims claims = JwtUtils.getClaims(token);
+
+            return new AuthResponse(true, token, claims.get("role", String.class), claims.get("login", String.class));
         }
 
         catch (BadCredentialsException ex) {
@@ -53,7 +58,7 @@ public class SecurityApiController {
             log.error("Authentification impossible : erreur ({}).", ex.getClass().getSimpleName());
         }
 
-        return new AuthResponse(false, "");
+        return new AuthResponse(false, "", "", "");
     }
 
 

@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,12 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import formation_sopra.dao.IDAOAchat;
-import formation_sopra.dao.IDAOCompte;
-import formation_sopra.model.Admin;
-import formation_sopra.model.Compte;
-import formation_sopra.model.Veterinaire;
-import formation_sopra.model.Visiteur;
-
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtHeaderFilter extends OncePerRequestFilter {
-    @Autowired
-    private IDAOCompte daoCompte;
+
 
     @Autowired IDAOAchat daoAchat;
 
@@ -76,24 +69,16 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
                 String username = optUsername.get();
                 System.out.println("jeton valide, user = " + username);
 
-                Compte compte = this.daoCompte.findByLogin(username);
-                
-                logger.debug("Classe du compte connecté : {}", compte.getClass());
+                Claims claims = JwtUtils.getClaims(token);
+
+                String role = claims.get("role", String.class);
+                Integer id = Integer.parseInt(claims.getSubject());
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
-
-                if (compte instanceof Admin){
-                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-                }
-                else if (compte instanceof Visiteur) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_VISITEUR"));
-                }
-                else if (compte instanceof Veterinaire) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_VETERINAIRE"));
-                }
+                authorities.add(new SimpleGrantedAuthority(role));
 
                 // Recréer une Authentication Spring Security
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(compte.getId(), null, authorities);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(id, null, authorities);
 
                 // Affecter l'authentication dans le contexte de Spring Security -> lui dire OK, l'utilisateur est authentifié !
                 SecurityContextHolder.getContext().setAuthentication(auth);

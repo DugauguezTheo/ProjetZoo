@@ -7,6 +7,8 @@ import javax.crypto.SecretKey;
 
 import org.springframework.security.core.Authentication;
 
+import formation_sopra.model.Compte;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -15,19 +17,25 @@ public class JwtUtils {
 
     private JwtUtils() { }
 
-    public static String generate(Authentication auth) {
-        Date now = new Date();
-        SecretKey secretKey = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
+    public static String generate(Authentication auth, Compte compte) {
+    Date now = new Date();
+    SecretKey secretKey = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
 
-        // Si la connexion est OK, on génère un jeton JWT
-        return Jwts.builder()
-            .subject(auth.getName()) // Souvent, c'est le username ici
-            .issuedAt(now)
-            .expiration(new Date(now.getTime() + 3_600_000)) // Durée de validité = 1 heure
-            .signWith(secretKey)
-            .compact() // Le jeton JWT sous forme de String
-        ;
-    }
+    String role = auth.getAuthorities()
+        .stream()
+        .findFirst()
+        .map(a -> a.getAuthority())
+        .orElse("ROLE_VISITEUR");
+
+    return Jwts.builder()
+        .subject(compte.getId().toString()) // ← garde l'id
+        .claim("login", compte.getLogin())
+        .claim("role", role)
+        .issuedAt(now)
+        .expiration(new Date(now.getTime() + 3_600_000))
+        .signWith(secretKey)
+        .compact();
+}
 
     public static Optional<String> validate(String token) {
         SecretKey secretKey = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
@@ -45,5 +53,15 @@ public class JwtUtils {
         catch (Exception ex) {
             return Optional.empty();
         }
+    }
+
+    public static Claims getClaims(String token) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
+
+        return Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
     }
 }

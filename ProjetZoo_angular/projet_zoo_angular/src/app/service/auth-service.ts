@@ -13,6 +13,7 @@ export class AuthService {
 
   private _token: string = sessionStorage.getItem("token") ?? "";
   private _role: string = sessionStorage.getItem("role") ?? "";
+  private _login : string = sessionStorage.getItem("login") ?? "";
 
   constructor(private http: HttpClient) { }
 
@@ -36,6 +37,16 @@ export class AuthService {
     sessionStorage.setItem("role", value);
   }
 
+  // LOGIN
+  public get login(): string {
+    return this._login;
+  }
+
+  public set login(value: string) {
+    this._login = value;
+    sessionStorage.setItem("login", value);
+  }
+
   // AUTH
   public auth(authRequest: AuthRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>("/auth", authRequest);
@@ -46,14 +57,16 @@ export class AuthService {
   }
 
   public isAdmin(): boolean {
-    return this._role === "admin";
+    return this._role === "ROLE_ADMIN";
   }
 
   public logout(): void {
     this._token = "";
     this._role = "";
+    this._login = "";
 
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("role");
+    sessionStorage.removeItem("login");
   }
 }
