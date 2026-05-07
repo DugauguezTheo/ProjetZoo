@@ -1,4 +1,3 @@
-<p>enclos-page works!</p>
 <html>
 
 <head>
@@ -50,38 +49,41 @@
     </div>
 
     @if ((enclos$ | async)?.length===0) {
-            <h3>Aucun enclos trouvé</h3>
+    <h3>Aucun enclos trouvé</h3>
     } @else {
-    <table class="tableau">
-        <thead>
-            <tr>
-                <th>Numéro</th>
-                <th>Biome</th>
-                <th>Capacité</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <div class="tableau-wrapper">
+        <table class="tableau">
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Biome</th>
+                    <th>Capacité</th>
+                    <th>Espèces présentes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            <tr *ngFor="let enclos of enclos$ | async">
-                <td>{{ enclos.numero }}</td>
-                <td>{{ enclos.biome }}</td>
-                <td>{{ enclos.capacite }}</td>
-                <td>@if ((enclos.especes)?.length===0) {
-                    <p>Enclos vide pour le moment</p>
-                    } @else {
-                    <ul>
-                        <li *ngFor="let espece of enclos.especes">{{ espece }}</li>
-                    </ul>
-                }
-                </td>
-                <td>
-                    <button (click)="deleteEnclos(enclos)">Supprimer</button>
-                    <button (click)="editerEnclos(enclos)">Modifier</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            <tbody>
+                <tr *ngFor="let enclos of enclos$ | async">
+                    <td>{{ enclos.numero }}</td>
+                    <td>{{ enclos.biome }}</td>
+                    <td>{{ enclos.capacite }}</td>
+                    <td>@if (!enclos.especes || enclos.especes.length === 0) {
+                        <p>Enclos vide pour le moment</p>
+                        } @else {
+                        <ul>
+                            <li *ngFor="let espece of enclos.especes">{{ espece }}</li>
+                        </ul>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn-danger" (click)="deleteEnclos(enclos)">Supprimer</button>
+                        <button class="btn-edit" (click)="editerEnclos(enclos)">Modifier</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     }
 
     <div class="panther-container">
