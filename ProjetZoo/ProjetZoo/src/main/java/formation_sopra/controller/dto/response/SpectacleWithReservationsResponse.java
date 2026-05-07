@@ -14,9 +14,13 @@ public class SpectacleWithReservationsResponse {
     private LocalTime heureDebut;
     private Integer duree;
 
+
+    private Integer enclosId;
+
+    private String enclosBiome;
+
     private List<Integer> reservationIds;
 
-    private Integer enclos_id;
 
     public Integer getId(){
         return this.id;
@@ -59,11 +63,19 @@ public class SpectacleWithReservationsResponse {
     }
 
     public Integer getEnclosId(){
-        return this.enclos_id;
+        return this.enclosId;
     }
     
-    public void setEnclosId(Integer enclos_id){
-        this.enclos_id = enclos_id;
+    public void setEnclosId(Integer enclosId){
+        this.enclosId = enclosId;
+    }
+
+    public String getEnclosBiome(){
+        return this.enclosBiome;
+    }
+    
+    public void setEnclosBiome(String enclosBiome){
+        this.enclosBiome = enclosBiome;
     }
 
 
@@ -75,6 +87,7 @@ public class SpectacleWithReservationsResponse {
         spectacleResponse.setHeureDebut(spectacle.getHeureDebut());
         spectacleResponse.setDuree(spectacle.getDuree());
         spectacleResponse.setEnclosId(spectacle.getEnclos().getNumero());
+        spectacleResponse.setEnclosBiome(spectacle.getEnclos().getBiome());
         spectacleResponse.setReservationIds(
             spectacle.getReservations()
                 .stream()
