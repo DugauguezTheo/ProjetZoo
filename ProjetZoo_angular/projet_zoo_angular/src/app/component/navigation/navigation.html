@@ -60,6 +60,10 @@
           <a routerLink="/mes-visites">Mes visites</a>
         </li>
 
+        <li *ngIf="authService.isVisiteur()">
+          <a routerLink="/achat">Mes achats</a>
+        </li>
+
         <li *ngIf="authService.isAdmin()">
           <a routerLink="/personnel">Personnel</a>
         </li>

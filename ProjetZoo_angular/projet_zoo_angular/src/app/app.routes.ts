@@ -17,8 +17,8 @@ import { CreateComptePage } from './component/create-compte-page/create-compte-p
 
 export const routes: Routes = [
 
-    
-    // { path: 'achat', component: AchatPage, canActivate: [authGuard] },
+
+    { path: 'achat', component: AchatPage, canActivate: [authGuard] },
     { path: 'admin', component: AdminPage, canActivate: [authGuard] },
     { path: 'animal', component: AnimalPage, canActivate: [authGuard] },
     { path: 'article', component: ArticlePage, canActivate: [authGuard] },
