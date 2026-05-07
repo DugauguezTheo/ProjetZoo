@@ -51,7 +51,6 @@
                         <div *ngIf="formEspeceCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
                             l'espèce est
                             obligatoire</div>
-
                     </div>
                     <div class="inline">
                         <label for="enclos">Enclos</label>
@@ -78,35 +77,36 @@
     </div>
 
     @if ((animals$ | async)?.length===0) {
-    <tr>
-        <td colspan="5"><h3>Aucun animal trouvé</h3></td>
-    </tr>
+            <h3>Aucun animal trouvé</h3>
     } @else {
-    <table class="tableau">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Prenom</th>
-                <th>Espece</th>
-                <th>Enclos</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <div class="tableau-wrapper">
+        <table class="tableau">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prenom</th>
+                    <th>Date de naissance</th>
+                    <th>Espece</th>
+                    <th>Enclos</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            <tr *ngFor="let animal of animals$ | async">
-                <td>{{ animal.id }}</td>
-                <td>{{ animal.prenom }}</td>
-                <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
-                <td>{{ animal.espece }}</td>
-                <td>{{ animal.enclos.biome }}</td>
-                <td>
-                    <button (click)="deleteAnimal(animal)">Supprimer</button>
-                    <button (click)="editerAnimal(animal)">Modifier</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            <tbody>
+                <tr *ngFor="let animal of animals$ | async">
+                    <td>{{ animal.id }}</td>
+                    <td>{{ animal.prenom }}</td>
+                    <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
+                    <td>{{ animal.espece }}</td>
+                    <td>{{ animal.enclos.numero }} - {{animal.enclos.biome}}</td>
+                    <td>
+                        <button class="btn btn-danger" (click)="deleteAnimal(animal)">Supprimer</button>
+                        <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     }
 
     <div class="panther-container">
