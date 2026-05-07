@@ -1,1 +1,110 @@
-<p>spectacle-page works!</p>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="spectacle-page.css">
+
+
+    <!-- Font moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+        <h2>Liste des spectacles</h2>
+
+        <form (submit)="addOrUpdateSpectacle()" [formGroup]="formSpectacle">
+            <div class="form-group">
+                <div>
+                    <div class="inline">
+                        <label for="date"><b>Date</b></label>
+                        <input type="date" class="form-control" id="date" formControlName="date"
+                            [class.is-invalid]="formDateCtrl.invalid" />
+                        <div *ngIf="formDateCtrl.hasError('required')" class="form-control">
+                            Date obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="heure"><b>Heure</b></label>
+                        <input type="time" class="form-control" id="heure" formControlName="heure"
+                            [class.is-invalid]="formHeureCtrl.invalid" />
+                        <div *ngIf="formHeureCtrl.hasError('required')" class="form-control">
+                            Heure obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="duree"><b>Durée</b></label>
+                        <input type="number" class="form-control" id="duree" formControlName="duree" placeholder="5" step="5" min="5"
+                            [class.is-invalid]="formDureeCtrl.invalid" />
+                        <div *ngIf="formDureeCtrl.hasError('required')" class="form-control">
+                            Durée obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="enclos"><b>Enclos</b></label>
+                        
+                        <select class="form-control" id="enclos" formControlName="enclos"
+                            [class.is-invalid]="formEnclosCtrl.invalid">
+                            <option value=""> -- Enclos --</option>
+                            <option *ngFor="let e of enclos | async" [ngValue]="e.numero">{{e.biome}}</option>
+                        </select>
+                        <div *ngIf="formEnclosCtrl.hasError('required')" class="form-control">
+                            Enclos obligatoire</div>
+                    </div>
+
+                </div>
+
+                <div>
+                    <input *ngIf="!editingSpectacle" [disabled]="formSpectacle.invalid" type="submit" class="btn btn-success"
+                        value="Ajouter" />
+                    <input *ngIf="editingSpectacle" [disabled]="formSpectacle.invalid" type="submit" class="btn btn-warning"
+                        value="Modifier" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    @if ((spectacles$ | async)?.length===0) {
+            <h3>Aucun spectacle trouvé</h3>
+    } @else {
+    <div class="tableau-wrapper">
+
+        <table class="tableau">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Durée</th>
+                    <th>Enclos</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let spectacle of spectacles$ | async">
+                    <td>{{ spectacle.id }}</td>
+                    <td>{{ spectacle.dateDebut }}</td>
+                    <td>{{ spectacle.heureDebut }}</td>
+                    <td>{{ spectacle.duree }}</td>
+                    <td>{{ spectacle.enclosBiome }}</td>
+                    <td>
+                        <button class="btn-danger" (click)="deleteSpectacle(spectacle)">Supprimer</button>
+                        <button class="btn-edit" (click)="editerSpectacle(spectacle)">Modifier</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    }
+
+    <div class="panther-container">
+        <img src="panthere_final.gif" class="panther" alt="Panthère">
+    </div>
+
+</body>
+
+</html>
