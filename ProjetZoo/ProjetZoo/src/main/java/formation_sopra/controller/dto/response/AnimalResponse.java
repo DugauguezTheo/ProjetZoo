@@ -11,6 +11,7 @@ public class AnimalResponse {
     private String prenom;
     private Espece espece;
     private Integer idEnclos;
+    private String biomeEnclos;
     private LocalDate dateNaissance;
 
     public Integer getId() {
@@ -45,6 +46,14 @@ public class AnimalResponse {
         this.idEnclos = idEnclos;
     }
 
+    public String getBiomeEnclos() {
+        return biomeEnclos;
+    }
+
+    public void setBiomeEnclos(String biomeEnclos) {
+        this.biomeEnclos = biomeEnclos;
+    }
+
     public LocalDate getDateNaissance() {
         return dateNaissance;
     }
@@ -60,6 +69,7 @@ public class AnimalResponse {
         animalResponse.setPrenom(animal.getPrenom());
         animalResponse.setEspece(animal.getEspece());
         animalResponse.setIdEnclos(animal.getEnclos().getNumero());
+        animalResponse.setBiomeEnclos(animal.getEnclos().getBiome());
         animalResponse.setDateNaissance(animal.getDateNaissance());
 
         return animalResponse;

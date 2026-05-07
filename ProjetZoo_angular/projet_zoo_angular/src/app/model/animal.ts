@@ -5,7 +5,8 @@ export interface Animal {
     id?: number;
     prenom: string;
     dateNaissance: Date;
-    enclos: Enclos;
+    idEnclos: number;
+    biomeEnclos: string;
     espece: Espece;
     // soin?: Soin[];
 }

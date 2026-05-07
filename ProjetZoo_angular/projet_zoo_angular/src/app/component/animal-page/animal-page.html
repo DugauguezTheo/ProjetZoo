@@ -98,7 +98,7 @@
                     <td>{{ animal.prenom }}</td>
                     <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
                     <td>{{ animal.espece }}</td>
-                    <td>{{ animal.enclos.numero }} - {{animal.enclos.biome}}</td>
+                    <td>{{ animal.idEnclos }} - {{animal.biomeEnclos}}</td>
                     <td>
                         <button class="btn btn-danger" (click)="deleteAnimal(animal)">Supprimer</button>
                         <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button>

@@ -67,8 +67,9 @@ export class AnimalPage implements OnInit {
     this.formAnimal = this.formBuilder.group({
       prenom: this.formPrenomCtrl,
       dateNaissance: this.formDateNaissanceCtrl,
-      enclos: this.formEnclosCtrl,
-      espece: this.formEspeceCtrl
+      idEnclos: this.formEnclosCtrl.value?.numero,
+      biomeEnclos: this.formEnclosCtrl.value?.biome,
+      espece: this.formEspeceCtrl.value
     });
   }
 
@@ -80,7 +81,8 @@ export class AnimalPage implements OnInit {
     const animal: Animal = {
       prenom: this.formPrenomCtrl.value,
       dateNaissance: this.formDateNaissanceCtrl.value,
-      enclos: this.formEnclosCtrl.value,
+      idEnclos: this.formEnclosCtrl.value?.numero,
+      biomeEnclos: this.formEnclosCtrl.value?.biome,
       espece: this.formEspeceCtrl.value,
       id: this.editingAnimal?.id
     };
@@ -104,7 +106,7 @@ export class AnimalPage implements OnInit {
     this.editingAnimal = animal;
     this.formPrenomCtrl.setValue(animal.prenom);
     this.formDateNaissanceCtrl.setValue(animal.dateNaissance);
-    this.formEnclosCtrl.setValue(animal.enclos);
+    this.formEnclosCtrl.setValue({ numero: animal.idEnclos, biome: animal.biomeEnclos });
     this.formEspeceCtrl.setValue(animal.espece);
     this.reload();
   }
