@@ -29,14 +29,13 @@
 
     h2 {
       font-family: 'Cinzel', serif;
-      margin-bottom: 5%;
-      letter-spacing: 5%;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
     }
 
     form {
       background: rgba(255,255,255,0.05);
       padding: 2%;
-      margin-top: -3%;
       border-radius: 15px;
       backdrop-filter: blur(10px);
     }
@@ -73,6 +72,14 @@
       background: #f1d46a;
     }
     
+    .panther {
+      position: fixed;
+      bottom: 0;
+      left: -200px;
+      width: 150px;
+      animation: run 12s linear infinite;
+    }
+
     @keyframes run {
   0% {
     left: -50px;
