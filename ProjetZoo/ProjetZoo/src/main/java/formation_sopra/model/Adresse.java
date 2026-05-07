@@ -6,16 +6,16 @@ import jakarta.persistence.Embeddable;
 @Embeddable 
 public class Adresse {
 	
-	@Column(name="Numero",length = 10)
+	@Column(name="Numero",length = 10, nullable=false)
 	private String numero;
 	
-	@Column(name="Voie",length = 30)
+	@Column(name="Voie",length = 50, nullable=false)
 	private String voie;
 	
-	@Column(name="Ville", length = 30)
+	@Column(name="Ville", length = 30, nullable=false)
 	private String ville;
 	
-	@Column(name="Code postal",length = 15)
+	@Column(name="Code postal",length = 15, nullable=false)
 	private String cp;
 	
 	public Adresse(String numero, String voie, String ville, String cp) {
