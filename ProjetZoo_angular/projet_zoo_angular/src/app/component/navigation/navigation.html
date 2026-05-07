@@ -1,0 +1,49 @@
+<nav class="navbar">
+
+  <ul class="nav-list">
+
+    <!-- Toujours visibles -->
+    <li><a routerLink="/accueil">Accueil</a></li>
+    <li><a routerLink="/spectacles">Spectacles</a></li>
+    <li><a routerLink="/animaux">Animaux</a></li>
+    <li><a routerLink="/enclos">Enclos</a></li>
+    <li><a routerLink="/boutique">Boutique</a></li>
+
+    <!-- Partie droite -->
+    <div class="right-section">
+
+      <!-- Non connecté -->
+      <ng-container *ngIf="!authService.isLogged()">
+
+        <li>
+          <a routerLink="/connexion">Connexion</a>
+        </li>
+
+        <li>
+          <a routerLink="/inscription">Inscription</a>
+        </li>
+
+      </ng-container>
+
+      <!-- Connecté -->
+      <ng-container *ngIf="authService.isLogged()">
+
+        <li>
+          <a routerLink="/mes-visites">Mes visites</a>
+        </li>
+
+        <li *ngIf="authService.isAdmin()">
+          <a routerLink="/personnel">Personnel</a>
+        </li>
+
+        <li>
+          <a href="#" (click)="logout()">Déconnexion</a>
+        </li>
+
+      </ng-container>
+
+    </div>
+
+  </ul>
+
+</nav>

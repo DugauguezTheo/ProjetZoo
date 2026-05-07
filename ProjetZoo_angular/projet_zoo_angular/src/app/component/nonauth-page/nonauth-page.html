@@ -25,7 +25,7 @@
 
 .logo {
   justify-self: start;
-  max-width: 140px;
+  max-width: 200px;
 }
 
 .title {
@@ -62,6 +62,16 @@
 
     .menu a:hover {
       background: #f1d46a;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #e6d3a3;
+  text-shadow: 
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
     }
 
     .content {
@@ -123,18 +133,15 @@
 <body>
 
 <header class="header">
+  <div class="spacer"></div>
+  
   <img src="/Arche_sans_fond.png" alt="Logo" class="logo">
 
-  <h1 class="title">L'Arche des Joyaux Cachés</h1>
+  
 
   <div class="spacer"></div>
 </header>
 
-<nav class="menu">
-  <a [routerLink]="[ '/accueil' ]">Accueil</a>
-  <a [routerLink]="[ '/connexion' ]" routerLinkActive="active">Connexion</a>
-  <a [routerLink]="[ '/inscription' ]" routerLinkActive="active">Inscription</a>
-</nav>
 
 <section class="content">
   <h2>Bienvenue</h2>
