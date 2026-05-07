@@ -18,7 +18,7 @@ public abstract class Compte {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 
-	@Column(length = 25, nullable = false,unique = true)
+	@Column(length = 50, nullable = false,unique = true)
 	protected String login;
 
 	@Column(length = 100, nullable = false)
