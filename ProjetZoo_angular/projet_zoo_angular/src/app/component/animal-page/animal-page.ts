@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AnimalService } from '../../service/animal-service';
-import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { Animal } from '../../model/animal';
 import { EspeceService } from '../../service/espece-service';
 import { Espece } from '../../model/espece';
@@ -43,9 +43,13 @@ export class AnimalPage implements OnInit {
   protected formEspeceCtrl! : FormControl;
   protected formSoinCtrl! : FormControl;
 
+  protected filteredEspeces$!: Observable<string[]>;
+  protected searchEspece: string ='';
+
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Animaux');
     this.especes$ = this.especeService.findAllEspeces();
+    this.filteredEspeces$ = this.especes$;
 
     this.animals$ = this.refresh$.pipe(
       startWith(0),
@@ -114,4 +118,12 @@ export class AnimalPage implements OnInit {
       this.reload();
     });
   }
+
+  filterEspeces(search: string): void {
+  this.filteredEspeces$ = this.especes$.pipe(
+    map(especes => especes.filter(e => 
+      e.toLowerCase().includes(search.toLowerCase())
+    ))
+  );
+}
 }

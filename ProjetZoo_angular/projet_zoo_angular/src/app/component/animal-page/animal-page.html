@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="animal-page.css">
-    <title>Animaux</title>
+
+
+    <!-- Font moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -15,48 +18,71 @@
         <h2>Liste des animaux</h2>
 
         <form (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
-            <div class="form-group"></div>
-            <div>
-                <label for="prenom">Prénom</label>
-                <input type="text" class="form-control" id="prenom" formControlName="prenom"
-                    [class.is-invalid]="formPrenomCtrl.invalid" />
-                <label for="dateNaissance">Date de naissance</label>
-                <input type="date" class="form-control" id="dateNaissance" formControlName="dateNaissance"
-                    [class.is-invalid]="formDateNaissanceCtrl.invalid" />
-            </div>
-
-            <div>
-                <label for="espece">Espèce</label>
-                <select [formControl]="formEspeceCtrl">
-                    <option value="">-- Choisir une espèce --</option>
-                    <option *ngFor="let espece of especes$ | async" [value]="espece">
-                        {{ espece }}
-                    </option>
-                </select>
-                <label for="enclos">Enclos</label>
+            <div class="form-group">
                 <div>
-                    <select name="enclos" id="enclos" formControlName="enclos"
-                        [class.is-invalid]="formEnclosCtrl.invalid">
-                        <option [ngValue]="null">-- Selectionner un enclos --</option>
-                        <option *ngFor="let e of enclos | async" [ngValue]="e">{{ e.biome }}</option>
-                    </select>
+                    <div class="inline">
+                        <label for="prenom">Prénom</label>
+                        <input type="text" class="form-control" id="prenom" formControlName="prenom"
+                            [class.is-invalid]="formPrenomCtrl.invalid" />
+                        <div *ngIf="formPrenomCtrl.hasError('required')" class="form-control">Pour ajouter un animal, le
+                            prénom est
+                            obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="dateNaissance">Date de naissance</label>
+                        <input type="date" class="form-control" id="dateNaissance" formControlName="dateNaissance"
+                            [class.is-invalid]="formDateNaissanceCtrl.invalid" />
+                        <div *ngIf="formDateNaissanceCtrl.hasError('required')" class="form-control">Pour ajouter un
+                            animal, la date de
+                            naissance est
+                            obligatoire</div>
+                    </div>
                 </div>
-            </div>
 
-            <div>
-                <input *ngIf="!editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-success"
-                    value="Ajouter" />
-                <input *ngIf="editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-warning"
-                    value="Modifier" />
+                <div>
+                    <div class="inline">
+                        <label for="espece">Espèce</label>
+                        <select id="espece" formControlName="espece">
+                            <option [ngValue]="null">Choisir une espèce</option>
+                            <option *ngFor="let espece of especes$ | async" [value]="espece">
+                                {{ espece }}
+                            </option>
+                        </select>
+                        <div *ngIf="formEspeceCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
+                            l'espèce est
+                            obligatoire</div>
+
+                    </div>
+                    <div class="inline">
+                        <label for="enclos">Enclos</label>
+                        <select id="enclos" formControlName="enclos" [class.is-invalid]="formEnclosCtrl.invalid">
+                            <option [ngValue]="null">Choisir un enclos</option>
+                            <option *ngFor="let e of enclos | async" [ngValue]="e">{{ e.biome }}</option>
+                        </select>
+                        <div *ngIf="formEnclosCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
+                            l'enclos est
+                            obligatoire</div>
+                    </div>
+                </div>
+
+                <div>
+                    <input *ngIf="!editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-success"
+                        value="Ajouter" />
+                    <input *ngIf="editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-warning"
+                        value="Modifier" />
+                </div>
             </div>
 
         </form>
 
     </div>
 
-    <hr />
-
-    <table>
+    @if ((animals$ | async)?.length===0) {
+    <tr>
+        <td colspan="5"><h3>Aucun animal trouvé</h3></td>
+    </tr>
+    } @else {
+    <table class="tableau">
         <thead>
             <tr>
                 <th>Id</th>
@@ -81,9 +107,11 @@
             </tr>
         </tbody>
     </table>
+    }
 
-    <img src="panthere_final.gif" class="panther" alt="Panthère">
-
+    <div class="panther-container">
+        <img src="panthere_final.gif" class="panther" alt="Panthère">
+    </div>
 
 </body>
 

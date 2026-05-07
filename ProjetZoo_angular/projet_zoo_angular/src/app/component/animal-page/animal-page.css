@@ -1,3 +1,15 @@
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .logo {
+    width: 120px;
+  }
+}
+
+/* Corps du texte */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -28,9 +40,23 @@ body {
 }
 
 h2 {
-  font-family: 'Cinzel', serif;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
+ font-family: 'Cinzel', serif;
+  color: #e6d3a3;
+  text-shadow: 
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
+ text-align: center;
+ font-size: 1.5rem;
+}
+
+h3 {
+ font-family: 'Cinzel', serif;
+  color: #e6d3a3;
+  text-shadow: 
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
+ text-align: center;
+ font-size: 1rem;
 }
 
 form {
@@ -40,9 +66,20 @@ form {
   backdrop-filter: blur(10px);
 }
 
-.form-group {
+.form-control {
+  font-size: 10px;
+}
+
+.form-group > div {
+  display: flex;
+  gap: 20px;
   margin-bottom: 15px;
-  text-align: left;
+}
+
+.inline {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
 }
 
 label {
@@ -71,26 +108,44 @@ input[type='submit']:hover {
   background: #f1d46a;
 }
 
-@keyframes run {
+/* Tableau */
+
+.tableau {
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+}
+
+.tableau tr:hover {
+ background-color: rgba(0,0,0,0.1);
+  cursor: pointer; 
+}
+
+
+/* Footer */
+.panther-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.panther {
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  left: -150px;
+  transform: translateX(-150px);
+
+  animation: run-across 15s linear infinite;
+}
+
+@keyframes run-across {
   0% {
     left: -50px;
   }
   100% {
     left: 200vw;
-  }
-}
-
-/* 📱 Responsive */
-@media (max-width: 480px) {
-  .container {
-    padding: 10px;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  .logo {
-    width: 120px;
   }
 }
