@@ -1,0 +1,26 @@
+<div class="logviewer-card">
+
+  <h2 class="logviewer-title">
+    Console Admin
+  </h2>
+
+
+  <div class="logviewer-container">
+
+    <div
+      class="log-line log-info"
+      *ngFor="let log of (logs$ | async)"
+    >
+      {{log}}
+    </div>
+
+    <div
+      class="logviewer-empty"
+      *ngIf="(logs$ | async)?.length === 0"
+    >
+      Aucun log disponible
+    </div>
+
+  </div>
+
+</div>
