@@ -1,0 +1,47 @@
+/* navbar.component.css */
+
+.navbar {
+  background: linear-gradient(135deg, #39281c, #A47251);
+  padding: 1rem;
+}
+
+.logo {
+  justify-self: start;
+  max-width: 100px;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li {
+  margin-right: 1.5rem;
+}
+
+.nav-list a {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  color: #e6d3a3;
+  text-shadow: 
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
+ text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-list a:hover {
+  transform:scale(1.1);
+    transition:0.2s;
+}
+
+/* Pousse les éléments suivants complètement à droite */
+.right-section {
+  margin-left: auto;
+  display: flex;
+  gap: 1.5rem;
+}
