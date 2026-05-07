@@ -1,4 +1,4 @@
-package formation_sopra.controller.dto;
+package formation_sopra.controller;
 
 import formation_sopra.model.Espece;
 import org.springframework.web.bind.annotation.GetMapping;

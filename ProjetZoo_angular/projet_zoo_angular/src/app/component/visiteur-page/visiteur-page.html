@@ -1,1 +1,310 @@
-<p>visiteur-page works!</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome {{ "login" }} - Arche</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #1c2b22;
+      color: white;
+      text-align: center;
+    }
+
+    .header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  justify-self: start;
+  max-width: 140px;
+}
+
+.title {
+  justify-self: center;
+  font-family: 'Cinzel', serif;
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* sert à équilibrer la grille */
+.spacer {
+  justify-self: end;
+}
+
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      background: #d4af37;
+      color: black;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .menu a:hover {
+      background: #f1d46a;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+    }
+
+    .animals {
+      margin-top: 40px;
+      position: relative;
+      height: 120px;
+      overflow: hidden;
+    }
+
+    .animals img {
+      position: absolute;
+      bottom: 0;
+      width: 120px;
+      animation: move 12s linear infinite;
+    }
+
+    .animals img:nth-child(2) {
+      animation-delay: 6s;
+    }
+
+    @keyframes move {
+      from { left: -150px; }
+      to { left: 100%; }
+    }
+
+    .main-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 0 30px;
+  margin-top: 20px;
+}
+
+.sidebar {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 20px;
+  text-align: left;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+}
+
+.profile-info h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.profile-info span {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  margin-left: auto;
+
+  background: #d4af37;
+  border: none;
+  border-radius: 8px;
+
+  padding: 10px 14px;
+  cursor: pointer;
+
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #f1d46a;
+}
+
+.profile-details p {
+  margin: 12px 0;
+  opacity: 0.9;
+}
+
+.news-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.news-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-card li {
+  margin-bottom: 14px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+    /* 📱 Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo {
+        max-width: 180px;
+      }
+
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 1000px) {
+
+  .main-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 900px;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <img src="/Arche_sans_fond.png" alt="Logo" class="logo">
+
+  <h1 class="title">L'Arche des Joyaux Cachés</h1>
+
+  <div class="spacer"></div>
+</header>
+
+<nav class="menu">
+  <a [routerLink]="[ '/accueil' ]">Accueil</a>
+  <a [routerLink]="[ '/#' ]">Prochaines Visites</a>
+  <a [routerLink]="[ '/#' ]">Spectacles</a>
+  <a [routerLink]="[ '/animal' ]">Animaux</a>
+  <a [routerLink]="[ '/enclos' ]">Enclos</a>
+  <a [routerLink]="[ '/#' ]">Boutique</a>
+</nav>
+
+<div class="main-layout">
+
+  <section class="content">
+    <h2>Bienvenue</h2>
+    <p>
+      Découvrez un univers fascinant d’animaux rares et de trésors cachés.
+      Explorez, apprenez et vivez une expérience unique.
+    </p>
+  </section>
+
+  <aside class="sidebar">
+
+    <div class="container profile-card">
+      <div class="profile-header">
+        <div class="avatar">👤</div>
+
+        <div class="profile-info">
+          <h3>{{ "login" }}</h3>
+          <span>Visiteur</span>
+        </div>
+
+        <button class="logout-btn">
+          Déconnexion
+        </button>
+      </div>
+
+      <div class="profile-details">
+        <p>🎟️ Nombre de visites : 12</p>
+        <p>📅 Dernière visite : 05/05/2026</p>
+        <p>🛍️ Dernier achat : Peluche Panda</p>
+      </div>
+    </div>
+
+    <div class="container news-card">
+      <h3>Actualités</h3>
+
+      <ul>
+        <li>🦁 Naissance de deux lionceaux</li>
+        <li>🌿 Nouveau parcours tropical ouvert</li>
+        <li>🎭 Spectacle des oiseaux à 15h</li>
+        <li>🛒 Promotion boutique ce week-end</li>
+      </ul>
+    </div>
+
+  </aside>
+
+</div>
+
+<div class="animals">
+  <img src="/panthere_finale.gif" alt="Panthère">
+  <img src="/poissons-qui-nagent.gif" alt="Poissons">
+</div>
+
+<footer>
+  © 2026 Arche des Joyaux Cachés
+</footer>
+
+</body>
+</html>

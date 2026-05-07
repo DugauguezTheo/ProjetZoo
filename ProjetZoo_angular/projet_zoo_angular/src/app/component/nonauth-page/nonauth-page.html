@@ -131,9 +131,9 @@
 </header>
 
 <nav class="menu">
-  <a href="#">Accueil</a>
-  <a href="#">Connexion</a>
-  <a href="#">Inscription</a>
+  <a [routerLink]="[ '/accueil' ]">Accueil</a>
+  <a [routerLink]="[ '/connexion' ]" routerLinkActive="active">Connexion</a>
+  <a [routerLink]="[ '/inscription' ]" routerLinkActive="active">Inscription</a>
 </nav>
 
 <section class="content">
@@ -145,7 +145,7 @@
 </section>
 
 <div class="animals">
-  <img src="/panthere-qui-court.gif" alt="Panthère">
+  <img src="/panthere_final.gif" alt="Panthère">
   <img src="/poissons-qui-nagent.gif" alt="Poissons">
 </div>
 

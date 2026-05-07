@@ -1,25 +1,90 @@
-<h1>Liste des animaux</h1>
+<html>
 
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Prenom</th>
-            <th>Espece</th>
-            <th>Enclos</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="animal-page.css">
+    <title>Animaux</title>
+</head>
 
-    <tbody>
-        <tr *ngFor="let animal of animals$ | async">
-            <td>{{ animal.id }}</td>
-            <td>{{ animal.prenom }}</td>
-            <td>{{ animal.espece }}</td>
-            <td>{{ animal.enclos }}</td>
-            <td>
-                <button (click)="deleteAnimal(animal)">Supprimer</button>
-                <button (click)="editerAnimal(animal)">Modifier</button>
-            </td>
-        </tr>
-</table>
+<body>
+
+    <div class="container">
+
+        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+        <h2>Liste des animaux</h2>
+
+        <form (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
+            <div class="form-group"></div>
+            <div>
+                <label for="prenom">Prénom</label>
+                <input type="text" class="form-control" id="prenom" formControlName="prenom"
+                    [class.is-invalid]="formPrenomCtrl.invalid" />
+                <label for="dateNaissance">Date de naissance</label>
+                <input type="date" class="form-control" id="dateNaissance" formControlName="dateNaissance"
+                    [class.is-invalid]="formDateNaissanceCtrl.invalid" />
+            </div>
+
+            <div>
+                <label for="espece">Espèce</label>
+                <select [formControl]="formEspeceCtrl">
+                    <option value="">-- Choisir une espèce --</option>
+                    <option *ngFor="let espece of especes$ | async" [value]="espece">
+                        {{ espece }}
+                    </option>
+                </select>
+                <label for="enclos">Enclos</label>
+                <div>
+                    <select name="enclos" id="enclos" formControlName="enclos"
+                        [class.is-invalid]="formEnclosCtrl.invalid">
+                        <option [ngValue]="null">-- Selectionner un enclos --</option>
+                        <option *ngFor="let e of enclos | async" [ngValue]="e">{{ e.biome }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <input *ngIf="!editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-success"
+                    value="Ajouter" />
+                <input *ngIf="editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-warning"
+                    value="Modifier" />
+            </div>
+
+        </form>
+
+    </div>
+
+    <hr />
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prenom</th>
+                <th>Espece</th>
+                <th>Enclos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let animal of animals$ | async">
+                <td>{{ animal.id }}</td>
+                <td>{{ animal.prenom }}</td>
+                <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
+                <td>{{ animal.espece }}</td>
+                <td>{{ animal.enclos.biome }}</td>
+                <td>
+                    <button (click)="deleteAnimal(animal)">Supprimer</button>
+                    <button (click)="editerAnimal(animal)">Modifier</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <img src="panthere_final.gif" class="panther" alt="Panthère">
+
+
+</body>
+
+</html>

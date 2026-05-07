@@ -31,7 +31,7 @@ export class AnimalPage implements OnInit {
   protected editingAnimal ?: Animal | null;
   protected animals$!: Observable<Animal[]>;
   protected enclos!: Observable<Enclos[]>;
-  protected especes!: Observable<Espece[]>;
+  protected especes$!: Observable<string[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
   private formBuilder: FormBuilder = inject(FormBuilder);
@@ -45,20 +45,21 @@ export class AnimalPage implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Animaux');
-    
+    this.especes$ = this.especeService.findAllEspeces();
+
     this.animals$ = this.refresh$.pipe(
       startWith(0),
       switchMap(() => this.animalService.findAllAnimals())
     );
 
     this.enclos = this.enclosService.findAllEncloss();
-    this.especes = this.especeService.findAllEspeces();
+    this.especes$ = this.especeService.findAllEspeces();
 
     this.formPrenomCtrl = new FormControl("", Validators.required);
     this.formDateNaissanceCtrl = new FormControl("", Validators.required);
     this.formEnclosCtrl = new FormControl(null, Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
-  
+
     this.formAnimal = this.formBuilder.group({
       prenom: this.formPrenomCtrl,
       dateNaissance: this.formDateNaissanceCtrl,

@@ -25,7 +25,7 @@ export class EnclosPage implements OnInit {
   
   protected editingEnclos ?: Enclos | null;
   protected enclos$!: Observable<Enclos[]>;
-  protected especes!: Observable<Espece[]>;
+  protected especes$!: Observable<string[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
   private formBuilder: FormBuilder = inject(FormBuilder);
@@ -38,13 +38,14 @@ export class EnclosPage implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Enclos');
+    this.especes$ = this.especeService.findAllEspeces();
     
     this.enclos$ = this.refresh$.pipe(
       startWith(0),
       switchMap(() => this.enclosService.findAllEncloss())
     );
 
-    this.especes = this.especeService.findAllEspeces();
+    this.especes$ = this.especeService.findAllEspeces();
 
     this.formBiomeCtrl = new FormControl("", Validators.required);
     this.formCapaciteCtrl = new FormControl("", Validators.required);
