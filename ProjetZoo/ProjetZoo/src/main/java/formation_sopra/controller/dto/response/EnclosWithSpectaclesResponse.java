@@ -8,6 +8,7 @@ import formation_sopra.model.Espece;
 public class EnclosWithSpectaclesResponse {
 
     private Integer numero;
+    private String biome;
     private int capacite;
 //    private Espece espece;
     private List<Integer> spectaclesIds;
@@ -18,6 +19,14 @@ public class EnclosWithSpectaclesResponse {
 
     public void setNumero(Integer numero) {
         this.numero = numero;
+    }
+
+    public String getBiome() {
+        return biome;
+    }
+
+    public void setBiome(String biome) {
+        this.biome = biome;
     }
 
     public int getCapacite() {
@@ -48,6 +57,7 @@ public class EnclosWithSpectaclesResponse {
         EnclosWithSpectaclesResponse enclosWithSpectaclesResponse = new EnclosWithSpectaclesResponse();
 
         enclosWithSpectaclesResponse.setNumero(enclos.getNumero());
+        enclosWithSpectaclesResponse.setBiome(enclos.getBiome());
         enclosWithSpectaclesResponse.setCapacite(enclos.getCapacite());
         enclosWithSpectaclesResponse.setSpectaclesIds(enclos.getSpectacles().stream()
             .map(spectacle -> spectacle.getId())

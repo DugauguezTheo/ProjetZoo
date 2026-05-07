@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Enclos } from '../model/enclos';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,9 @@ export class EnclosService {
 
   public deleteEnclos(numero: number | undefined) {
     return this.http.delete(`/enclos/${numero}`);
+  }
+
+  public getAllEspecesInEnclos(numero: number): Observable<Enclos> {
+    return this.http.get<Enclos>(`/enclos/${numero}/especes`);
   }
 }

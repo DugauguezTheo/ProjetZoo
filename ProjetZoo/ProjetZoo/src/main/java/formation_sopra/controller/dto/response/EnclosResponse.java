@@ -6,6 +6,7 @@ import formation_sopra.model.Espece;
 public class EnclosResponse {
 
     private Integer numero;
+    private String biome;
     private int capacite;
 //    private Espece espece;
 
@@ -15,6 +16,14 @@ public class EnclosResponse {
 
     public void setNumero(Integer numero) {
         this.numero = numero;
+    }
+
+    public String getBiome() {
+        return biome;
+    }
+
+    public void setBiome(String biome) {
+        this.biome = biome;
     }
 
     public int getCapacite() {
@@ -37,6 +46,7 @@ public class EnclosResponse {
         EnclosResponse enclosResponse = new EnclosResponse();
 
         enclosResponse.setNumero(enclos.getNumero());
+        enclosResponse.setBiome(enclos.getBiome());
         enclosResponse.setCapacite(enclos.getCapacite());
 //        enclosResponse.setEspece(enclos.getEspece());
 

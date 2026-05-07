@@ -4,10 +4,9 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { EnclosService } from '../../service/enclos-service';
-import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { EspeceService } from '../../service/espece-service';
 import { Enclos } from '../../model/enclos';
-import { Espece } from '../../model/espece';
 
 @Component({
   selector: 'app-enclos-page',
@@ -22,24 +21,24 @@ export class EnclosPage implements OnInit {
 
   private enclosService: EnclosService = inject(EnclosService);
   protected especeService: EspeceService = inject(EspeceService);
-  
-  protected editingEnclos ?: Enclos | null;
+
+  protected editingEnclos?: Enclos | null;
   protected enclos$!: Observable<Enclos[]>;
   protected especes$!: Observable<string[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
   private formBuilder: FormBuilder = inject(FormBuilder);
 
-  protected formEnclos! : FormGroup;
-  protected formBiomeCtrl! : FormControl;
-  protected formCapaciteCtrl! : FormControl;
-  protected formEspeceCtrl! : FormControl;
-  protected formAnimalCtrl! : FormControl;
+  protected formEnclos!: FormGroup;
+  protected formBiomeCtrl!: FormControl;
+  protected formCapaciteCtrl!: FormControl;
+  // protected formEspeceCtrl!: FormControl;
+  protected formAnimalCtrl!: FormControl;
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Enclos');
     this.especes$ = this.especeService.findAllEspeces();
-    
+
     this.enclos$ = this.refresh$.pipe(
       startWith(0),
       switchMap(() => this.enclosService.findAllEncloss())
@@ -49,12 +48,12 @@ export class EnclosPage implements OnInit {
 
     this.formBiomeCtrl = new FormControl("", Validators.required);
     this.formCapaciteCtrl = new FormControl("", Validators.required);
-    this.formEspeceCtrl = new FormControl(null, Validators.required);
+    // this.formEspeceCtrl = new FormControl(null, Validators.required);
 
     this.formEnclos = this.formBuilder.group({
       biome: this.formBiomeCtrl,
       capacite: this.formCapaciteCtrl,
-      espece: this.formEspeceCtrl
+      // especes: this.formEspeceCtrl
     });
   }
 
@@ -66,11 +65,10 @@ export class EnclosPage implements OnInit {
     const enclos: Enclos = {
       biome: this.formBiomeCtrl.value,
       capacite: this.formCapaciteCtrl.value,
-      espece: this.formEspeceCtrl.value,
       numero: this.editingEnclos?.numero
     };
 
-    if(this.editingEnclos) {
+    if (this.editingEnclos) {
       this.enclosService.updateEnclos(enclos).subscribe(() => {
         this.editingEnclos = null;
         this.formEnclos.reset();
@@ -89,7 +87,19 @@ export class EnclosPage implements OnInit {
     this.editingEnclos = enclos;
     this.formBiomeCtrl.setValue(enclos.biome);
     this.formCapaciteCtrl.setValue(enclos.capacite);
-    this.formEspeceCtrl.setValue(enclos.espece);
+    // this.formEspeceCtrl.setValue(enclos.especes);
     this.reload();
+  }
+
+  public deleteEnclos(enclos: Enclos) {
+    this.enclosService.deleteEnclos(enclos.numero).subscribe(() => {
+      this.reload();
+    });
+  }
+
+  public chargerListeEspeces(numero: number): void {
+    this.especes$ = this.enclosService.getAllEspecesInEnclos(numero).pipe(
+      map(enclos => (enclos.especes ?? []) as string[])
+    );
   }
 }

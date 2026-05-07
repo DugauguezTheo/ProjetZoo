@@ -1,3 +1,1 @@
-export interface Espece {
-    value: string;
-}
+export type Espece = string;

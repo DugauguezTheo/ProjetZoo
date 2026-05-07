@@ -1,1 +1,93 @@
 <p>enclos-page works!</p>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="enclos-page.css">
+
+
+    <!-- Font moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+        <h2>Liste des enclos</h2>
+
+        <form (submit)="addOrUpdateEnclos()" [formGroup]="formEnclos">
+            <div class="form-group">
+                <div>
+                    <div class="inline">
+                        <label for="biome"><b>Biome</b></label>
+                        <input type="text" class="form-control" id="biome" formControlName="biome"
+                            [class.is-invalid]="formBiomeCtrl.invalid" />
+                        <div *ngIf="formBiomeCtrl.hasError('required')" class="form-control">Pour ajouter un enclos, le
+                            biome est obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="capacite"><b>Capacité</b></label>
+                        <input type="number" class="form-control" id="capacite" formControlName="capacite"
+                            [class.is-invalid]="formCapaciteCtrl.invalid" />
+                        <div *ngIf="formCapaciteCtrl.hasError('required')" class="form-control">Pour ajouter un enclos,
+                            la capacité est obligatoire</div>
+                    </div>
+                </div>
+
+                <div>
+                    <input *ngIf="!editingEnclos" [disabled]="formEnclos.invalid" type="submit" class="btn btn-success"
+                        value="Ajouter" />
+                    <input *ngIf="editingEnclos" [disabled]="formEnclos.invalid" type="submit" class="btn btn-warning"
+                        value="Modifier" />
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    @if ((enclos$ | async)?.length===0) {
+            <h3>Aucun enclos trouvé</h3>
+    } @else {
+    <table class="tableau">
+        <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>Biome</th>
+                <th>Capacité</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let enclos of enclos$ | async">
+                <td>{{ enclos.numero }}</td>
+                <td>{{ enclos.biome }}</td>
+                <td>{{ enclos.capacite }}</td>
+                <td>@if ((enclos.especes)?.length===0) {
+                    <p>Enclos vide pour le moment</p>
+                    } @else {
+                    <ul>
+                        <li *ngFor="let espece of enclos.especes">{{ espece }}</li>
+                    </ul>
+                }
+                </td>
+                <td>
+                    <button (click)="deleteEnclos(enclos)">Supprimer</button>
+                    <button (click)="editerEnclos(enclos)">Modifier</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    }
+
+    <div class="panther-container">
+        <img src="panthere_final.gif" class="panther" alt="Panthère">
+    </div>
+
+</body>
+
+</html>

@@ -1,3 +1,19 @@
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 120px;
+  }
+}
+
+/* Corps du texte */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,6 +49,12 @@ h2 {
   letter-spacing: 2px;
 }
 
+h3 {
+    font-family: 'Cinzel', serif;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
 form {
   background: rgba(255, 255, 255, 0.05);
   padding: 25px;
@@ -43,6 +65,11 @@ form {
 .form-group {
   margin-bottom: 15px;
   text-align: left;
+}
+
+.form-control {
+  font-size: 10px;
+  color: #808080;
 }
 
 label {
@@ -71,26 +98,30 @@ input[type='submit']:hover {
   background: #f1d46a;
 }
 
-@keyframes run {
+/* Footer */
+.panther-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.panther {
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+  left: -150px;
+  transform: translateX(-150px);
+
+  animation: run-across 15s linear infinite;
+}
+
+@keyframes run-across {
   0% {
     left: -50px;
   }
   100% {
     left: 200vw;
-  }
-}
-
-/* 📱 Responsive */
-@media (max-width: 480px) {
-  .container {
-    padding: 10px;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  .logo {
-    width: 120px;
   }
 }
