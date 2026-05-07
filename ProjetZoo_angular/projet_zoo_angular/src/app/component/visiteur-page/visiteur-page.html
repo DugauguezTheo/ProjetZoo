@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome {{ "login" }} - Arche</title>
+  <title>Welcome {{ "login" }} - AJC-Zoo</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
 
@@ -66,7 +66,6 @@
 
     .content {
       max-width: 900px;
-      margin: auto;
       padding: 20px;
       background: rgba(255,255,255,0.05);
       border-radius: 12px;
@@ -95,20 +94,32 @@
       to { left: 100%; }
     }
 
-    .main-layout {
+
+.page-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  align-items: start;
+
+  width: 100%;
+  margin-top: 30px;
+}
+
+.main-column {
+  grid-column: 2/3;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 0 30px;
-  margin-top: 20px;
 }
 
 .sidebar {
+  grid-column-start: 3;
+  justify-self: center;
   width: 320px;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  margin-right: 40px;
 }
 
 .container {
@@ -249,53 +260,56 @@
   <a [routerLink]="[ '/#' ]">Boutique</a>
 </nav>
 
-<div class="main-layout">
+<div class="page-layout">
+  <div class="main-column">
 
-  <section class="content">
-    <h2>Bienvenue</h2>
-    <p>
-      Découvrez un univers fascinant d’animaux rares et de trésors cachés.
-      Explorez, apprenez et vivez une expérience unique.
-    </p>
-  </section>
+    <section class="content">
+      <h2>Bienvenue</h2>
+      <p>
+        Découvrez un univers fascinant d’animaux rares et de trésors cachés.
+        Explorez, apprenez et vivez une expérience unique.
+      </p>
+    </section>
+  </div>
 
-  <aside class="sidebar">
+    <aside class="sidebar">
 
-    <div class="container profile-card">
-      <div class="profile-header">
-        <div class="avatar">👤</div>
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
 
-        <div class="profile-info">
-          <h3>{{ "login" }}</h3>
-          <span>Visiteur</span>
+          <div class="profile-info">
+            <h3>{{ "login" }}</h3>
+            <span>Visiteur</span>
+          </div>
+
+          <button class="logout-btn">
+            Déconnexion
+          </button>
         </div>
 
-        <button class="logout-btn">
-          Déconnexion
-        </button>
+        <div class="profile-details">
+          <p>🎟️ Nombre de visites : 12</p>
+          <p>📅 Dernière visite : 05/05/2026</p>
+          <p>🛍️ Dernier achat : Peluche Panda</p>
+        </div>
       </div>
 
-      <div class="profile-details">
-        <p>🎟️ Nombre de visites : 12</p>
-        <p>📅 Dernière visite : 05/05/2026</p>
-        <p>🛍️ Dernier achat : Peluche Panda</p>
+      <div class="container news-card">
+        <h3>Actualités</h3>
+
+        <ul>
+          <li>🦁 Naissance de deux lionceaux</li>
+          <li>🌿 Nouveau parcours tropical ouvert</li>
+          <li>🎭 Spectacle des oiseaux à 15h</li>
+          <li>🛒 Promotion boutique ce week-end</li>
+        </ul>
       </div>
-    </div>
 
-    <div class="container news-card">
-      <h3>Actualités</h3>
-
-      <ul>
-        <li>🦁 Naissance de deux lionceaux</li>
-        <li>🌿 Nouveau parcours tropical ouvert</li>
-        <li>🎭 Spectacle des oiseaux à 15h</li>
-        <li>🛒 Promotion boutique ce week-end</li>
-      </ul>
-    </div>
-
-  </aside>
+    </aside>
 
 </div>
+
 
 <div class="animals">
   <img src="/panthere_finale.gif" alt="Panthère">
