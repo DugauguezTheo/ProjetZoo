@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AnimalPage } from './component/animal-page/animal-page';
 import { Connexion } from './component/connexion/connexion';
 import { EnclosPage } from './component/enclos-page/enclos-page';
-import { AccueilPage } from './component/accueil-page/accueil-page';
 import { AchatPage } from './component/achat-page/achat-page';
 import { AdminPage } from './component/admin-page/admin-page';
 import { ArticlePage } from './component/article-page/article-page';
@@ -18,7 +17,7 @@ import { CreateComptePage } from './component/create-compte-page/create-compte-p
 
 export const routes: Routes = [
 
-    { path: 'accueil', component: AccueilPage, canActivate: [authGuard] },
+    
     // { path: 'achat', component: AchatPage, canActivate: [authGuard] },
     { path: 'admin', component: AdminPage, canActivate: [authGuard] },
     { path: 'animal', component: AnimalPage, canActivate: [authGuard] },

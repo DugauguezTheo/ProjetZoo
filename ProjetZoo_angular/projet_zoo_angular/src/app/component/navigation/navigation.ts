@@ -17,6 +17,8 @@ import { RouterModule } from '@angular/router';
 })
 export class Navigation {
 
+  menuOpen = false;
+
   constructor(public authService: AuthService) {}
 
   logout(): void {

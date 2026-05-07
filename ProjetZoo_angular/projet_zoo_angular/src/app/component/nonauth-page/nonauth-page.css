@@ -1,0 +1,178 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  font-family: 'Inter', sans-serif;
+  /* Background GIF */
+      background-image: url("/jungle_3.gif");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+  color: white;
+  text-align: center;
+}
+
+/* ===== HEADER ===== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 20px;
+}
+
+.logo {
+  width: clamp(120px, 20vw, 200px);
+  height: auto;
+
+  display: block;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+
+  letter-spacing: 2px;
+}
+
+/* inutile maintenant */
+.spacer {
+  display: none;
+}
+
+/* ===== MENU ===== */
+
+.menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 15px;
+
+  padding: 0 15px;
+  margin-bottom: 40px;
+}
+
+.menu a {
+  text-decoration: none;
+
+  background: #d4af37;
+  color: black;
+
+  padding: 12px 20px;
+  border-radius: 8px;
+
+  font-weight: bold;
+
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.menu a:hover {
+  background: #f1d46a;
+  transform: translateY(-2px);
+}
+
+/* ===== TITRES ===== */
+
+h1 {
+  font-family: 'Cinzel', serif;
+
+  font-size: clamp(1.8rem, 5vw, 3rem);
+
+  margin-bottom: 10px;
+
+  color: #e6d3a3;
+
+  text-shadow:
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* ===== CONTENU ===== */
+
+.content {
+  width: min(90%, 900px);
+
+  margin: auto;
+  padding: clamp(15px, 3vw, 30px);
+
+  background: rgba(255,255,255,0.2);
+
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* ===== ANIMAUX ===== */
+
+.animals {
+  margin-top: 40px;
+
+  position: relative;
+  height: 120px;
+
+  overflow: hidden;
+}
+
+.animals img {
+  position: absolute;
+  bottom: 0;
+
+  width: clamp(70px, 15vw, 120px);
+
+  animation: move 12s linear infinite;
+}
+
+.animals img:nth-child(2) {
+  animation-delay: 6s;
+}
+
+@keyframes move {
+  from {
+    left: -150px;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+/* ===== FOOTER ===== */
+
+footer {
+  margin-top: auto;
+  padding: 20px;
+
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 700px) {
+
+  .menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu a {
+    width: min(250px, 80%);
+  }
+}
