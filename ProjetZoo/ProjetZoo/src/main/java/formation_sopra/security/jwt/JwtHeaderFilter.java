@@ -57,6 +57,13 @@ public class JwtHeaderFilter extends OncePerRequestFilter {
             return;
         }
 
+        // On laisse passer la route d'inscription sans vérifier le token
+        if (uri.equals("/api/visiteur/inscription")) {
+            logger.debug(">>> /api/visiteur/inscription détecté, on ne vérifie pas le JWT");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
 
         if (authHeader != null) {
             String token = authHeader.substring(7);
