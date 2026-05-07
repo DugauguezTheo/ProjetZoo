@@ -21,8 +21,8 @@ export class VisiteurPage implements OnInit {
   protected role !: string;
 
   ngOnInit(): void {
-    this.titleService.setTitle('Welcome "visiteur.prenom" - AJC-Zoo');
     this.login = this.authService.login;
-    this.role = this.authService.role;
+    this.role = this.authService.role.substring(5, 6) + this.authService.role.substring(6).toLowerCase();
+    this.titleService.setTitle(`Welcome ${this.login.split("@")[0]} - AJC-Zoo`);
   }
 }
