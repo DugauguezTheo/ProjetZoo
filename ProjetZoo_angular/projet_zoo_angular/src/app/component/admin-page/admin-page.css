@@ -30,27 +30,6 @@ body {
 .spacer {
   justify-self: end;
 }
-    .menu {
-      display: flex;
-      justify-content: center;
-      gap: 4%;
-      flex-wrap: wrap;
-      margin-bottom: 10%;
-    }
-
-    .menu a {
-      text-decoration: none;
-      background: #d4af37;
-      color: black;
-      padding: 1% 1%;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .menu a:hover {
-      background: #f1d46a;
-    }
 
         .animals {
       margin-top: 40px;
