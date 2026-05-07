@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Espece } from '../model/espece';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +11,7 @@ export class EspeceService {
 
    private apiUrl = 'http://localhost:8080/api/espece';
 
-  public findAllEspeces() : Observable<Espece[]> {
-    return this.http.get<Espece[]>(this.apiUrl);
+  public findAllEspeces() : Observable<string[]> {
+    return this.http.get<string[]>(this.apiUrl);
   }
 }
