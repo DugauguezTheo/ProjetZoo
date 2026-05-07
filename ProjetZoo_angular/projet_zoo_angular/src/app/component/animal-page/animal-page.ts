@@ -46,7 +46,7 @@ export class AnimalPage implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Animaux');
     this.especes$ = this.especeService.findAllEspeces();
-    
+
     this.animals$ = this.refresh$.pipe(
       startWith(0),
       switchMap(() => this.animalService.findAllAnimals())
@@ -59,7 +59,7 @@ export class AnimalPage implements OnInit {
     this.formDateNaissanceCtrl = new FormControl("", Validators.required);
     this.formEnclosCtrl = new FormControl(null, Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
-  
+
     this.formAnimal = this.formBuilder.group({
       prenom: this.formPrenomCtrl,
       dateNaissance: this.formDateNaissanceCtrl,

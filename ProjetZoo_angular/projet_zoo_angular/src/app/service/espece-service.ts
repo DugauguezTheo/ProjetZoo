@@ -9,7 +9,7 @@ export class EspeceService {
   constructor(private http: HttpClient) {
    }
 
-   private apiUrl = 'http://localhost:8080/api/espece';
+   private apiUrl = '/espece';
 
   public findAllEspeces() : Observable<string[]> {
     return this.http.get<string[]>(this.apiUrl);
