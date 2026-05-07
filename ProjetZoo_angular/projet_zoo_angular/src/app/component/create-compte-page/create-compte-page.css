@@ -23,8 +23,8 @@
     }
 
     .logo {
-      width: 16%;
-      margin-bottom: 1%;
+      width: 200px;
+      margin-bottom: 20px;
     }
 
     h2 {
@@ -170,6 +170,13 @@ input {
   cursor: pointer;
 }
 
+.submit-btn:disabled {
+  background: #888;
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .success-message {
   margin-top: 20px;
   color: #4CAF50;
@@ -192,10 +199,14 @@ input {
 input.ng-invalid.ng-touched {
   border: 2px solid #ff6b6b;
 }
-input.ng-valid.ng-touched:not(.password-mismatch){
+input.ng-valid.ng-touched:not(.password-mismatch,.future-date){
     border: 2px solid #4CAF50;
 }
 
 .password-mismatch {
-  border: 2px solid #ff6b6b !important;
+  border: 2px solid #ff6b6b ;
+}
+
+.future-date {
+  border: 2px solid #ff6b6b ;
 }

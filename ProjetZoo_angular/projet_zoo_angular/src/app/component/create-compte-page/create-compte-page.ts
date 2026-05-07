@@ -31,6 +31,19 @@ export class CreateComptePage {
     return null;
   };
 
+  //Vérification de la date de naissance (past or present)
+  pastOrPresentDateValidator: ValidatorFn =
+  (control: AbstractControl): ValidationErrors | null => {
+
+
+    const inputDate = new Date(control.get('dateNaissance')?.value);
+    const today = new Date();
+  
+    return inputDate > today
+      ? { futureDate: true }
+      : null;
+  };
+
   private inscriptionService: InscriptionService = inject(InscriptionService);
 
   // private authService: AuthService = inject(AuthService);
@@ -85,7 +98,10 @@ export class CreateComptePage {
     },
  
     {
-      validators: this.passwordMatchValidator
+      validators: [
+        this.passwordMatchValidator,
+        this.pastOrPresentDateValidator
+      ]
     });
   }
 
@@ -107,25 +123,23 @@ export class CreateComptePage {
 
     this.inscriptionService.inscription(visiteur).subscribe({
 
+      next: () => {
 
+        // affiche le message
+        this.inscriptionReussie = true;
 
-    next: () => {
+        // redirection après 2 secondes
+        setTimeout(() => {
+          this.router.navigate(['/connexion']);
+        }, 3000);
 
-      // affiche le message
-      this.inscriptionReussie = true;
+      },
 
-      // redirection après 2 secondes
-      setTimeout(() => {
-        this.router.navigate(['/connexion']);
-      }, 3000);
+      error: (err) => {
+        console.error(err);
+        alert("Erreur lors de l'inscription");
+      }
 
-    },
-
-    error: (err) => {
-      console.error(err);
-      alert("Erreur lors de l'inscription");
-    }
-
-  });
-}
+    });
+  }
 }

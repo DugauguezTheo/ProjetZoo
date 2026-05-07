@@ -41,9 +41,12 @@
 
     <label>Date de naissance</label>
     <input type="date"
-           formControlName="dateNaissance">
+           formControlName="dateNaissance"
+           [class.future-date]="formDateNaissanceCtrl.touched && formInscription.errors?.['futureDate']">
     <div class="error" *ngIf="formDateNaissanceCtrl.touched && formDateNaissanceCtrl.invalid"> 
-      La date de naissance est obligatoire</div>  
+      La date de naissance est obligatoire</div>
+    <div class="error" *ngIf="formDateNaissanceCtrl.touched && formInscription.errors?.['futureDate']">
+      La date ne peut pas être dans le futur</div>  
 
   </div>
 
