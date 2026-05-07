@@ -80,7 +80,7 @@ public class EnclosController {
                 ;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{numero}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public EnclosResponse modifyEnclos(@PathVariable Integer numero, @Valid @RequestBody CreateOrUpdateEnclosRequest request){
 
