@@ -15,24 +15,43 @@
 
   <h2>Création du compte</h2>
 
-<form>
+<form (submit)="inscription()" [formGroup]="formInscription">
   <div class="form-group"></div>
-  <label>Prénom</label><input type="text" placeholder="Paul" name="prenom" required>
-  <label>Nom</label><input type="text" placeholder="Dupont" name="nom" required>
-  <label>Sexe</label>
+  <label>Prénom</label><input type="text" placeholder="Paul" formControlName="prenom" name="prenom" required>
+  <label>Nom</label><input type="text" placeholder="Dupont" formControlName="nom" name="nom" required>
+  <!-- <label>Sexe</label>
     <select name="sexeSelect">
       <option>Homme</option>
       <option selected>Femme</option>
       <option>NB</option>
-    </select>
-  <label>Adresse postale</label><input type="text" placeholder="1 rue de l'Arche 12345 Les-Joyaux" name="adresse" required>
-  <label>Email</label><input type="text" placeholder="Paul.Dupont@outlook.fr" name="email" required>
-  <label>Téléphone</label><input type="text" placeholder="0612345678" name="email" required>
-  <label>Mot de passe</label><input type="password" placeholder="********" name="password" required>
+    </select> -->
+
+  <label>Date de naissance</label><input type="date" placeholder="01/01/2026" formControlName="dateNaissance" name="dateNaissance" required>
+
+
+
+  <!-- <label>Adresse postale</label><input type="text" placeholder="1 rue de l'Arche 12345 Les-Joyaux" name="adresse" required> -->
+  
+  <!-- Si un champ de l'adresse est mis, tout devient required -> soit tout ou rien -->
+  <label>Numero de voie</label><input type="text" placeholder="1" formControlName="numeroVoie" name="numeroVoie" required>
+  <label>Voie</label><input type="text" placeholder="Rue de l'Arche" formControlName="voie" name="voie" required>
+  <label>Code postal</label><input type="text" placeholder="12345" formControlName="cp" name="cp" required>
+  <label>Ville</label><input type="text" placeholder="Les Joyaux" formControlName="ville" name="ville" required>
+  
+  
+  <label>Email</label><input type="text" placeholder="Paul.Dupont@outlook.fr" formControlName="login" name="email" required>
+  <!-- <label>Téléphone</label><input type="text" placeholder="0612345678" name="email" required> -->
+  <label>Mot de passe</label><input type="password" placeholder="********" formControlName="password" name="password" required>
   <!-- Deuxième demande pour vérification mot de passe ? -->
   <input type="submit" value="Inscription">
   </form>
 
+</div>
+
+<!-- <div *ngIf="inscriptionReussie" class="success-message"> -->
+<div *ngIf="inscriptionReussie" >
+
+  Vous êtes inscrit avec succès ! Redirection en cours vers la page de connexion...
 </div>
 
 <img src="panthere_final.gif" class="panther" alt="Panthère">
