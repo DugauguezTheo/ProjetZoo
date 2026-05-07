@@ -37,8 +37,8 @@
         <div class="profile-header">
           <div class="avatar">👤</div>
 
-          <div class="profile-info">
-            <h3>{{ login }}</h3>
+          <div class="profile-info" *ngIf="visiteur$ | async as visiteur">
+            <h3>{{ visiteur.prenom }} {{ visiteur.nom }}</h3>
             <span>{{ role }}</span>
           </div>
         </div>

@@ -7,7 +7,6 @@ import formation_sopra.model.Visiteur;
 public record VisiteurResponse(
     Integer id,
     String login,
-    String password,
     String nom,
     String prenom,
     LocalDate dateNaissance,
@@ -22,7 +21,6 @@ public record VisiteurResponse(
         VisiteurResponse resp = new VisiteurResponse(
             visiteur.getId(), 
             visiteur.getLogin(), 
-            visiteur.getPassword(),
             visiteur.getNom(),
             visiteur.getPrenom(),
             visiteur.getDateNaissance(), 

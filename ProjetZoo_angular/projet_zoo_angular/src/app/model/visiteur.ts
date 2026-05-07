@@ -9,8 +9,6 @@ export interface Visiteur {
     ville: string;
     voie: string;
     numeroVoie: string;
-    // sexe: Sexe;
-    // telephone: string;
     pointsFidelite?: number;
 
 }
