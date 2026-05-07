@@ -60,6 +60,14 @@ export class AuthService {
     return this._role === "ROLE_ADMIN";
   }
 
+  public isVeterinaire(): boolean {
+    return this._role === "ROLE_VETERINAIRE";
+  }
+
+  public isVisiteur(): boolean {
+    return this._role === "ROLE_VISITEUR";
+  }
+
   public logout(): void {
     this._token = "";
     this._role = "";

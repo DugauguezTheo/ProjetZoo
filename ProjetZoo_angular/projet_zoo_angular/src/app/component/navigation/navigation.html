@@ -3,9 +3,33 @@
   <ul class="nav-list">
 
     <!-- Toujours visibles -->
-    <li><a routerLink="/home">Accueil</a></li>
-    <li><a routerLink="/spectacles">Spectacles</a></li>
-    <li><a routerLink="/animaux">Animaux</a></li>
+
+    <!--
+      Lien Accueil :
+        - Si l'utilisateur connecté est admin, on le redirige vers admin-page
+        - Si l'utilisateur connecté est un visiteur, on le redirige vers visiteur-page
+        - Si l'utilisateur connecté est un vétérinaire, on le redirige vers veterinaire-page
+        - Sinon, c'est qu'on n'est pas connecté et on tombe sur la non-auth-page
+     -->
+
+    @if (authService.isAdmin()) {
+      <li><a routerLink="/admin">Accueil</a></li>
+    }
+
+    @else if (authService.isVeterinaire()) {
+      <li><a routerLink="/veterinaire">Accueil</a></li>
+    }
+
+    @else if (authService.isVisiteur()) {
+      <li><a routerLink="/visiteur">Accueil</a></li>
+    }
+
+    @else {
+      <li><a routerLink="/home">Accueil</a></li>
+    }
+
+    <li><a routerLink="/spectacle">Spectacles</a></li>
+    <li><a routerLink="/animal">Animaux</a></li>
     <li><a routerLink="/enclos">Enclos</a></li>
     <li><a routerLink="/boutique">Boutique</a></li>
 
