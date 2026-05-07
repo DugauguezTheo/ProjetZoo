@@ -17,7 +17,7 @@ body {
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-  color: white;
+  color: #e6d3a3;
   text-align: center;
 }
 
@@ -105,6 +105,20 @@ h1 {
     2px 2px 5px rgba(0,0,0,0.5);
 }
 
+h2 {
+  font-family: 'Cinzel', serif;
+
+  font-size: clamp(1.8rem, 5vw, 3rem);
+
+  margin-bottom: 10px;
+
+  color: #e6d3a3;
+
+  text-shadow:
+    1px 1px 0 #000,
+    2px 2px 5px rgba(0,0,0,0.5);
+}
+
 /* ===== CONTENU ===== */
 
 .content {
@@ -113,7 +127,7 @@ h1 {
   margin: auto;
   padding: clamp(15px, 3vw, 30px);
 
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.2);
 
   border-radius: 12px;
   box-sizing: border-box;
