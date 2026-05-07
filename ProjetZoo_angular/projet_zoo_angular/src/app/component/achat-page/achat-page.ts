@@ -1,12 +1,14 @@
+import { Article } from './../../model/article';
 import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../service/auth-service';
 import { VisiteurService } from '../../service/visiteur-service';
-import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 import { CommonModule } from '@angular/common';
 import { Achat } from '../../model/achat';
 import { AchatService } from '../../service/achat-service';
+import { ArticleService } from '../../service/article-service';
 
 @Component({
   selector: 'app-achat-page',
@@ -24,6 +26,7 @@ export class AchatPage implements OnInit {
 
   protected achatService : AchatService = inject(AchatService);
   protected visiteurService : VisiteurService = inject(VisiteurService);
+  protected articleService : ArticleService = inject(ArticleService);
   protected visiteur$ !: Observable<VisiteurWithAchats>;
   protected achats$ !: Observable<Achat[]>
   protected role !: string;
@@ -42,5 +45,9 @@ export class AchatPage implements OnInit {
       );
     }
 
-
+    public getArticleNameById(idArticle: number): Observable<string> {
+      return this.articleService.findArticleById(idArticle).pipe(
+        map(article => article.libelle)
+    );
+}
 }
