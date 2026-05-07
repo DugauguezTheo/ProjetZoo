@@ -9,7 +9,7 @@ public class EnclosWithSpectaclesResponse {
 
     private Integer numero;
     private int capacite;
-    private Espece espece;
+//    private Espece espece;
     private List<Integer> spectaclesIds;
 
     public Integer getNumero() {
@@ -28,13 +28,13 @@ public class EnclosWithSpectaclesResponse {
         this.capacite = capacite;
     }
 
-    public Espece getEspece() {
-        return espece;
-    }
-
-    public void setEspece(Espece espece) {
-        this.espece = espece;
-    }
+//    public Espece getEspece() {
+//        return espece;
+//    }
+//
+//    public void setEspece(Espece espece) {
+//        this.espece = espece;
+//    }
 
     public List<Integer> getSpectaclesIds() {
         return spectaclesIds;
@@ -49,7 +49,6 @@ public class EnclosWithSpectaclesResponse {
 
         enclosWithSpectaclesResponse.setNumero(enclos.getNumero());
         enclosWithSpectaclesResponse.setCapacite(enclos.getCapacite());
-        enclosWithSpectaclesResponse.setEspece(enclos.getEspece());
         enclosWithSpectaclesResponse.setSpectaclesIds(enclos.getSpectacles().stream()
             .map(spectacle -> spectacle.getId())
             .toList()

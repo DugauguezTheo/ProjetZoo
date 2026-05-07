@@ -3,12 +3,14 @@ package formation_sopra.controller;
 import formation_sopra.controller.dto.request.CreateOrUpdateEnclosRequest;
 import formation_sopra.controller.dto.response.EnclosResponse;
 import formation_sopra.controller.dto.response.EnclosWithAnimalsResponse;
+import formation_sopra.controller.dto.response.EnclosWithEspeceResponse;
 import formation_sopra.controller.dto.response.EnclosWithSpectaclesResponse;
 import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.exception.EnclosNotFoundException;
 import formation_sopra.model.Enclos;
+import formation_sopra.model.Espece;
 import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.List;
 
 @RestController
@@ -56,6 +59,14 @@ public class EnclosController {
                 ;
     }
 
+    @GetMapping("/{numero}/especes")
+    public EnclosWithEspeceResponse getAllEspecesInEnclos(@PathVariable Integer numero) {
+        log.debug("Liste des especes dans l'enclos {}", numero);
+
+        Enclos enclos = this.daoEnclos.findById(numero).orElseThrow(EnclosNotFoundException::new);
+        return EnclosWithEspeceResponse.convert(enclos);
+    }
+
     @GetMapping
     public List<EnclosResponse> getAllEncloss() {
 
@@ -81,7 +92,7 @@ public class EnclosController {
         enclos.setNumero(numero);
         enclos.setBiome(request.getBiome());
         enclos.setCapacite(request.getCapacite());
-        enclos.setEspece(request.getEspece());
+//        enclos.setEspece(request.getEspece());
         enclos.setAnimals(this.daoAnimal.findAllByEnclosId(numero));
         enclos.setSpectacles(this.daoSpectacle.findAllByEnclosId(numero));
 
@@ -98,7 +109,7 @@ public class EnclosController {
         Enclos enclos = new Enclos();
         enclos.setBiome(request.getBiome());
         enclos.setCapacite(request.getCapacite());
-        enclos.setEspece(request.getEspece());
+//        enclos.setEspece(request.getEspece());
         
         log.debug("Nouvel enclos ajouté !");
 

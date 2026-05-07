@@ -9,7 +9,7 @@ public class EnclosWithAnimalsResponse {
 
     private Integer numero;
     private int capacite;
-    private Espece espece;
+//    private Espece espece;
     private List<Integer> animalsIds;
 
     public Integer getNumero() {
@@ -28,13 +28,13 @@ public class EnclosWithAnimalsResponse {
         this.capacite = capacite;
     }
 
-    public Espece getEspece() {
-        return espece;
-    }
-
-    public void setEspece(Espece espece) {
-        this.espece = espece;
-    }
+//    public Espece getEspece() {
+//        return espece;
+//    }
+//
+//    public void setEspece(Espece espece) {
+//        this.espece = espece;
+//    }
 
     public List<Integer> getAnimalsIds() {
         return animalsIds;
@@ -49,7 +49,7 @@ public class EnclosWithAnimalsResponse {
 
         enclosWithAnimals.setNumero(enclos.getNumero());
         enclosWithAnimals.setCapacite(enclos.getCapacite());
-        enclosWithAnimals.setEspece(enclos.getEspece());
+//        enclosWithAnimals.setEspece(enclos.getEspece());
         enclosWithAnimals.setAnimalsIds(enclos.getAnimals().stream()
             .map(animal -> animal.getId())
             .toList()

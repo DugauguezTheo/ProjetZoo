@@ -16,8 +16,8 @@ public class CreateOrUpdateEnclosRequest {
     @NotNull
     private int capacite;
 
-    @NotNull
-    private Espece espece;
+//    @NotNull
+//    private Espece espece;
 
     public String getBiome() {
         return biome;
@@ -35,11 +35,11 @@ public class CreateOrUpdateEnclosRequest {
         this.capacite = capacite;
     }
 
-    public Espece getEspece() {
-        return espece;
-    }
-
-    public void setEspece(Espece espece) {
-        this.espece = espece;
-    }
+//    public Espece getEspece() {
+//        return espece;
+//    }
+//
+//    public void setEspece(Espece espece) {
+//        this.espece = espece;
+//    }
 }

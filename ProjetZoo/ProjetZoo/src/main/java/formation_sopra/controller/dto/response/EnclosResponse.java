@@ -7,7 +7,7 @@ public class EnclosResponse {
 
     private Integer numero;
     private int capacite;
-    private Espece espece;
+//    private Espece espece;
 
     public Integer getNumero() {
         return numero;
@@ -25,20 +25,20 @@ public class EnclosResponse {
         this.capacite = capacite;
     }
 
-    public Espece getEspece() {
-        return espece;
-    }
-
-    public void setEspece(Espece espece) {
-        this.espece = espece;
-    }
+//    public Espece getEspece() {
+//        return espece;
+//    }
+//
+//    public void setEspece(Espece espece) {
+//        this.espece = espece;
+//    }
 
     public static EnclosResponse convert(Enclos enclos){
         EnclosResponse enclosResponse = new EnclosResponse();
 
         enclosResponse.setNumero(enclos.getNumero());
         enclosResponse.setCapacite(enclos.getCapacite());
-        enclosResponse.setEspece(enclos.getEspece());
+//        enclosResponse.setEspece(enclos.getEspece());
 
         return enclosResponse;
     }

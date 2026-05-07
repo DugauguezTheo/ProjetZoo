@@ -17,8 +17,8 @@ public class Enclos {
     @Column(columnDefinition = "Decimal(2,0)")
     private int capacite;
 
-    @Enumerated(EnumType.STRING)
-    private Espece espece;
+//    @Enumerated(EnumType.STRING)
+//    private Espece espece;
 
     @OneToMany(mappedBy = "enclos")
     private List<Animal> animals;
@@ -29,17 +29,15 @@ public class Enclos {
     public Enclos() {
     }
 
-    public Enclos(String biome, int capacite, Espece espece) {
+    public Enclos(String biome, int capacite) {
         this.biome = biome;
         this.capacite = capacite;
-        this.espece = espece;
     }
 
-    public Enclos(Integer numero, String biome, int capacite, Espece espece) {
+    public Enclos(Integer numero, String biome, int capacite) {
         this.numero = numero;
         this.biome = biome;
         this.capacite = capacite;
-        this.espece = espece;
     }
 
     public int getCapacite() {
@@ -66,13 +64,13 @@ public class Enclos {
         this.numero = numero;
     }
 
-    public Espece getEspece() {
-        return espece;
-    }
-
-    public void setEspece(Espece espece) {
-        this.espece = espece;
-    }
+//    public Espece getEspece() {
+//        return espece;
+//    }
+//
+//    public void setEspece(Espece espece) {
+//        this.espece = espece;
+//    }
 
     public List<Animal> getAnimals() {
         return animals;
@@ -96,7 +94,6 @@ public class Enclos {
                 "numero=" + numero +
                 ", biome='" + biome + '\'' +
                 ", capacite=" + capacite +
-                ", espece=" + espece +
                 '}';
     }
 }
