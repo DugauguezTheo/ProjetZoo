@@ -15,7 +15,6 @@ public class CreateOrUpdateSpectacleRequest {
     private LocalDate dateDebut;
 
     @NotNull
-    @FutureOrPresent
     private LocalTime heureDebut;
 
     @NotNull
