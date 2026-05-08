@@ -3,6 +3,7 @@ package formation_sopra.controller;
 import java.util.List;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateVisiteurRequest;
+import formation_sopra.controller.dto.response.AchatResponse;
 import formation_sopra.controller.dto.response.VisiteurResponse;
 import formation_sopra.controller.dto.response.VisiteurWithAchatsResponse;
 import formation_sopra.dao.IDAOAchat;
@@ -68,6 +69,12 @@ public class VisiteurController {
 
 			Visiteur visiteur = daoVisiteur.findByIdWithAchats(id);
 			return VisiteurWithAchatsResponse.convert(visiteur);
+		}
+
+		@GetMapping("/{id}/dernier-achat")
+		@PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
+		public AchatResponse getDernierAchat(@PathVariable("id") Integer id) {
+			return AchatResponse.convert(this.daoVisiteur.findLastAchat(id));
 		}
 
 	    @PreAuthorize("hasRole('ADMIN')")

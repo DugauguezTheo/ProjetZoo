@@ -1,26 +1,24 @@
-import { Article } from './../../model/article';
 import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AuthService } from '../../service/auth-service';
 import { VisiteurService } from '../../service/visiteur-service';
-import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { Observable, startWith, Subject, switchMap } from 'rxjs';
 import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 import { CommonModule } from '@angular/common';
 import { Achat } from '../../model/achat';
 import { AchatService } from '../../service/achat-service';
-import { ArticleService } from '../../service/article-service';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-achat-page',
   imports: [
-    CommonModule
-  ],
+    CommonModule,
+    CarteLogged
+],
   templateUrl: './achat-page.html',
   styleUrl: './achat-page.css',
 })
 export class AchatPage implements OnInit {
   private titleService: Title = inject(Title);
-  private authService: AuthService = inject(AuthService);
 
   private refresh$: Subject<void> = new Subject<void>();
 
@@ -36,8 +34,6 @@ export class AchatPage implements OnInit {
       this.visiteur$.subscribe(visiteur => {
         this.titleService.setTitle(`Achats ${visiteur.prenom} - AJC-Zoo`);
       });
-      this.role = this.authService.role.substring(5, 6) + this.authService.role.substring(6).toLowerCase();
-
       this.achats$ = this.refresh$.pipe(
             startWith(0),
             switchMap(() => this.achatService.findAllAchatsByVisiteurConnected())

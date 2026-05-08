@@ -8,13 +8,15 @@ import { Article } from '../../model/article';
 import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-article-page',
   imports: [
     CommonModule,
-    RouterModule
-  ],
+    RouterModule,
+    CarteLogged
+],
   templateUrl: './article-page.html',
   styleUrl: './article-page.css',
 })

@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import formation_sopra.controller.dto.request.CreateOrUpdateVeterinaireRequest;
+import formation_sopra.controller.dto.response.SoinResponse;
 import formation_sopra.controller.dto.response.VetWithSoinsResponse;
 import formation_sopra.controller.dto.response.VeterinaireResponse;
 import formation_sopra.dao.IDAOSoin;
 import formation_sopra.dao.IDAOVeterinaire;
+import formation_sopra.exception.CompteNotFoundException;
 import formation_sopra.model.Veterinaire;
 import jakarta.validation.Valid;
 
@@ -49,12 +51,28 @@ public class VeterinaireController {
                 .orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
     }
 
+    @GetMapping("/mon-compte")
+    @PreAuthorize("hasRole('VETERINAIRE")
+    public VetWithSoinsResponse getVeterinaireConnected(Authentication auth) {
+        Integer id = Integer.parseInt(auth.getName());
+        log.debug("Recherche du compte n°{} (compte veterinaire) ...", id);
+
+        Veterinaire veterinaire = daoVeterinaire.findByIdWithSoins(id).orElseThrow(CompteNotFoundException::new);
+        return VetWithSoinsResponse.convert(veterinaire);
+    }
+
     @GetMapping("/{id}/soins")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
     public VetWithSoinsResponse getVeterinaireWithSoins(@PathVariable Integer id) {
         return daoVeterinaire.findById(id)
                 .map(VetWithSoinsResponse::convert)
                 .orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé"));
+    }
+
+    @GetMapping("/{id}/dernier-soin")
+    @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")
+    public SoinResponse getDernierSoin(@PathVariable Integer id) {
+        return SoinResponse.convert(this.daoVeterinaire.findLastSoin(id));
     }
 
 

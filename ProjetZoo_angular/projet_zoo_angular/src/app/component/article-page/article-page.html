@@ -67,42 +67,7 @@
     </section>
 
   </div>
-
-  <aside class="sidebar">
-
-    @if (authService.isVisiteur()) {
-      <div class="container profile-card">
-        <div class="profile-header">
-          <div class="avatar">👤</div>
-
-          <div class="profile-info" *ngIf="visiteur$ | async as visiteur">
-            <h3>{{ visiteur.prenom }} {{ visiteur.nom }}</h3>
-            <span>{{ role }}</span>
-          </div>
-        </div>
-
-        <div class="profile-details">
-          <p>🎟️ Nombre de visites : 12</p>
-          <p>📅 Dernière visite : 05/05/2026</p>
-          <p>🛍️ Dernier article : Peluche Panda</p>
-        </div>
-      </div>
-    }
-
-      <div class="container news-card">
-        <h3>Actualités</h3>
-
-        <ul>
-          <li>🦁 Naissance de deux lionceaux</li>
-          <li>🌿 Nouveau parcours tropical ouvert</li>
-          <li>🎭 Spectacle des oiseaux à 15h</li>
-          <li>🛒 Promotion boutique ce week-end</li>
-        </ul>
-      </div>
-
-    </aside>
-
-
+  <app-carte-logged></app-carte-logged>
 </div>
 
 
