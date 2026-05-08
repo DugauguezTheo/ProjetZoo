@@ -22,33 +22,37 @@ public class Spectacle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
+
+    @Column(name = "titre", nullable = false)
+    private String titre;
 
     @Column(name = "date_debut", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate dateDebut;
+    private LocalDate dateDebut;
 
     @Column(name = "heure_debut", nullable = false)
     @DateTimeFormat(pattern = "HH-mm-ss")
-    LocalTime heureDebut;
+    private LocalTime heureDebut;
 
     @Column(nullable = false)
-    Integer duree;
+    private Integer duree;
 
     @ManyToMany(mappedBy="spectacles")
 	protected List<Reservation> reservations;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "enclos_id")
-    Enclos enclos;
+    private Enclos enclos;
 
     public Spectacle() {}
     
-    public Spectacle(LocalDate dateDebut, LocalTime heureDebut, Integer duree, Enclos enclos) {
+    public Spectacle(LocalDate dateDebut, LocalTime heureDebut, Integer duree, Enclos enclos, String titre) {
         this.dateDebut = dateDebut;
         this.heureDebut = heureDebut;
         this.duree = duree;
         this.enclos = enclos;
+        this.titre=titre;
     }
 
     public LocalDate getDateDebut() {
@@ -99,4 +103,11 @@ public class Spectacle {
         this.enclos = enclos;
     }
 
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 }

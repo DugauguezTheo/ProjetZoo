@@ -7,6 +7,7 @@ import { EnclosService } from '../../service/enclos-service';
 import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { EspeceService } from '../../service/espece-service';
 import { Enclos } from '../../model/enclos';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-enclos-page',
@@ -17,6 +18,7 @@ import { Enclos } from '../../model/enclos';
 export class EnclosPage implements OnInit {
 
   private titleService: Title = inject(Title);
+  protected authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
   private enclosService: EnclosService = inject(EnclosService);

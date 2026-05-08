@@ -12,6 +12,7 @@ public class SpectacleResponse {
     private Integer duree;
     private Integer enclosId;
     private String enclosBiome;
+    private String titre;
 
     public Integer getId(){
         return this.id;
@@ -62,6 +63,14 @@ public class SpectacleResponse {
         this.enclosBiome = enclosBiome;
     }
 
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
     public static SpectacleResponse convert(Spectacle spectacle){
         SpectacleResponse spectacleResponse = new SpectacleResponse();
 
@@ -71,6 +80,7 @@ public class SpectacleResponse {
         spectacleResponse.setDuree(spectacle.getDuree());
         spectacleResponse.setEnclosId(spectacle.getEnclos().getNumero());
         spectacleResponse.setEnclosBiome(spectacle.getEnclos().getBiome());
+        spectacleResponse.setTitre(spectacle.getTitre());
     
         return spectacleResponse;
     }

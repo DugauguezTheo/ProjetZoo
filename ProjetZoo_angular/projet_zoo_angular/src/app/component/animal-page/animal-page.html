@@ -17,6 +17,8 @@
 
         <h2>Liste des animaux</h2>
 
+        @if(authService.isAdmin() || authService.isVeterinaire()) {
+
         <form (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
             <div class="form-group">
                 <div>
@@ -73,6 +75,7 @@
             </div>
 
         </form>
+    }
 
     </div>
 
@@ -83,26 +86,34 @@
         <table class="tableau">
             <thead>
                 <tr>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <th>Id</th>
+                    }
                     <th>Prenom</th>
                     <th>Date de naissance</th>
                     <th>Espece</th>
                     <th>Enclos</th>
+                     @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <th>Actions</th>
+                     }
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let animal of animals$ | async">
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <td>{{ animal.id }}</td>
+                    }
                     <td>{{ animal.prenom }}</td>
                     <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
                     <td>{{ animal.espece }}</td>
                     <td>{{ animal.idEnclos }} - {{animal.biomeEnclos}}</td>
+                     @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <td>
                         <button class="btn btn-danger" (click)="deleteAnimal(animal)">Supprimer</button>
                         <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button>
                     </td>
+                }
                 </tr>
             </tbody>
         </table>

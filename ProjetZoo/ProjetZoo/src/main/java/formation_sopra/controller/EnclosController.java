@@ -68,17 +68,17 @@ public class EnclosController {
     }
 
     @GetMapping
-    public List<EnclosResponse> getAllEncloss() {
+    public List<EnclosResponse> findAllWithAnimals() {
 
         log.debug("Liste des enclos ...");
 
 
-        return this.daoEnclos.findAll()
+        return this.daoEnclos.findAllWithAnimals()
                 .stream()
                 .map(EnclosResponse::convert)
-                .toList()
-                ;
+                .toList();
     }
+
 
     @PutMapping("/{numero}")
     @PreAuthorize("hasAnyRole('ADMIN','VETERINAIRE')")

@@ -3,4 +3,5 @@ export interface SpectacleRequest {
   heureDebut: Date;
   duree: number;
   enclosId: number;
+  titre: string;
 }

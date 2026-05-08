@@ -27,23 +27,23 @@ body {
 }
 
 h2 {
- font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
   color: #e6d3a3;
-  text-shadow: 
+  text-shadow:
     1px 1px 0 #000,
-    2px 2px 5px rgba(0,0,0,0.5);
- text-align: center;
- font-size: 1.5rem;
+    2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 h3 {
- font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
   color: #e6d3a3;
-  text-shadow: 
+  text-shadow:
     1px 1px 0 #000,
-    2px 2px 5px rgba(0,0,0,0.5);
- text-align: center;
- font-size: 1rem;
+    2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 1rem;
 }
 
 form {
@@ -62,7 +62,7 @@ form {
 
 .form-control {
   font-size: 10px;
-  color: #808080;
+  color: white;
 }
 
 .inline {
@@ -78,7 +78,8 @@ label {
   color: #f5e6c8;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 10px;
   border: none;
@@ -107,7 +108,7 @@ input[type='submit']:hover {
   max-width: 900px;
   border-radius: 12px;
   overflow: hidden;
-  border: 0.5px solid rgba(255,255,255,0.15);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
 }
 
 .tableau {
@@ -117,7 +118,7 @@ input[type='submit']:hover {
 }
 
 .tableau thead tr {
-  background: #8B5E3C;
+  background: #8b5e3c;
   color: #f5e6c8;
 }
 
@@ -130,9 +131,9 @@ input[type='submit']:hover {
 
 .tableau td {
   padding: 10px 16px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
   color: #f5e6c8;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .tableau tbody tr:hover td {
@@ -171,12 +172,12 @@ button {
 }
 
 button:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 button.btn-danger {
-  color: #c0392b;
-  border-color: #c0392b;
+  color: #ff3e28;
+  border-color: #ff3e28;
   background: rgba(192, 57, 43, 0.15);
 }
 
@@ -201,7 +202,8 @@ button.btn-edit {
   .inline {
     width: 100%;
   }
-  .tableau th, .tableau td {
+  .tableau th,
+  .tableau td {
     padding: 8px 10px;
     font-size: 12px;
   }

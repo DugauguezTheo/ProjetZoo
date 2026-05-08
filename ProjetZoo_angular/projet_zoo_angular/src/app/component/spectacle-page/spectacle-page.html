@@ -17,9 +17,17 @@
 
         <h2>Liste des spectacles</h2>
 
+        @if(authService.isAdmin() || authService.isVeterinaire()) {
         <form (submit)="addOrUpdateSpectacle()" [formGroup]="formSpectacle">
             <div class="form-group">
                 <div>
+                    <div class="inline">
+                        <label for="titre"><b>Titre</b></label>
+                        <input type="text" class="form-control" id="titre" formControlName="titre"
+                            [class.is-invalid]="formTitreCtrl.invalid" />
+                        <div *ngIf="formTitreCtrl.hasError('required')" class="form-control">
+                            Titre obligatoire</div>
+                    </div>
                     <div class="inline">
                         <label for="date"><b>Date</b></label>
                         <input type="date" class="form-control" id="date" formControlName="date"
@@ -64,6 +72,7 @@
             </div>
 
         </form>
+    }
 
     </div>
 
@@ -76,25 +85,31 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Titre</th>
                     <th>Date</th>
                     <th>Heure</th>
                     <th>Durée</th>
                     <th>Enclos</th>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <th>Actions</th>
+                    }
                 </tr>
             </thead>
 
             <tbody>
                 <tr *ngFor="let spectacle of spectacles$ | async">
                     <td>{{ spectacle.id }}</td>
+                    <td>{{ spectacle.titre }}</td>
                     <td>{{ spectacle.dateDebut }}</td>
                     <td>{{ spectacle.heureDebut }}</td>
                     <td>{{ spectacle.duree }}</td>
-                    <td>{{ spectacle.enclosBiome }}</td>
+                    <td>{{ spectacle.enclosId }} - {{ spectacle.enclosBiome }}</td>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <td>
                         <button class="btn-danger" (click)="deleteSpectacle(spectacle)">Supprimer</button>
                         <button class="btn-edit" (click)="editerSpectacle(spectacle)">Modifier</button>
                     </td>
+                }
                 </tr>
             </tbody>
         </table>
