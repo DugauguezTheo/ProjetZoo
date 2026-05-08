@@ -68,9 +68,9 @@
 
   </div>
 
-  @if (authService.isVisiteur()) {
-    <aside class="sidebar">
+  <aside class="sidebar">
 
+    @if (authService.isVisiteur()) {
       <div class="container profile-card">
         <div class="profile-header">
           <div class="avatar">👤</div>
@@ -87,6 +87,7 @@
           <p>🛍️ Dernier article : Peluche Panda</p>
         </div>
       </div>
+    }
 
       <div class="container news-card">
         <h3>Actualités</h3>
@@ -101,7 +102,6 @@
 
     </aside>
 
-  }
 
 </div>
 

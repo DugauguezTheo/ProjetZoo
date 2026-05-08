@@ -10,8 +10,12 @@ export const jwtHeaderInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  // authService.auth();
+  // Si on n'est pas connecté, pas de header Authorization
+  if (!authService.token) {
+    return next(req);
+  }
 
+  // Si connecté, on envoie le token en header
   const jwtRequest = req.clone({
     setHeaders: {
       'Authorization': `Bearer ${ authService.token }`

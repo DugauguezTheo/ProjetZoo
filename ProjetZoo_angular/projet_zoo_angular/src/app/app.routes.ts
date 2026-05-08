@@ -21,7 +21,6 @@ export const routes: Routes = [
     { path: 'achat', component: AchatPage, canActivate: [authGuard] },
     { path: 'admin', component: AdminPage, canActivate: [authGuard] },
     { path: 'animal', component: AnimalPage, canActivate: [authGuard] },
-    { path: 'boutique', component: ArticlePage, canActivate: [authGuard] },
     { path: 'compte', component: ComptePage, canActivate: [authGuard] },
     { path: 'enclos', component: EnclosPage, canActivate: [authGuard] },
     { path: 'reservation', component: ReservationPage, canActivate: [authGuard] },
@@ -29,6 +28,8 @@ export const routes: Routes = [
     { path: 'spectacle', component: SpectaclePage, canActivate: [authGuard] },
     { path: 'veterinaire', component: VeterinairePage, canActivate: [authGuard] },
     { path: 'visiteur', component: VisiteurPage, canActivate: [authGuard] },
+
+    { path: 'boutique', component: ArticlePage},
 
     { path: 'connexion', component: Connexion },
     { path: 'inscription', component: CreateComptePage},
