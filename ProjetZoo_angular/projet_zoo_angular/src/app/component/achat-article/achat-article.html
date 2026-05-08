@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="achat-article.css">
+  <title>Articles - AJC-Zoo</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+  <img src="/Arche_sans_fond.png" alt="Logo" class="logo">
+
+  <h1 class="title">L'Arche des Joyaux Cachés</h1>
+
+  <div class="spacer"></div>
+</header>
+
+<div class="page-layout">
+  <div class="main-column">
+
+    <section class="content">
+
+      <div *ngIf="article$ | async as article">
+
+  <div class="article-detail-card">
+
+    <div class="article-header">
+      <h2>{{ article.libelle }}</h2>
+    </div>
+
+    <div class="article-body">
+
+      <p>
+        <span class="label">📦 Stock :</span>
+        {{ article.quantiteStock }}
+      </p>
+
+      <p>
+        <span class="label">💰 Prix :</span>
+        {{ article.prix }} €
+      </p>
+
+    </div>
+
+    <!-- UTILISATEUR NON CONNECTÉ -->
+    @if (!authService.isLogged()) {
+
+      <div class="login-warning">
+        Navrés, nous avons besoin de vos coordonnées pour vous envoyer l'article...
+        Nous vous invitons donc à vous connecter pour pouvoir l'acheter !
+        Une fois connecté vous serez redirigé vers l'accueil mais ne vous inquiétez pas,
+        la boutique sera toujours accessible depuis l'onglet "Boutique"
+      </div>
+    }
+
+    <!-- UTILISATEUR CONNECTÉ -->
+    @if (authService.isVisiteur()) {
+
+    <form (submit)="addAchat()" class="achat-form" [formGroup]="formAchat">
+
+      <div class="form-group">
+        <label for="quantite">Quantité</label>
+        <div class="quantity-selector">
+
+          <button type="button" class="qty-btn" (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value - 1)" [disabled]="formQuantiteCtrl.value <= 1">
+            −
+          </button>
+
+          <input id="quantite" type="number" [formControl]="formQuantiteCtrl" min="1" [max]="article.quantiteStock">
+
+          <button type="button" class="qty-btn" (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value + 1)" [disabled]="formQuantiteCtrl.value >= article.quantiteStock">
+            +
+          </button>
+
+        </div>
+      </div>
+
+      <div class="total-box"> Prix total : {{ (formQuantiteCtrl.value * article.prix) | number:'1.0-2'}} € </div>
+
+      <input type="submit" class="buy-btn" value="Acheter"/>
+    </form>
+    }
+
+  </div>
+
+</div>
+
+    </section>
+
+  </div>
+
+  <aside class="sidebar">
+
+    @if (authService.isVisiteur()) {
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info" *ngIf="visiteur$ | async as visiteur">
+            <h3>{{ visiteur.prenom }} {{ visiteur.nom }}</h3>
+            <span>{{ role }}</span>
+          </div>
+        </div>
+
+        <div class="profile-details">
+          <p>🎟️ Nombre de visites : 12</p>
+          <p>📅 Dernière visite : 05/05/2026</p>
+          <p>🛍️ Dernier article : Peluche Panda</p>
+        </div>
+      </div>
+    }
+
+      <div class="container news-card">
+        <h3>Actualités</h3>
+
+        <ul>
+          <li>🦁 Naissance de deux lionceaux</li>
+          <li>🌿 Nouveau parcours tropical ouvert</li>
+          <li>🎭 Spectacle des oiseaux à 15h</li>
+          <li>🛒 Promotion boutique ce week-end</li>
+        </ul>
+      </div>
+
+    </aside>
+
+
+</div>
+
+
+<div class="animals">
+  <img src="/panthere_final.gif" alt="Panthère">
+  <img src="/poissons-qui-nagent.gif" alt="Poissons">
+</div>
+
+<footer>
+  © 2026 Arche des Joyaux Cachés
+</footer>
+
+</body>
+</html>

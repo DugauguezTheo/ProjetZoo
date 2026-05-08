@@ -7,11 +7,13 @@ import { VisiteurService } from '../../service/visiteur-service';
 import { Article } from '../../model/article';
 import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-article-page',
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './article-page.html',
   styleUrl: './article-page.css',

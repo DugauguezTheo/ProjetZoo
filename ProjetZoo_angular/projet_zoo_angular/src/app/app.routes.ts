@@ -14,6 +14,7 @@ import { VeterinairePage } from './component/veterinaire-page/veterinaire-page';
 import { VisiteurPage } from './component/visiteur-page/visiteur-page';
 import { NonauthPage } from './component/nonauth-page/nonauth-page';
 import { CreateComptePage } from './component/create-compte-page/create-compte-page';
+import { AchatArticle } from './component/achat-article/achat-article';
 
 export const routes: Routes = [
 
@@ -29,7 +30,8 @@ export const routes: Routes = [
     { path: 'veterinaire', component: VeterinairePage, canActivate: [authGuard] },
     { path: 'visiteur', component: VisiteurPage, canActivate: [authGuard] },
 
-    { path: 'boutique', component: ArticlePage},
+    { path: 'boutique', component: ArticlePage },
+    { path: 'boutique/article/:id', component: AchatArticle },
 
     { path: 'connexion', component: Connexion },
     { path: 'inscription', component: CreateComptePage},

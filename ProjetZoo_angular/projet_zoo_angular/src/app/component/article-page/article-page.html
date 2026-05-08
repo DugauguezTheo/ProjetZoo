@@ -33,7 +33,7 @@
           Aucun article disponible en boutique
         </div>
 
-        <div class="article-card" *ngFor="let article of articles">
+        <div class="article-card" *ngFor="let article of articles" [routerLink]="['/boutique/article', article.id]">
 
           @if(article.quantiteStock >= 1){
             <div class="article-header">
