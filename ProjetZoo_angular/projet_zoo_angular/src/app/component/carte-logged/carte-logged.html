@@ -1,0 +1,82 @@
+<aside class="sidebar">
+
+    @if (authService.isVisiteur()) {
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info" *ngIf="visiteur$ | async as visiteur">
+            <h3>{{ visiteur.prenom }} {{ visiteur.nom }}</h3>
+            <span>{{ role }}</span>
+          </div>
+        </div>
+
+        <div class="profile-details">
+          <p>🎟️ Nombre de visites : 12</p>
+          <p>📅 Dernière visite : 05/05/2026</p>
+          <p *ngIf="dernierAchat$ | async as dernierAchat">🛍️ Dernier achat : {{ dernierAchat.articleLibelle }}</p>
+        </div>
+      </div>
+    }
+
+    @else if (authService.isVeterinaire()) {
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info" *ngIf="veterinaire$ | async as veterinaire">
+            <h3>{{ veterinaire.login.split("@")[0] }}</h3>
+            <span>{{ role }}</span>
+          </div>
+        </div>
+
+        <div class="profile-details">
+          <p>🎟️ Nombre de soins : 12</p>
+          <p *ngIf="dernierSoin$ | async as dernierSoin">🛍️ Dernier Soin : {{ dernierSoin.description }}</p>
+        </div>
+      </div>
+    }
+
+    @else if (authService.isAdmin()) {
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info">
+            <h3>Directeur du Zoo</h3>
+            <span>Admin</span>
+          </div>
+        </div>
+
+        <div class="profile-details">
+          <p>🎟️ Nombre d'Employés : 12</p>
+        </div>
+      </div>
+    }
+
+    @else {
+      <div class="container profile-card">
+        <div class="profile-header">
+          <div class="avatar">👤</div>
+
+          <div class="profile-info">
+            <h3>Non Connecté</h3>
+            <span>Inconnu</span>
+          </div>
+        </div>
+      </div>
+    }
+
+      <div class="container news-card">
+        <h3>Actualités</h3>
+
+        <ul>
+          <li>🦁 Naissance de deux lionceaux</li>
+          <li>🌿 Nouveau parcours tropical ouvert</li>
+          <li>🎭 Spectacle des oiseaux à 15h</li>
+          <li>🛒 Promotion boutique ce week-end</li>
+        </ul>
+      </div>
+
+    </aside>
+

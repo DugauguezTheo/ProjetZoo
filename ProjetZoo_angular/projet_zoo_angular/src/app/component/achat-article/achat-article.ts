@@ -11,13 +11,15 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { Achat } from '../../model/achat';
 import { AchatService } from '../../service/achat-service';
 import { CommonModule } from '@angular/common';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-achat-article',
   imports: [
     CommonModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    CarteLogged
+],
   templateUrl: './achat-article.html',
   styleUrl: './achat-article.css',
 })

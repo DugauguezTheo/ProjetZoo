@@ -6,12 +6,14 @@ import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-visiteur-page',
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    CarteLogged
 ],
   templateUrl: './visiteur-page.html',
   styleUrl: './visiteur-page.css',
