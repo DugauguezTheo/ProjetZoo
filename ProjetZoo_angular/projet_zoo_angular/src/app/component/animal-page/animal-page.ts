@@ -21,7 +21,7 @@ import { AuthService } from '../../service/auth-service';
 export class AnimalPage implements OnInit {
 
   private titleService: Title = inject(Title);
-  private authService: AuthService = inject(AuthService);
+  protected authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
   private animalService: AnimalService = inject(AnimalService);

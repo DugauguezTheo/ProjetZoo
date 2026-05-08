@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Enclos } from '../../model/enclos';
 import { EnclosService } from '../../service/enclos-service';
 import { SpectacleRequest } from '../../dto/spectacle-request';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-spectacle-page',
@@ -18,7 +19,7 @@ import { SpectacleRequest } from '../../dto/spectacle-request';
 })
 export class SpectaclePage {
 
-
+  protected authService: AuthService = inject(AuthService);
   private titleService: Title = inject(Title);
   private router: Router = inject(Router);
 
@@ -43,6 +44,7 @@ export class SpectaclePage {
   protected formHeureCtrl!: FormControl;
   protected formDureeCtrl!: FormControl;
   protected formEnclosCtrl!: FormControl;
+  protected formTitreCtrl!: FormControl;
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Spectacle');
@@ -59,12 +61,14 @@ export class SpectaclePage {
     this.formHeureCtrl = this.formBuilder.control('', Validators.required);
     this.formDureeCtrl = this.formBuilder.control('', Validators.required);
     this.formEnclosCtrl = this.formBuilder.control('', Validators.required);
+    this.formTitreCtrl = this.formBuilder.control('', Validators.required);
 
     this.formSpectacle = this.formBuilder.group({
       date: this.formDateCtrl,
       heure: this.formHeureCtrl,
       duree: this.formDureeCtrl,
-      enclos: this.formEnclosCtrl
+      enclos: this.formEnclosCtrl,
+      titre: this.formTitreCtrl
     });
   }
 
@@ -77,7 +81,8 @@ export class SpectaclePage {
       dateDebut: this.formDateCtrl.value,
       heureDebut: this.formHeureCtrl.value,
       duree: this.formDureeCtrl.value,
-      enclosId: this.formEnclosCtrl.value
+      enclosId: this.formEnclosCtrl.value,
+      titre: this.formTitreCtrl.value
     };
     
     if (this.editingSpectacle) {
@@ -102,7 +107,7 @@ export class SpectaclePage {
     this.formHeureCtrl.setValue(spectacle.heureDebut);
     this.formDureeCtrl.setValue(spectacle.duree);
     this.formEnclosCtrl.setValue(spectacle.enclosId);
-
+    this.formTitreCtrl.setValue(spectacle.titre);
     this.reload();
   }
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 
@@ -22,6 +23,9 @@ public class CreateOrUpdateSpectacleRequest {
     
     @NotNull
     private Integer enclosId;
+
+    @NotBlank
+    private String titre;
 
     public LocalDate getDateDebut() {
         return dateDebut;
@@ -49,6 +53,12 @@ public class CreateOrUpdateSpectacleRequest {
     public void setEnclosId(Integer enclosId) {
         this.enclosId = enclosId;
     }
-    
-    
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 }

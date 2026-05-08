@@ -13,6 +13,7 @@ public class SpectacleWithReservationsResponse {
     private LocalDate dateDebut;
     private LocalTime heureDebut;
     private Integer duree;
+    private String titre;
 
 
     private Integer enclosId;
@@ -78,6 +79,13 @@ public class SpectacleWithReservationsResponse {
         this.enclosBiome = enclosBiome;
     }
 
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
     public static SpectacleWithReservationsResponse convert(Spectacle spectacle){
         SpectacleWithReservationsResponse spectacleResponse = new SpectacleWithReservationsResponse();
@@ -94,6 +102,7 @@ public class SpectacleWithReservationsResponse {
                 .map(Reservation::getId)
                 .toList()
         );
+        spectacleResponse.setTitre(spectacle.getTitre());
 
         return spectacleResponse;
     }

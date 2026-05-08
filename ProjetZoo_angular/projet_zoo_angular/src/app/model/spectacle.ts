@@ -7,5 +7,6 @@ export interface Spectacle {
     duree: number;
     enclosId: number;
     enclosBiome: string;
+    titre: string;
     // reservations?: Reservation[];
 }

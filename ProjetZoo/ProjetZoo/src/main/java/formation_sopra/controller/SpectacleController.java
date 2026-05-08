@@ -100,6 +100,7 @@ public class SpectacleController {
         spectacle.setDuree(request.getDuree()); 
         spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
         spectacle.setReservations(this.daoReservation.findAllBySpectacleId(id));
+        spectacle.setTitre(request.getTitre());
 
         this.daoSpectacle.save(spectacle);
 
@@ -119,6 +120,7 @@ public class SpectacleController {
         spectacle.setDateDebut(request.getDateDebut());
         spectacle.setHeureDebut(request.getHeureDebut());
         spectacle.setDuree(request.getDuree());
+        spectacle.setTitre(request.getTitre());
         spectacle.setEnclos(this.daoEnclos.findById(request.getEnclosId()).orElseThrow(EntityNotFoundException::new));
 
         this.daoSpectacle.save(spectacle);
