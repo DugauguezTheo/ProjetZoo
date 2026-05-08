@@ -26,7 +26,6 @@ export class AchatPage implements OnInit {
 
   protected achatService : AchatService = inject(AchatService);
   protected visiteurService : VisiteurService = inject(VisiteurService);
-  protected articleService : ArticleService = inject(ArticleService);
   protected visiteur$ !: Observable<VisiteurWithAchats>;
   protected achats$ !: Observable<Achat[]>
   protected role !: string;
@@ -44,10 +43,4 @@ export class AchatPage implements OnInit {
             switchMap(() => this.achatService.findAllAchatsByVisiteurConnected())
       );
     }
-
-    public getArticleNameById(idArticle: number): Observable<string> {
-      return this.articleService.findArticleById(idArticle).pipe(
-        map(article => article.libelle)
-    );
-}
 }

@@ -6,7 +6,7 @@ import { ArticleService } from '../../service/article-service';
 import { VisiteurService } from '../../service/visiteur-service';
 import { Article } from '../../model/article';
 import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Achat } from '../../model/achat';
 import { AchatService } from '../../service/achat-service';
@@ -25,6 +25,7 @@ export class AchatArticle implements OnInit {
   private titleService: Title = inject(Title);
   protected authService: AuthService = inject(AuthService);
   protected achatService : AchatService = inject(AchatService);
+  private router : Router = inject(Router);
 
   private refresh$: Subject<void> = new Subject<void>();
   private route: ActivatedRoute = inject(ActivatedRoute);
@@ -35,10 +36,13 @@ export class AchatArticle implements OnInit {
   protected article$ !: Observable<Article>
   protected role !: string;
 
+  protected achatSuccess = false;
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   protected formAchat!: FormGroup;
 
   protected formIdArticleCtrl!: FormControl;
+  protected formLibelleCtrl !: FormControl;
   protected formPrixCtrl!: FormControl;
   protected formQuantiteCtrl!: FormControl;
   protected formPrixTotalCtrl!: FormControl;
@@ -66,8 +70,10 @@ export class AchatArticle implements OnInit {
 
       this.formIdArticleCtrl = new FormControl(id);
       this.formPrixCtrl = new FormControl(0);
+      this.formLibelleCtrl = new FormControl("");
 
       this.article$.subscribe(article => {
+        this.formLibelleCtrl.setValue(article.libelle);
         this.formPrixCtrl.setValue(article.prix);
       });
 
@@ -76,6 +82,7 @@ export class AchatArticle implements OnInit {
 
       this.formAchat = this.formBuilder.group({
         idArticle: this.formIdArticleCtrl,
+        articleLibelle : this.formLibelleCtrl,
         prix: this.formPrixCtrl,
         quantite: this.formQuantiteCtrl,
         prixTotal: this.formPrixTotalCtrl
@@ -90,6 +97,8 @@ export class AchatArticle implements OnInit {
 
           idArticle: this.formIdArticleCtrl.value,
 
+          articleLibelle : this.formLibelleCtrl.value,
+
           quantite: this.formQuantiteCtrl.value,
 
           prixUnitaireATM: this.formPrixCtrl.value,
@@ -102,13 +111,19 @@ export class AchatArticle implements OnInit {
 
         this.achatService.addAchat(achat).subscribe(() => {
 
-          alert("Achat effectué avec succès");
+          this.achatSuccess = true;
 
           this.refresh$.next();
 
         });
 
       });
+
+    }
+
+    protected closeAchatSuccess() {
+      this.achatSuccess = false;
+      this.router.navigate(['/boutique']);
 
     }
 

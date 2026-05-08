@@ -131,6 +131,16 @@
 </div>
 
 
+@if (achatSuccess) {
+  <div class="modal-backdrop">
+    <div class="success-modal">
+      <h2>🛍️ Achat confirmé</h2>
+      <p> Votre achat a bien été enregistré.</p>
+      <button class="modal-btn" (click)="closeAchatSuccess()"> OK </button>
+    </div>
+  </div>
+}
+
 <div class="animals">
   <img src="/panthere_final.gif" alt="Panthère">
   <img src="/poissons-qui-nagent.gif" alt="Poissons">

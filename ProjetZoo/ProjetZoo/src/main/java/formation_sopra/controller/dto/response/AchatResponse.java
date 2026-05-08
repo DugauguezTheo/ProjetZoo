@@ -12,6 +12,7 @@ public class AchatResponse {
     private double prixUnitaireATM;
     private LocalDate dateAchat;
     private Integer idVisiteur;
+    private String articleLibelle;
 
     public Integer getReference() {
         return reference;
@@ -50,6 +51,12 @@ public class AchatResponse {
         this.idVisiteur = idVisiteur;
     }
 
+    public String getArticleLibelle() {
+        return articleLibelle;
+    }
+    public void setArticleLibelle(String articleLibelle) {
+        this.articleLibelle = articleLibelle;
+    }
     public static AchatResponse convert(Achat achat) {
         AchatResponse achatResponse = new AchatResponse();
 
@@ -59,6 +66,7 @@ public class AchatResponse {
         achatResponse.prixUnitaireATM = achat.getPrixUnitaireATM();
         achatResponse.dateAchat = achat.getDateAchat();
         achatResponse.idVisiteur = achat.getVisiteur().getId();
+        achatResponse.articleLibelle = achat.getArticle().getLibelle();
 
         return achatResponse;
     }
