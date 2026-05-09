@@ -57,8 +57,21 @@
                     <div class="inline">
                         <label for="enclos">Enclos</label>
                         <select id="enclos" formControlName="idEnclos" [class.is-invalid]="formEnclosCtrl.invalid">
+
                             <option [ngValue]="null">Choisir un enclos</option>
-                            <option *ngFor="let e of enclos | async" [ngValue]="e">#{{ e.numero }} - {{ e.biome }}</option>
+
+                            <option *ngFor="let e of enclosDisponibles$ | async" [ngValue]="e">
+                              #{{ e.numero }} - {{ e.biome }}
+                              (
+                                <span *ngFor="let espece of e.especes; let last = last">
+                                  {{ espece.replace("_"," ") }}
+
+                                  <span *ngIf="!last">, </span>
+                              )
+                                </span>
+                              [{{ e.animal?.length ?? 0 }}/{{ e.capacite }}]
+                            </option>
+
                         </select>
                         <div *ngIf="formEnclosCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
                             l'enclos est

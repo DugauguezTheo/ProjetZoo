@@ -30,7 +30,8 @@ export class AnimalPage implements OnInit {
 
   protected editingAnimal ?: Animal | null;
   protected animals$!: Observable<Animal[]>;
-  protected enclos!: Observable<Enclos[]>;
+  protected enclos$!: Observable<Enclos[]>;
+  protected enclosDisponibles$ !: Observable<Enclos[]>;
   protected especes$!: Observable<string[]>;
   private refresh$: Subject<void> = new Subject<void>();
 
@@ -56,7 +57,11 @@ export class AnimalPage implements OnInit {
       switchMap(() => this.animalService.findAllAnimals())
     );
 
-    this.enclos = this.enclosService.findAllEncloss();
+    this.enclos$ = this.enclosService.findAllEncloss();
+
+    this.enclosDisponibles$ = this.enclos$.pipe(
+      map(enclos => enclos.filter(e => (e.animal?.length ?? 0) < e.capacite))
+    )
     this.especes$ = this.especeService.findAllEspeces();
 
     this.formPrenomCtrl = new FormControl("", Validators.required);
