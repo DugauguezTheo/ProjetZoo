@@ -60,7 +60,7 @@
     <!-- UTILISATEUR CONNECTÉ -->
     @if (authService.isVisiteur()) {
 
-    <form (submit)="addAchat()" class="achat-form" [formGroup]="formAchat">
+    <form (ngSubmit)="addAchat()" class="achat-form" [formGroup]="formAchat">
 
       <div class="form-group">
         <label for="quantite">Quantité</label>
@@ -81,7 +81,7 @@
 
       <div class="total-box"> Prix total : {{ (formQuantiteCtrl.value * article.prix) | number:'1.0-2'}} € </div>
 
-      <input type="submit" class="buy-btn" value="Acheter"/>
+      <button type="submit" class="buy-btn">Acheter</button>
     </form>
     }
 

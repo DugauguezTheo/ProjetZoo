@@ -116,6 +116,9 @@ public class AchatController {
         achat.setVisiteur(visiteur);
 
         achat = this.daoAchat.save(achat);
+
+        article.setQuantiteStock(article.getQuantiteStock() - request.quantite());
+        this.daoArticle.save(article);
         return AchatResponse.convert(achat);
     }
 

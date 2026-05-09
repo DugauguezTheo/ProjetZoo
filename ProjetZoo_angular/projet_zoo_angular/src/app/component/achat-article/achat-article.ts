@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../service/auth-service';
 import { Observable, startWith, Subject, switchMap } from 'rxjs';
@@ -29,7 +29,7 @@ export class AchatArticle implements OnInit {
   protected achatService : AchatService = inject(AchatService);
   private router : Router = inject(Router);
 
-  private refresh$: Subject<void> = new Subject<void>();
+  private cdr : ChangeDetectorRef = inject(ChangeDetectorRef);
   private route: ActivatedRoute = inject(ActivatedRoute);
 
   protected articleService : ArticleService = inject(ArticleService);
@@ -93,6 +93,7 @@ export class AchatArticle implements OnInit {
 
 
     public addAchat() {
+
       this.visiteur$.subscribe(visiteur => {
 
         const achat: Achat = {
@@ -114,8 +115,7 @@ export class AchatArticle implements OnInit {
         this.achatService.addAchat(achat).subscribe(() => {
 
           this.achatSuccess = true;
-
-          this.refresh$.next();
+          this.cdr.detectChanges();
 
         });
 
