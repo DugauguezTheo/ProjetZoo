@@ -29,8 +29,16 @@
       @else {
         <li><a routerLink="/home">Accueil</a></li>
       }
-
+      
       <li><a routerLink="/spectacle">Spectacles</a></li>
+
+      @if (authService.isVisiteur()) {
+        <li><a routerLink="/reservation">Mes-Réservations</a></li>
+      }
+      @else {
+        <li><a routerLink="/reservation">Réservations</a></li>
+      }
+
       <li><a routerLink="/animal">Animaux</a></li>
       <li><a routerLink="/enclos">Enclos</a></li>
       <li><a routerLink="/boutique">Boutique</a></li>
