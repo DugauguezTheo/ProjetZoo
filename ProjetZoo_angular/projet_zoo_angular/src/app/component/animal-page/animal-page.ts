@@ -67,9 +67,8 @@ export class AnimalPage implements OnInit {
     this.formAnimal = this.formBuilder.group({
       prenom: this.formPrenomCtrl,
       dateNaissance: this.formDateNaissanceCtrl,
-      idEnclos: this.formEnclosCtrl.value?.numero,
-      biomeEnclos: this.formEnclosCtrl.value?.biome,
-      espece: this.formEspeceCtrl.value
+      idEnclos: this.formEnclosCtrl,
+      espece: this.formEspeceCtrl
     });
   }
 
@@ -123,7 +122,7 @@ export class AnimalPage implements OnInit {
 
   filterEspeces(search: string): void {
   this.filteredEspeces$ = this.especes$.pipe(
-    map(especes => especes.filter(e => 
+    map(especes => especes.filter(e =>
       e.toLowerCase().includes(search.toLowerCase())
     ))
   );

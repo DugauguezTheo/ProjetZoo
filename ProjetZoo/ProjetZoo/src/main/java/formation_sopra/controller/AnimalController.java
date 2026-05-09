@@ -4,6 +4,7 @@ import formation_sopra.controller.dto.request.CreateOrUpdateAnimalRequest;
 import formation_sopra.controller.dto.response.AnimalResponse;
 import formation_sopra.controller.dto.response.AnimalWithSoinsResponse;
 import formation_sopra.dao.IDAOAnimal;
+import formation_sopra.dao.IDAOEnclos;
 import formation_sopra.dao.IDAOSoin;
 import formation_sopra.exception.AnimalNotFoundException;
 import formation_sopra.exception.ArticleNotFoundException;
@@ -25,10 +26,12 @@ public class AnimalController {
 
     private final IDAOAnimal daoAnimal;
     private final IDAOSoin daoSoin;
+    private final IDAOEnclos daoEnclos;
 
-    public AnimalController(IDAOAnimal daoAnimal, IDAOSoin daoSoin) {
+    public AnimalController(IDAOAnimal daoAnimal, IDAOSoin daoSoin, IDAOEnclos daoEnclos) {
         this.daoAnimal = daoAnimal;
         this.daoSoin = daoSoin;
+        this.daoEnclos = daoEnclos;
     }
 
     @GetMapping("/{id}")
@@ -74,7 +77,7 @@ public class AnimalController {
         Animal animal = new Animal();
         animal.setId(id);
         animal.setDateNaissance(request.getDateNaissance());
-        animal.setEnclos(request.getEnclos());
+        animal.setEnclos(this.daoEnclos.findById(request.getIdEnclos()).orElse(null));
         animal.setEspece(request.getEspece());
         animal.setPrenom(request.getPrenom());
         
@@ -93,7 +96,7 @@ public class AnimalController {
 
         Animal animal = new Animal();
         animal.setDateNaissance(request.getDateNaissance());
-        animal.setEnclos(request.getEnclos());
+        animal.setEnclos(this.daoEnclos.findById(request.getIdEnclos()).orElse(null));
         animal.setEspece(request.getEspece());
         animal.setPrenom(request.getPrenom());
         animal = daoAnimal.save(animal);
