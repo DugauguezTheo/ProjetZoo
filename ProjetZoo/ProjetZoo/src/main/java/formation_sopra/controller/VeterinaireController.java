@@ -52,7 +52,7 @@ public class VeterinaireController {
     }
 
     @GetMapping("/mon-compte")
-    @PreAuthorize("hasRole('VETERINAIRE")
+    @PreAuthorize("hasRole('VETERINAIRE')")
     public VetWithSoinsResponse getVeterinaireConnected(Authentication auth) {
         Integer id = Integer.parseInt(auth.getName());
         log.debug("Recherche du compte n°{} (compte veterinaire) ...", id);
