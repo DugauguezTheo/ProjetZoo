@@ -23,7 +23,6 @@ export class AnimalPage implements OnInit {
 
   private titleService: Title = inject(Title);
   protected authService: AuthService = inject(AuthService);
-  private router: Router = inject(Router);
 
   private animalService: AnimalService = inject(AnimalService);
   protected enclosService: EnclosService = inject(EnclosService);
@@ -127,7 +126,7 @@ export class AnimalPage implements OnInit {
     this.enclos$ = this.enclosService.findAllEncloss();
 
     this.enclosDisponibles$ = this.enclos$.pipe(
-      map(enclos => enclos.filter(e => (e.animal?.length ?? 0) < e.capacite))
+      map(enclos => enclos.filter(e => (e.animals?.length ?? 0) < e.capacite))
     )
     this.especes$ = this.especeService.findAllEspeces();
 

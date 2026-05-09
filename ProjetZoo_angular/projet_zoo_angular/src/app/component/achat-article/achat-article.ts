@@ -52,10 +52,6 @@ export class AchatArticle implements OnInit {
 
     ngOnInit(): void {
 
-      if (this.authService.isVisiteur()) {
-        this.visiteur$ = this.visiteurService.getVisiteurConnecte();
-      }
-
       this.role = this.authService.role.substring(5, 6) + this.authService.role.substring(6).toLowerCase();
 
       const id = Number(this.route.snapshot.paramMap.get('id'));

@@ -15,13 +15,13 @@ import { VisiteurPage } from './component/visiteur-page/visiteur-page';
 import { NonauthPage } from './component/nonauth-page/nonauth-page';
 import { CreateComptePage } from './component/create-compte-page/create-compte-page';
 import { AchatArticle } from './component/achat-article/achat-article';
+import { AnimalByIdPage } from './component/animal-by-id-page/animal-by-id-page';
 
 export const routes: Routes = [
 
 
     { path: 'achat', component: AchatPage, canActivate: [authGuard] },
     { path: 'admin', component: AdminPage, canActivate: [authGuard] },
-    { path: 'animal', component: AnimalPage, canActivate: [authGuard] },
     { path: 'compte', component: ComptePage, canActivate: [authGuard] },
     { path: 'enclos', component: EnclosPage, canActivate: [authGuard] },
     { path: 'reservation', component: ReservationPage, canActivate: [authGuard] },
@@ -30,8 +30,10 @@ export const routes: Routes = [
     { path: 'veterinaire', component: VeterinairePage, canActivate: [authGuard] },
     { path: 'visiteur', component: VisiteurPage, canActivate: [authGuard] },
 
+    { path: 'animal', component: AnimalPage },
     { path: 'boutique', component: ArticlePage },
     { path: 'boutique/article/:id', component: AchatArticle },
+    { path: 'animal/:id', component: AnimalByIdPage },
 
     { path: 'connexion', component: Connexion },
     { path: 'inscription', component: CreateComptePage},

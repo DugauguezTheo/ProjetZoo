@@ -11,7 +11,7 @@ public class EnclosWithAnimalsResponse {
     private String biome;
     private int capacite;
     private List<Espece> especes;
-    private List<Integer> animalsIds;
+    private List<AnimalResponse> animals;
 
     public Integer getNumero() {
         return numero;
@@ -27,14 +27,6 @@ public class EnclosWithAnimalsResponse {
 
     public void setCapacite(int capacite) {
         this.capacite = capacite;
-    }
-
-    public List<Integer> getAnimalsIds() {
-        return animalsIds;
-    }
-    
-    public void setAnimalsIds(List<Integer> animalsIds) {
-        this.animalsIds = animalsIds;
     }
     
     public List<Espece> getEspeces() {
@@ -53,6 +45,14 @@ public class EnclosWithAnimalsResponse {
         this.biome = biome;
     }
 
+    public List<AnimalResponse> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<AnimalResponse> animals) {
+        this.animals = animals;
+    }
+
     public static EnclosWithAnimalsResponse convert(Enclos enclos){
         EnclosWithAnimalsResponse enclosWithAnimals = new EnclosWithAnimalsResponse();
 
@@ -64,8 +64,8 @@ public class EnclosWithAnimalsResponse {
             .distinct()
             .toList()
         );
-        enclosWithAnimals.setAnimalsIds(enclos.getAnimals().stream()
-            .map(animal -> animal.getId())
+        enclosWithAnimals.setAnimals(enclos.getAnimals().stream()
+            .map(animal -> AnimalResponse.convert(animal))
             .toList()
         );
 

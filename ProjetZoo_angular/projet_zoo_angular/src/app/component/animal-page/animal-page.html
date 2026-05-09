@@ -23,9 +23,9 @@
 
         <section class="content">
 
-        <div class="container">
-
         @if(authService.isAdmin() || authService.isVeterinaire()) {
+          <div class="container">
+
 
           <form class="animal-form" (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
 
@@ -81,7 +81,7 @@
 
                     #{{ e.numero }} - {{ e.biome }}
 
-                    [{{ e.animal?.length ?? 0 }}/{{ e.capacite }}]
+                    [{{ e.animals?.length ?? 0 }}/{{ e.capacite }}]
 
                   </option>
 
@@ -113,9 +113,9 @@
             </div>
 
           </form>
-        }
 
-    </div>
+        </div>
+      }
 
    <h2 class="section-title">Liste des animaux</h2>
 
@@ -159,12 +159,6 @@
       </div>
 
     </div>
-<!--
-                     @if(authService.isAdmin() || authService.isVeterinaire()) {
-
-                        <button class="btn btn-danger" (click)="deleteAnimal(animal)">Supprimer</button>
-                        <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button> -->
-
 
     </section>
     </div>
