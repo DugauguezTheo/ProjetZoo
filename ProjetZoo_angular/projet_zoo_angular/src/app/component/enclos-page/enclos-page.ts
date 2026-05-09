@@ -21,7 +21,7 @@ export class EnclosPage implements OnInit {
   protected authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
-  private enclosService: EnclosService = inject(EnclosService);
+  protected enclosService: EnclosService = inject(EnclosService);
   protected especeService: EspeceService = inject(EspeceService);
 
   protected editingEnclos?: Enclos | null;

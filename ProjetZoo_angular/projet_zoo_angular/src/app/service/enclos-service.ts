@@ -29,7 +29,7 @@ export class EnclosService {
     return this.http.delete(`/enclos/${numero}`);
   }
 
-  public getAllEspecesInEnclos(numero: number): Observable<Enclos> {
+  public getAllEspecesInEnclos(numero: number | undefined): Observable<Enclos> {
     return this.http.get<Enclos>(`/enclos/${numero}/especes`);
   }
 }

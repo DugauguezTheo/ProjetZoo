@@ -74,9 +74,9 @@
                     <td>@if (!enclos.especes || enclos.especes.length === 0) {
                         <p>Enclos vide pour le moment</p>
                         } @else {
-                        <ul>
-                            <li *ngFor="let espece of enclos.especes">{{ espece }}</li>
-                        </ul>
+                        <span *ngFor="let espece of enclos.especes; let last = last">
+                          {{ espece.replace("_"," ") }}<span *ngIf="!last">, </span>
+                        </span>
                         }
                     </td>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {

@@ -68,14 +68,14 @@ public class EnclosController {
     }
 
     @GetMapping
-    public List<EnclosResponse> findAllWithAnimals() {
+    public List<EnclosWithAnimalsResponse> findAllWithAnimals() {
 
         log.debug("Liste des enclos ...");
 
 
         return this.daoEnclos.findAllWithAnimals()
                 .stream()
-                .map(EnclosResponse::convert)
+                .map(EnclosWithAnimalsResponse::convert)
                 .toList();
     }
 

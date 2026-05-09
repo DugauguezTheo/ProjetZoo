@@ -8,8 +8,9 @@ import formation_sopra.model.Espece;
 public class EnclosWithAnimalsResponse {
 
     private Integer numero;
+    private String biome;
     private int capacite;
-//    private Espece espece;
+    private List<Espece> especes;
     private List<Integer> animalsIds;
 
     public Integer getNumero() {
@@ -28,28 +29,41 @@ public class EnclosWithAnimalsResponse {
         this.capacite = capacite;
     }
 
-//    public Espece getEspece() {
-//        return espece;
-//    }
-//
-//    public void setEspece(Espece espece) {
-//        this.espece = espece;
-//    }
-
     public List<Integer> getAnimalsIds() {
         return animalsIds;
     }
-
+    
     public void setAnimalsIds(List<Integer> animalsIds) {
         this.animalsIds = animalsIds;
+    }
+    
+    public List<Espece> getEspeces() {
+        return especes;
+    }
+    
+    public void setEspeces(List<Espece> especes) {
+        this.especes = especes;
+    }
+
+    public String getBiome() {
+        return biome;
+    }
+
+    public void setBiome(String biome) {
+        this.biome = biome;
     }
 
     public static EnclosWithAnimalsResponse convert(Enclos enclos){
         EnclosWithAnimalsResponse enclosWithAnimals = new EnclosWithAnimalsResponse();
 
         enclosWithAnimals.setNumero(enclos.getNumero());
+        enclosWithAnimals.setBiome(enclos.getBiome());
         enclosWithAnimals.setCapacite(enclos.getCapacite());
-//        enclosWithAnimals.setEspece(enclos.getEspece());
+        enclosWithAnimals.setEspeces(enclos.getAnimals().stream()
+            .map(a -> a.getEspece())
+            .distinct()
+            .toList()
+        );
         enclosWithAnimals.setAnimalsIds(enclos.getAnimals().stream()
             .map(animal -> animal.getId())
             .toList()
@@ -58,4 +72,5 @@ public class EnclosWithAnimalsResponse {
 
         return enclosWithAnimals;
     }
+
 }
