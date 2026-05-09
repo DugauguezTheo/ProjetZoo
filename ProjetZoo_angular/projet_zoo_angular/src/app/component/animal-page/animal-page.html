@@ -11,127 +11,167 @@
 
 <body>
 
-    <div class="container">
+  <header class="header">
+  <img src="/Arche_sans_fond.png" alt="Logo" class="logo">
 
-        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+  <h1 class="title">L'Arche des Joyaux Cachés</h1>
 
-        <h2>Liste des animaux</h2>
+  <div class="spacer"></div>
+</header>
+    <div class="page-layout">
+      <div class="main-column">
+
+        <section class="content">
+
+        <div class="container">
 
         @if(authService.isAdmin() || authService.isVeterinaire()) {
 
-        <form (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
-            <div class="form-group">
-                <div>
-                    <div class="inline">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" class="form-control" id="prenom" formControlName="prenom"
-                            [class.is-invalid]="formPrenomCtrl.invalid" />
-                        <div *ngIf="formPrenomCtrl.hasError('required')" class="form-control">Pour ajouter un animal, le
-                            prénom est
-                            obligatoire</div>
-                    </div>
-                    <div class="inline">
-                        <label for="dateNaissance">Date de naissance</label>
-                        <input type="date" class="form-control" id="dateNaissance" formControlName="dateNaissance"
-                            [class.is-invalid]="formDateNaissanceCtrl.invalid" />
-                        <div *ngIf="formDateNaissanceCtrl.hasError('required')" class="form-control">Pour ajouter un
-                            animal, la date de
-                            naissance est
-                            obligatoire</div>
-                    </div>
-                </div>
+          <form class="animal-form" (submit)="addOrUpdateAnimal()" [formGroup]="formAnimal">
 
-                <div>
-                    <div class="inline">
-                        <label for="espece">Espèce</label>
-                        <select id="espece" formControlName="espece">
-                            <option [ngValue]="null">Choisir une espèce</option>
-                            <option *ngFor="let espece of especes$ | async" [ngValue]="espece">
-                                {{ espece }}
-                            </option>
-                        </select>
-                        <div *ngIf="formEspeceCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
-                            l'espèce est
-                            obligatoire</div>
-                    </div>
-                    <div class="inline">
-                        <label for="enclos">Enclos</label>
-                        <select id="enclos" formControlName="idEnclos" [class.is-invalid]="formEnclosCtrl.invalid">
+            <div class="form-grid">
 
-                            <option [ngValue]="null">Choisir un enclos</option>
+              <div class="input-group">
+                <label for="prenom">🦁 Prénom</label>
 
-                            <option *ngFor="let e of enclosDisponibles$ | async" [ngValue]="e">
-                              #{{ e.numero }} - {{ e.biome }}
-                              (
-                                <span *ngFor="let espece of e.especes; let last = last">
-                                  {{ espece.replace("_"," ") }}
+                <input
+                  type="text"
+                  id="prenom"
+                  formControlName="prenom"
+                  placeholder="Nom de l'animal"
+                />
+              </div>
 
-                                  <span *ngIf="!last">, </span>
-                              )
-                                </span>
-                              [{{ e.animal?.length ?? 0 }}/{{ e.capacite }}]
-                            </option>
+              <div class="input-group">
+                <label for="dateNaissance">🎂 Date de naissance</label>
 
-                        </select>
-                        <div *ngIf="formEnclosCtrl.hasError('required')" class="form-control">Pour ajouter un animal,
-                            l'enclos est
-                            obligatoire</div>
-                    </div>
-                </div>
+                <input
+                  type="date"
+                  id="dateNaissance"
+                  formControlName="dateNaissance"
+                />
+              </div>
 
-                <div>
-                    <input *ngIf="!editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-success"
-                        value="Ajouter" />
-                    <input *ngIf="editingAnimal" [disabled]="formAnimal.invalid" type="submit" class="btn btn-warning"
-                        value="Modifier" />
-                </div>
+              <div class="input-group">
+                <label for="espece">🐾 Espèce</label>
+
+                <select id="espece" formControlName="espece">
+
+                  <option [ngValue]="null">
+                    Choisir une espèce
+                  </option>
+
+                  <option *ngFor="let espece of especes$ | async" [ngValue]="espece">
+                    {{ espece.replace("_", " ") }}
+                  </option>
+
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label for="enclos">🌿 Enclos</label>
+
+                <select id="enclos" formControlName="idEnclos">
+
+                  <option [ngValue]="null">
+                    Choisir un enclos
+                  </option>
+
+                  <option *ngFor="let e of enclosDisponibles$ | async" [ngValue]="e">
+
+                    #{{ e.numero }} - {{ e.biome }}
+
+                    [{{ e.animal?.length ?? 0 }}/{{ e.capacite }}]
+
+                  </option>
+
+                </select>
+              </div>
+
             </div>
 
-        </form>
-    }
+            <div class="form-actions">
+
+              <button
+                *ngIf="!editingAnimal"
+                [disabled]="formAnimal.invalid"
+                class="gold-btn"
+                type="submit"
+              >
+                ✨ Ajouter l'animal
+              </button>
+
+              <button
+                *ngIf="editingAnimal"
+                [disabled]="formAnimal.invalid"
+                class="gold-btn"
+                type="submit"
+              >
+                🛠️ Modifier l'animal
+              </button>
+
+            </div>
+
+          </form>
+        }
 
     </div>
 
-    @if ((animals$ | async)?.length===0) {
-            <h3>Aucun animal trouvé</h3>
-    } @else {
-    <div class="tableau-wrapper">
-        <table class="tableau">
-            <thead>
-                <tr>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <th>Id</th>
-                    }
-                    <th>Prenom</th>
-                    <th>Date de naissance</th>
-                    <th>Espece</th>
-                    <th>Enclos</th>
-                     @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <th>Actions</th>
-                     }
-                </tr>
-            </thead>
+   <h2 class="section-title">Liste des animaux</h2>
 
-            <tbody>
-                <tr *ngFor="let animal of animals$ | async">
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <td>{{ animal.id }}</td>
-                    }
-                    <td>{{ animal.prenom }}</td>
-                    <td>{{ animal.dateNaissance | date:"dd/MM/yyyy" }}</td>
-                    <td>{{ animal.espece }}</td>
-                    <td>{{ animal.idEnclos }} - {{animal.biomeEnclos}}</td>
+    <div class="animals-grid" *ngIf="animals$ | async as animals">
+
+      <div *ngIf="animals.length === 0" class="empty-state">
+        Aucun animal dans le Zoo
+      </div>
+
+      <div
+        class="animal-card"
+        *ngFor="let animal of animals"
+        [routerLink]="['/animal', animal.id]"
+      >
+
+        <div class="animal-header">
+          <h3>{{ animal.prenom }}</h3>
+        </div>
+
+        <img class="animal-image" [src]="especeImages[animal.espece]" [alt]="animal.espece">
+
+        <div class="animal-body">
+
+          <p>
+            <span class="label">🎂 Naissance :</span>
+            {{ animal.dateNaissance | date:'dd/MM/yyyy' }}
+          </p>
+
+          <p>
+            <span class="label">🌿 Biome :</span>
+            {{ animal.biomeEnclos }}
+          </p>
+
+          <p>
+            <span class="label">🐾 Espèce :</span>
+            {{ animal.espece.replace('_', ' ') }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+<!--
                      @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <td>
+
                         <button class="btn btn-danger" (click)="deleteAnimal(animal)">Supprimer</button>
-                        <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button>
-                    </td>
-                }
-                </tr>
-            </tbody>
-        </table>
+                        <button class="btn btn-edit" (click)="editerAnimal(animal)">Modifier</button> -->
+
+
+    </section>
     </div>
-    }
+
+    <app-carte-logged></app-carte-logged>
+    </div>
+
 
     <div class="panther-container">
         <img src="panthere_final.gif" class="panther" alt="Panthère">

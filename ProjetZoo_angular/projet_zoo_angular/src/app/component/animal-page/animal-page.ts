@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AnimalService } from '../../service/animal-service';
 import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { Animal } from '../../model/animal';
@@ -11,10 +11,11 @@ import { Espece } from '../../model/espece';
 import { Enclos } from '../../model/enclos';
 import { EnclosService } from '../../service/enclos-service';
 import { AuthService } from '../../service/auth-service';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-animal-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CarteLogged, RouterLink],
   templateUrl: './animal-page.html',
   styleUrl: './animal-page.css',
 })
@@ -46,6 +47,72 @@ export class AnimalPage implements OnInit {
 
   protected filteredEspeces$!: Observable<string[]>;
   protected searchEspece: string ='';
+
+  protected especeImages: Record<string, string> = {
+
+    Lion: 'assets/animals/lion.jpg',
+    Tigre: 'assets/animals/tigre.jpg',
+    Elephant: 'assets/animals/elephant.jpg',
+    Rhinoceros: 'assets/animals/rhinoceros.jpg',
+    Hippopotame: 'assets/animals/hippopotame.jpg',
+    Girafe: 'assets/animals/girafe.jpg',
+    Zebre: 'assets/animals/zebre.jpg',
+
+    Panthere: 'assets/animals/panthere.jpg',
+    Leopard: 'assets/animals/leopard.jpg',
+    Guepard: 'assets/animals/guepard.jpg',
+    Jaguar: 'assets/animals/jaguar.jpg',
+    Couguar: 'assets/animals/cougar.jpg',
+    Lynx: 'assets/animals/lynx.jpg',
+
+    Ours_Polaire: 'assets/animals/ours_polaire.jpg',
+    Ours_Brun: 'assets/animals/ours_brun.jpg',
+
+    Panda: 'assets/animals/panda.jpg',
+    Panda_Roux: 'assets/animals/panda_roux.jpg',
+
+    Koala: 'assets/animals/koala.jpg',
+    Kangourou: 'assets/animals/kangourou.jpg',
+
+    Orang_Outan: 'assets/animals/orang_outan.jpg',
+    Gorille: 'assets/animals/gorille.jpg',
+    Chimpanze: 'assets/animals/chimpanze.jpg',
+    Bonobo: 'assets/animals/bonobo.jpg',
+    Lemurien: 'assets/animals/lemurien.jpg',
+
+    Loup: 'assets/animals/loup.jpg',
+    Loup_Artique: 'assets/animals/loup_artique.jpg',
+    Hyene: 'assets/animals/hyene.jpg',
+
+    Manchot: 'assets/animals/manchot.jpg',
+    Pingouin: 'assets/animals/pingouin.jpg',
+
+    Autruche: 'assets/animals/autruche.jpg',
+    Flamant_Rose: 'assets/animals/flamant_rose.jpg',
+    Perroquet: 'assets/animals/perroquet.jpg',
+    Toucan: 'assets/animals/toucan.jpg',
+    Aigle: 'assets/animals/aigle.jpg',
+    Faucon: 'assets/animals/faucon.jpg',
+    Chouette: 'assets/animals/chouette.jpg',
+
+    Crocodile: 'assets/animals/crocodile.jpg',
+    Alligator: 'assets/animals/alligator.jpg',
+    Serpent_Python: 'assets/animals/python.jpg',
+    Cobra: 'assets/animals/cobra.jpg',
+    Varan: 'assets/animals/varan.jpg',
+    Cameleon: 'assets/animals/cameleon.jpg',
+    Iguane: 'assets/animals/iguane.jpg',
+
+    Tortue_Geante: 'assets/animals/tortue_geante.jpg',
+
+    Dauphin: 'assets/animals/dauphin.jpg',
+    Otarie: 'assets/animals/otarie.jpg',
+    Phoque: 'assets/animals/phoque.jpg',
+    Manta: 'assets/animals/manta.jpg',
+    Requin: 'assets/animals/requin.jpg',
+
+    Suricate: 'assets/animals/suricate.jpg'
+  };
 
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Animaux');
