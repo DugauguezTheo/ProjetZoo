@@ -23,21 +23,21 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column(name = "date_visite")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate dateVisite;
+    private LocalDate dateVisite;
 
     @Column(name = "date_reservation")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate dateReservation;
+    private LocalDate dateReservation;
 
     @Column(nullable = false)
-    Double prix;
+    private Double prix;
 
     @Column(name = "nb_personne")
-    Integer nbPersonne;
+    private Integer nbPersonne;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "visiteur_id")

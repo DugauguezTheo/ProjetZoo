@@ -21,6 +21,7 @@ public class Article {
 
     @Column(nullable = false, length = 30)
     private String libelle;
+
     @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
     @Range(min = 0, max = 1000)
     private double prix;
