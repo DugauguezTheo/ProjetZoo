@@ -12,8 +12,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,7 +31,8 @@ public class Animal {
     @Column(name="date_naissance")
     private LocalDate dateNaissance;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Enclos enclos;
 
     @Enumerated(EnumType.STRING)

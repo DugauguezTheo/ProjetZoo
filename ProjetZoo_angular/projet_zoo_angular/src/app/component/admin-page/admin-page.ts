@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { LogViewer } from '../log-viewer/log-viewer';
+import { CarteLogged } from "../carte-logged/carte-logged";
 
 @Component({
   selector: 'app-admin-page',
-  imports: [LogViewer],
+  imports: [CarteLogged],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.css',
 })
