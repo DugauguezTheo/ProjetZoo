@@ -252,6 +252,7 @@ body {
 
 .animal-header {
 
+  position: relative;
   display: flex;
 
   justify-content: center;
@@ -269,6 +270,11 @@ body {
   color: #f3e7c2;
 
   font-family: 'Cinzel', serif;
+}
+
+.animal-header h3 {
+  width: 100%;
+  text-align: center;
 }
 
 .animal-image {
@@ -370,6 +376,186 @@ footer {
   font-size: 0.8rem;
 
   opacity: 0.7;
+}
+
+
+/* =========================
+   BOUTON DELETE
+========================= */
+
+.delete-icon-btn {
+
+  position: absolute;
+  top: 24px;
+  right: 16px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 1.1rem;
+
+  background: rgba(180, 30, 30, 0.15);
+
+  backdrop-filter: blur(6px);
+
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon-btn:hover {
+
+  transform: scale(1.08);
+
+  background: rgba(220, 40, 40, 0.25);
+
+  box-shadow: 0 0 18px rgba(255, 60, 60, 0.4);
+}
+
+/* =========================
+   POPUPS
+========================= */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+}
+
+.popup {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(25, 25, 25, 0.96),
+      rgba(45, 45, 45, 0.96)
+    );
+
+  border: 1px solid rgba(255, 215, 120, 0.25);
+
+  border-radius: 22px;
+
+  padding: 2rem;
+
+  width: 420px;
+  max-width: 90%;
+
+  text-align: center;
+
+  box-shadow:
+    0 0 35px rgba(0,0,0,0.7),
+    0 0 25px rgba(255,215,120,0.12);
+}
+
+.popup h2 {
+  color: #f5d27a;
+  font-family: 'Cinzel', serif;
+  margin-bottom: 1rem;
+}
+
+.popup-text {
+  color: rgba(255,255,255,0.82);
+  margin-bottom: 1.8rem;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* =========================
+   BOUTON CONFIRM DELETE
+========================= */
+
+.delete-confirm-btn {
+  background:
+    linear-gradient(
+      135deg,
+      #a31616,
+      #d62828
+    );
+
+  border: none;
+
+  border-radius: 14px;
+
+  color: white;
+
+  font-weight: 600;
+
+  padding: 0.9rem 1.4rem;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.delete-confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(255, 50, 50, 0.45);
+}
+
+.cancel-btn {
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(70, 70, 70, 0.95),
+      rgba(45, 45, 45, 0.95)
+    );
+
+  color: rgba(255,255,255,0.9);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  border-radius: 14px;
+
+  padding: 0.9rem 1.4rem;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+
+  backdrop-filter: blur(6px);
+}
+
+.cancel-btn:hover {
+
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(90, 90, 90, 0.98),
+      rgba(60, 60, 60, 0.98)
+    );
+
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.08);
+}
+
+/* =========================
+   POPUP DANGER
+========================= */
+
+.danger-popup {
+  border: 1px solid rgba(255, 80, 80, 0.25);
 }
 
 /* =========================

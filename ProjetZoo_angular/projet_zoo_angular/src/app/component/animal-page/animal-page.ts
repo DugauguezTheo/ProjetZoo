@@ -47,6 +47,10 @@ export class AnimalPage implements OnInit {
   protected filteredEspeces$!: Observable<string[]>;
   protected searchEspece: string ='';
 
+  protected popupSuppressionVisible: boolean = false;
+  protected popupSuccesVisible: boolean = false;
+  protected animalASupprimer?: Animal;
+
   protected especeImages: Record<string, string> = {
 
     Lion: 'assets/animals/lion.jpg',
@@ -185,10 +189,47 @@ export class AnimalPage implements OnInit {
     return e1 && e2 ? e1.numero === e2.numero : e1 === e2;
   }
 
-  public deleteAnimal(animal : Animal) {
-    this.animalService.deleteAnimal(animal.id).subscribe(() => {
-      this.reload();
-    });
+  public ouvrirPopupSuppression(animal: Animal) {
+
+    this.animalASupprimer = animal;
+
+    this.popupSuppressionVisible = true;
+
+  }
+
+  public annulerSuppression() {
+
+    this.popupSuppressionVisible = false;
+
+    this.animalASupprimer = undefined;
+
+  }
+
+  public confirmerSuppression() {
+
+    if(!this.animalASupprimer?.id) {
+      return;
+    }
+
+    this.animalService.deleteAnimal(this.animalASupprimer.id)
+      .subscribe(() => {
+
+        this.popupSuppressionVisible = false;
+
+        this.popupSuccesVisible = true;
+
+        this.reload();
+
+        this.animalASupprimer = undefined;
+
+      });
+
+  }
+
+  public fermerPopupSucces() {
+
+    this.popupSuccesVisible = false;
+
   }
 
   filterEspeces(search: string): void {

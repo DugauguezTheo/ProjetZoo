@@ -133,6 +133,19 @@
 
         <div class="animal-header">
           <h3>{{ animal.prenom }}</h3>
+
+          @if(authService.isAdmin() || authService.isVeterinaire()) {
+
+              <button
+                class="delete-icon-btn"
+                type="button"
+                (click)="ouvrirPopupSuppression(animal); $event.stopPropagation()"
+              >
+                🗑️
+              </button>
+
+            }
+
         </div>
 
         <img class="animal-image" [src]="especeImages[animal.espece]" [alt]="animal.espece">
@@ -166,6 +179,70 @@
     <app-carte-logged></app-carte-logged>
     </div>
 
+    <!-- POPUP CONFIRMATION SUPPRESSION -->
+
+    @if(popupSuppressionVisible) {
+
+    <div class="popup-overlay">
+
+      <div class="popup danger-popup">
+
+        <h2>
+          ⚠️ Supprimer cet animal ?
+        </h2>
+
+        <p class="popup-text">
+          Cette action est irréversible.
+        </p>
+
+        <div class="popup-actions">
+
+          <button
+            class="cancel-btn"
+            (click)="annulerSuppression()"
+          >
+            Annuler
+          </button>
+
+          <button
+            class="delete-confirm-btn"
+            (click)="confirmerSuppression()"
+          >
+            Supprimer
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+    <!-- POPUP SUCCES -->
+
+    @if(popupSuccesVisible) {
+
+    <div class="popup-overlay">
+
+      <div class="popup">
+
+        <h2>
+          ✅ Animal supprimé avec succès
+        </h2>
+
+        <button
+          class="gold-btn"
+          (click)="fermerPopupSucces()"
+        >
+          OK
+        </button>
+
+      </div>
+
+    </div>
+
+    }
 
     <div class="panther-container">
         <img src="panthere_final.gif" class="panther" alt="Panthère">
