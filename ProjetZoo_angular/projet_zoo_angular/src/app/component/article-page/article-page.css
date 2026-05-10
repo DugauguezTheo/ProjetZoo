@@ -450,24 +450,19 @@ body {
 
   margin: 40px auto 0 auto;
 
-  padding: 28px;
+  background: rgba(255,255,255,0.06);
 
-  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(32,25,18,0.96),
-      rgba(18,14,10,0.98)
-    );
+  border-radius: 18px;
 
-  border: 1px solid rgba(244,210,140,0.22);
+  padding: 30px;
 
-  box-shadow:
-    0 12px 35px rgba(0,0,0,0.4),
-    0 0 18px rgba(244,210,140,0.08);
+  text-align: left;
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 
   display: flex;
   flex-direction: column;
@@ -481,79 +476,63 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
+
   gap: 1rem;
 }
 
 .form-group label {
-  text-align: left;
 
   font-family: 'Cinzel', serif;
 
-  color: #f4d97b;
+  color: #f4d28c;
 
-  letter-spacing: .5px;
-
-  font-size: .95rem;
+  font-size: 1rem;
 }
 
 /* =========================
-   INPUTS PREMIUM
+   INPUTS ZOO THEME
 ========================= */
 
 .achat-form input {
+
   width: 100%;
 
   box-sizing: border-box;
 
-  padding: 14px 16px;
+  padding: 0.9rem 1rem;
 
   border-radius: 14px;
 
-  border:
-    1px solid rgba(244,210,140,0.22);
+  border: 2px solid rgba(244, 210, 140, 0.25);
 
   background:
-    rgba(255,255,255,0.05);
+    rgba(25, 20, 15, 0.92);
 
-  color: #f8f3df;
-
-  text-align: center;
+  color: #f7e7c1;
 
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
 
-  outline: none;
-
   transition:
-    border-color .25s ease,
-    box-shadow .25s ease,
-    transform .2s ease;
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 .achat-form input:focus {
-  border-color: rgba(244,210,140,0.7);
+
+  outline: none;
+
+  border-color: #f4d28c;
 
   box-shadow:
-    0 0 14px rgba(244,210,140,0.18);
+    0 0 12px rgba(244, 210, 140, 0.45);
 
   transform: translateY(-1px);
 }
 
 .achat-form input::placeholder {
-  color: rgba(255,255,255,0.35);
-}
-
-/* retire les flèches number */
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  appearance: textfield;
-  -moz-appearance: textfield;
+  color: rgba(247, 231, 193, 0.5);
 }
 
 /* =========================
@@ -565,11 +544,11 @@ input[type=number] {
   align-items: center;
   justify-content: center;
 
-  gap: 12px;
+  gap: 1rem;
 }
 
 .quantity-selector input {
-  width: 90px;
+  max-width: 120px;
 }
 
 /* =========================
@@ -580,37 +559,33 @@ input[type=number] {
   width: 42px;
   height: 42px;
 
-  border: none;
   border-radius: 50%;
+  border: none;
 
-  background:
-    linear-gradient(
-      145deg,
-      #f4d97b,
-      #c89b3c
-    );
+  background: linear-gradient(145deg, #f4d28c, #c89b3c);
 
-  color: #1f160d;
+  color: #2b1d0e;
 
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: bold;
 
   cursor: pointer;
 
   transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .qty-btn:hover:not(:disabled) {
+
   transform: scale(1.08);
 
   box-shadow:
-    0 0 12px rgba(244,210,140,0.35);
+    0 0 10px rgba(244, 210, 140, 0.6);
 }
 
 .qty-btn:disabled {
-  opacity: .35;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -619,23 +594,18 @@ input[type=number] {
 ========================= */
 
 .buy-btn {
+
   align-self: center;
 
-  min-width: 220px;
-
-  padding: 14px 24px;
+  padding: 0.9rem 2rem;
 
   border: none;
   border-radius: 14px;
 
   background:
-    linear-gradient(
-      145deg,
-      #f4d97b,
-      #c89b3c
-    );
+    linear-gradient(145deg, #f4d28c, #c89b3c);
 
-  color: #1f160d;
+  color: #2b1d0e;
 
   font-family: 'Cinzel', serif;
   font-size: 1rem;
@@ -644,15 +614,21 @@ input[type=number] {
   cursor: pointer;
 
   transition:
-    transform .22s ease,
-    box-shadow .22s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .buy-btn:hover {
+
   transform: translateY(-2px);
 
   box-shadow:
-    0 0 18px rgba(244,210,140,0.35);
+    0 0 16px rgba(244, 210, 140, 0.55);
+}
+
+.buy-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* =========================
