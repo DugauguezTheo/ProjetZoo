@@ -1,12 +1,17 @@
 package formation_sopra.controller.dto.request;
 
 
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateOrUpdateArticleRequest {
 
+    @NotBlank
     private String libelle;
+
+    @NotNull
     private double prix;
+
     private int quantiteStock;
 
     public String getLibelle() {
@@ -27,7 +32,6 @@ public class CreateOrUpdateArticleRequest {
     public void setQuantiteStock(int quantiteStock) {
         this.quantiteStock = quantiteStock;
     }
-
-    
-    
 }
+
+
