@@ -23,6 +23,109 @@
   <div class="main-column">
 
     <section class="content">
+      <!-- ADMIN -->
+       @if (authService.isAdmin()) {
+
+        <div class="purchase-card">
+
+          <h3 class="admin-form-title">
+            ✨ Ajouter un article
+          </h3>
+
+          <form
+            (ngSubmit)="addArticle()"
+            class="achat-form"
+            [formGroup]="formArticle"
+          >
+
+            <div class="form-group">
+
+              <label for="libelle">Libellé</label>
+
+              <input
+                id="libelle"
+                type="text"
+                [formControl]="formLibelleCtrl"
+                [class.invalid-input]="formLibelleCtrl.invalid && formLibelleCtrl.touched"
+              />
+
+              @if(formLibelleCtrl.invalid && formLibelleCtrl.touched) {
+
+                <div class="field-error">
+
+                  @if(formLibelleCtrl.errors?.['required']) {
+                    <span>Le libellé est obligatoire</span>
+                  }
+
+                </div>
+              }
+
+              <label for="prix">Prix Unitaire</label>
+
+              <input
+                id="prix"
+                type="number"
+                [formControl]="formPrixCtrl"
+                [class.invalid-input]="formPrixCtrl.invalid && formPrixCtrl.touched"
+              />
+
+              @if(formPrixCtrl.invalid && formPrixCtrl.touched) {
+
+                <div class="field-error">
+
+                  @if(formPrixCtrl.errors?.['required']) {
+                    <span>Le prix est obligatoire</span>
+                  }
+
+                  @if(formPrixCtrl.errors?.['min']) {
+                    <span>Le prix doit être supérieur à 0</span>
+                  }
+
+                </div>
+
+              }
+
+              <label for="quantite">Quantité</label>
+
+              <div class="quantity-selector">
+
+                <button
+                  type="button"
+                  class="qty-btn"
+                  (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value - 1)"
+                  [disabled]="formQuantiteCtrl.value <= 1"
+                >
+                  −
+                </button>
+
+                <input
+                  id="quantite"
+                  type="number"
+                  [formControl]="formQuantiteCtrl"
+                  min="1"
+                />
+
+                <button
+                  type="button"
+                  class="qty-btn"
+                  (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value + 1)"
+                >
+                  +
+                </button>
+
+              </div>
+
+            </div>
+
+            <button type="submit" class="buy-btn" [disabled]="formArticle.invalid">
+              Ajouter
+            </button>
+
+          </form>
+
+        </div>
+
+      }
 
       <h2 class="section-title">Articles en Boutique</h2>
 
@@ -38,6 +141,18 @@
           @if(article.quantiteStock >= 1){
             <div class="article-header">
               <h3>Article #{{ article?.id }}</h3>
+
+              @if(authService.isAdmin()) {
+
+              <button
+                class="delete-icon-btn"
+                type="button"
+                (click)="ouvrirPopupSuppression(article); $event.stopPropagation()"
+              >
+                🗑️
+              </button>
+
+            }
             </div>
 
             <div class="article-body">
@@ -64,12 +179,79 @@
 
       </div>
 
+
     </section>
+
+
 
   </div>
   <app-carte-logged></app-carte-logged>
 </div>
 
+<!-- POPUP CONFIRMATION SUPPRESSION -->
+
+    @if(popupSuppressionVisible) {
+
+    <div class="popup-overlay">
+
+      <div class="popup danger-popup">
+
+        <h2>
+          ⚠️ Supprimer cet article ?
+        </h2>
+
+        <p class="popup-text">
+          Cette action est irréversible.
+        </p>
+
+        <div class="popup-actions">
+
+          <button
+            class="cancel-btn"
+            (click)="annulerSuppression()"
+          >
+            Annuler
+          </button>
+
+          <button
+            class="delete-confirm-btn"
+            (click)="confirmerSuppression()"
+          >
+            Supprimer
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+    <!-- POPUP SUCCES -->
+
+    @if(popupSuccesVisible) {
+
+    <div class="popup-overlay">
+
+      <div class="popup">
+
+        <h2>
+          ✅ Article supprimé avec succès
+        </h2>
+
+        <button
+          class="gold-btn"
+          (click)="fermerPopupSucces()"
+        >
+          OK
+        </button>
+
+      </div>
+
+    </div>
+
+    }
 
 <div class="animals">
   <img src="/panthere_final.gif" alt="Panthère">

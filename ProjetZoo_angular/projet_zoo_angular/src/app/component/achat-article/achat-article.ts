@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../service/auth-service';
-import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { Observable, startWith, Subject, switchMap, take } from 'rxjs';
 import { ArticleService } from '../../service/article-service';
 import { VisiteurService } from '../../service/visiteur-service';
 import { Article } from '../../model/article';
@@ -49,6 +49,9 @@ export class AchatArticle implements OnInit {
   protected formQuantiteCtrl!: FormControl;
   protected formPrixTotalCtrl!: FormControl;
 
+  protected modeEdition : boolean = false;
+  protected popupVisible : boolean = false;
+
 
     ngOnInit(): void {
 
@@ -69,13 +72,14 @@ export class AchatArticle implements OnInit {
       this.formIdArticleCtrl = new FormControl(id);
       this.formPrixCtrl = new FormControl(0);
       this.formLibelleCtrl = new FormControl("");
+      this.formQuantiteCtrl = new FormControl(1);
 
       this.article$.subscribe(article => {
         this.formLibelleCtrl.setValue(article.libelle);
         this.formPrixCtrl.setValue(article.prix);
+        this.formQuantiteCtrl.setValue((this.authService.isAdmin()) ? article.quantiteStock : 1 );
       });
 
-      this.formQuantiteCtrl = new FormControl(1);
       this.formPrixTotalCtrl = new FormControl(this.formPrixCtrl.value * this.formQuantiteCtrl.value);
 
       this.formAchat = this.formBuilder.group({
@@ -116,6 +120,41 @@ export class AchatArticle implements OnInit {
         });
 
       });
+
+    }
+
+    public modifierArticle() {
+      this.article$.pipe(take(1)).subscribe( a => {
+        const article : Article = {
+          id : a.id,
+          libelle : this.formLibelleCtrl.value,
+          prix : this.formPrixCtrl.value,
+          quantiteStock : this.formQuantiteCtrl.value,
+        };
+
+        this.articleService.updateArticle(article)
+          .pipe(take(1))
+          .subscribe(a => {
+            this.article$ = this.articleService.findArticleById(a.id);
+
+            this.modeEdition = false;
+            this.popupVisible = true;
+            this.cdr.detectChanges();
+          });
+      });
+    }
+
+    public ouvrirEdition() {
+      this.modeEdition = true;
+    }
+
+    public annulerEdition() {
+      this.modeEdition = false;
+    }
+
+    public fermerPopUp() {
+
+      this.popupVisible = false;
 
     }
 

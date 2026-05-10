@@ -233,10 +233,10 @@ export class AnimalPage implements OnInit {
   }
 
   filterEspeces(search: string): void {
-  this.filteredEspeces$ = this.especes$.pipe(
-    map(especes => especes.filter(e =>
-      e.toLowerCase().includes(search.toLowerCase())
-    ))
-  );
-}
+    this.filteredEspeces$ = this.especes$.pipe(
+      map(especes => especes.filter(e =>
+        e.toLowerCase().includes(search.toLowerCase())
+      ))
+    );
+  }
 }

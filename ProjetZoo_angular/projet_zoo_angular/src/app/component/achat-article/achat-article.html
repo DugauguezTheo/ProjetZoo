@@ -30,6 +30,18 @@
 
     <div class="article-header">
       <h2>{{ article.libelle }}</h2>
+
+      @if(authService.isAdmin()) {
+
+          <button
+            class="edit-icon-btn"
+            type="button"
+            (click)="ouvrirEdition(); $event.stopPropagation()"
+          >
+            ✏️
+          </button>
+
+        }
     </div>
 
     <div class="article-body">
@@ -85,6 +97,40 @@
     </form>
     }
 
+    <!-- ADMIN -->
+    @if (authService.isAdmin() && modeEdition===true) {
+
+    <form (ngSubmit)="modifierArticle()" class="achat-form" [formGroup]="formAchat">
+
+      <div class="form-group">
+        <label for="libelle">Libellé</label>
+        <div>
+          <input id="libelle" type="text" [formControl]="formLibelleCtrl"/>
+        </div>
+        <label for="prix">Prix Unitaire</label>
+        <div>
+          <input id="prix" type="number" [formControl]="formPrixCtrl"/>
+        </div>
+        <label for="quantite">Quantité</label>
+        <div class="quantity-selector">
+
+          <button type="button" class="qty-btn" (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value - 1)" [disabled]="formQuantiteCtrl.value <= 0">
+            −
+          </button>
+
+          <input id="quantite" type="number" [formControl]="formQuantiteCtrl" min="0">
+
+          <button type="button" class="qty-btn" (click)="formQuantiteCtrl.setValue(formQuantiteCtrl.value + 1)">
+            +
+          </button>
+
+        </div>
+      </div>
+
+      <button type="submit" class="buy-btn">Modifier</button>
+    </form>
+    }
+
   </div>
 
 </div>
@@ -107,6 +153,29 @@
       <button class="modal-btn" (click)="closeAchatSuccess()"> OK </button>
     </div>
   </div>
+}
+
+@if(popupVisible) {
+
+<div class="popup-overlay">
+
+  <div class="popup">
+
+    <h2>
+      ✅ Article modifié avec succès
+    </h2>
+
+    <button
+      class="gold-btn"
+      (click)="fermerPopUp()"
+    >
+      OK
+    </button>
+
+  </div>
+
+</div>
+
 }
 
 <div class="animals">
