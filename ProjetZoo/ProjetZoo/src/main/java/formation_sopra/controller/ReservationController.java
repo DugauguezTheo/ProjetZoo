@@ -1,5 +1,6 @@
 package formation_sopra.controller;
 
+import formation_sopra.controller.dto.request.CreateOrUpdateReservationAsAdminRequest;
 import formation_sopra.controller.dto.request.CreateOrUpdateReservationRequest;
 import formation_sopra.controller.dto.response.EntityCreatedOrUpdatedResponse;
 import formation_sopra.controller.dto.response.ReservationResponse;
@@ -108,6 +109,31 @@ public class ReservationController {
     @PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityCreatedOrUpdatedResponse create(@Valid @RequestBody CreateOrUpdateReservationRequest request) {
+        log.debug("Création d'une nouvelle reservation ...");
+
+        Reservation reservation = new Reservation();
+
+        reservation.setDateReservation(request.getDateReservation());
+        reservation.setDateVisite(request.getDateVisite());
+        reservation.setPrix(request.getPrix());
+        reservation.setNbPersonne(request.getNbPersonne());
+
+        reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
+
+        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
+
+
+        this.daoReservation.save(reservation);
+
+        log.debug("Reservation créée !");
+
+        return new EntityCreatedOrUpdatedResponse(reservation.getId());
+    }
+
+    @PostMapping("as-admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EntityCreatedOrUpdatedResponse createAsAdmin(@Valid @RequestBody CreateOrUpdateReservationAsAdminRequest request) {
         log.debug("Création d'une nouvelle reservation ...");
 
         Reservation reservation = new Reservation();

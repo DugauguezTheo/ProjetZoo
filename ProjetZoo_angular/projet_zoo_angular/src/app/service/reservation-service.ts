@@ -34,6 +34,10 @@ export class ReservationService {
     return this.http.post<Reservation>('/reservation', reservation);
   }
 
+  public addReservationAsAdmin(reservation : ReservationRequest) {
+    return this.http.post<Reservation>("/reservation/as-admin", reservation);
+  }
+
   public updateReservation(id: number | undefined, reservation: ReservationRequest) {
     return this.http.put<Reservation>(`/reservation/${id}`, reservation);
   }

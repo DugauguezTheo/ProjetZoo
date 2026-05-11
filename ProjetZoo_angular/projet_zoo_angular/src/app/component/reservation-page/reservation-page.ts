@@ -29,7 +29,7 @@ export class ReservationPage {
 
     const inputDate = new Date(control.get('dateVisite')?.value);
     const today = new Date();
-  
+
     return inputDate < today
       ? { pastDate: true }
       : null;
@@ -75,13 +75,13 @@ export class ReservationPage {
     this.titleService.setTitle('Zoo AJC - Reservation');
     this.visiteurs$ = this.visiteurService.findAllVisiteur();
     this.isVisiteur = this.authService.isVisiteur();
-    
+
     this.spectacles$ = this.spectacleService.findAllSpectacles();
 
-    
+
     if (this.isVisiteur) {
       //Recherche des réservations
-      this.reservations$ = 
+      this.reservations$ =
           this.refresh$.pipe(
             startWith(0),
             switchMap(() =>
@@ -109,7 +109,7 @@ export class ReservationPage {
     //Validators du formulaire
     this.formVisiteurCtrl = this.formBuilder.control('', Validators.required);
     this.formDateVisiteCtrl = this.formBuilder.control('', Validators.required);
-    // this.formDateReservationCtrl = this.formBuilder.control('', Validators.required);
+    this.formDateReservationCtrl = this.formBuilder.control('', Validators.required);
     this.formPrixCtrl = this.formBuilder.control('', Validators.required);
     this.formNbPersonneCtrl = this.formBuilder.control('', Validators.required);
     this.formSpectaclesCtrl = this.formBuilder.control([]);
@@ -117,12 +117,13 @@ export class ReservationPage {
     //Groupe du formulaire
     this.formReservation = this.formBuilder.group({
       dateVisite: this.formDateVisiteCtrl,
-      // dateReservation: this.formDateReservationCtrl,
+      dateReservation: this.formDateReservationCtrl,
       prix: this.formPrixCtrl,
       nbPersonne: this.formNbPersonneCtrl,
       visiteur: this.formVisiteurCtrl,
       spectaclesIds: this.formSpectaclesCtrl
-    }, { validators: [ this.futureDateValidator ] });
+    },
+    { validators: this.isVisiteur ? [ this.futureDateValidator ] : [Validators.nullValidator] });
 
     //Calcul automatique du prix si on modifie le nombre de personne en tant que visiteur
     this.formNbPersonneCtrl.valueChanges.subscribe(value => {
@@ -155,7 +156,7 @@ export class ReservationPage {
     });
   }
 
-  
+
 
   private reload() {
     this.refresh$.next();
@@ -171,17 +172,17 @@ export class ReservationPage {
         prix: nbPersonne * this.prixVisite
       });
     }
-    
+
     const reservation: ReservationRequest = {
       visiteurId: this.formVisiteurCtrl.value,
       dateVisite: this.formDateVisiteCtrl.value,
-      dateReservation: new Date(), //Ability to change date ?
+      dateReservation: this.isVisiteur ? new Date() : this.formDateReservationCtrl.value,
       prix: this.formPrixCtrl.value,
       nbPersonne: this.formNbPersonneCtrl.value,
       spectaclesIds: this.formSpectaclesCtrl.value
     };
 
-    
+
     if (this.editingReservation) {
       this.reservationService.updateReservation(this.editingReservation.id, reservation).subscribe(() => {
         this.editingReservation = null;
@@ -190,10 +191,18 @@ export class ReservationPage {
       });
     }
     else {
-      this.reservationService.addReservation(reservation).subscribe(() => {
-        this.formReservation.reset();
-        this.reload();
-      })
+      if(this.isVisiteur){
+        this.reservationService.addReservation(reservation).subscribe(() => {
+          this.formReservation.reset();
+          this.reload();
+        });
+      }
+      else {
+        this.reservationService.addReservationAsAdmin(reservation).subscribe(() => {
+          this.formReservation.reset();
+          this.reload();
+        });
+      }
     }
   }
 

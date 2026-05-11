@@ -42,6 +42,17 @@
                         <div *ngIf="formVisiteurCtrl.hasError('required')" class="form-control">
                             Visiteur obligatoire</div>
                     </div>
+
+                    @if (!isVisiteur){
+                      <div class="inline">
+                          <label for="dateReservation"><b>Date Réservation</b></label>
+                          <input type="date" class="form-control" id="dateReservation" formControlName="dateReservation"
+                              [class.is-invalid]="formDateReservationCtrl.invalid" />
+                          <div *ngIf="formDateReservationCtrl.hasError('required')" class="form-control">
+                              Date de réservation obligatoire</div>
+                      </div>
+                    }
+
                     <div class="inline">
                         <label for="dateVisite"><b>Date Visite</b></label>
                         <input type="date" class="form-control" id="dateVisite" formControlName="dateVisite"
@@ -49,7 +60,7 @@
                         <div *ngIf="formDateVisiteCtrl.hasError('required')" class="form-control">
                             Date de visite obligatoire</div>
                         <div class="form-control" *ngIf="formDateVisiteCtrl.touched && formReservation.errors?.['pastDate']">
-                        La date ne peut pas être dans le futur</div>  
+                        La date ne peut pas être dans le passé</div>
                     </div>
                 </div>
 

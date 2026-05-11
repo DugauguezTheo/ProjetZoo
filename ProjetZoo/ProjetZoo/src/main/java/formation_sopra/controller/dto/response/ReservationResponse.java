@@ -14,7 +14,7 @@ public class ReservationResponse {
     private Double prix;
     private Integer nbPersonne;
     private Integer visiteur_id;
-
+    private String visiteurNom;
     private List<Integer> spectaclesIds;
 
     
@@ -97,6 +97,18 @@ public class ReservationResponse {
     }
 
 
+    public String getVisiteurNom() {
+        return visiteurNom;
+    }
+
+
+
+    public void setVisiteurNom(String visiteurNom) {
+        this.visiteurNom = visiteurNom;
+    }
+
+
+
     public static ReservationResponse convert(Reservation reservation){
         ReservationResponse reservationResponse = new ReservationResponse();
 
@@ -106,6 +118,7 @@ public class ReservationResponse {
         reservationResponse.setPrix(reservation.getPrix());
         reservationResponse.setNbPersonne(reservation.getNbPersonne());
         reservationResponse.setVisiteurId(reservation.getVisiteur().getId());
+        reservationResponse.setVisiteurNom(reservation.getVisiteur().getNom());
         reservationResponse.setSpectaclesIds(
         
         reservation.getSpectacles()

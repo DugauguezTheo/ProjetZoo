@@ -1,6 +1,6 @@
 import { AdminPage } from './../admin-page/admin-page';
 import { AnimalService } from './../../service/animal-service';
-import { map, Observable, Subject, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, Subject, switchMap } from 'rxjs';
 import { AuthService } from './../../service/auth-service';
 import { Component, inject, OnInit } from '@angular/core';
 import { VisiteurService } from '../../service/visiteur-service';
@@ -103,16 +103,25 @@ export class CarteLogged implements OnInit {
       this.nombreVisites$ = this.reservationService.findAllReservations().pipe(
         map(reservations => reservations
           .filter(r =>
-            new Date(r.dateReservation).getTime() <= new Date().getTime()
-            && new Date(r.dateReservation).getFullYear() >= new Date().getFullYear()
+            new Date(r.dateVisite).getTime() <= new Date().getTime()
+            && new Date(r.dateVisite).getFullYear() === new Date().getFullYear()
           )
           .length
       )
       );
-      this.recettes$ = this.achatService.findAllAchats().pipe(
-        map(achats => achats.reduce(
-          (total, achat) => total + (achat.quantite * achat.prixUnitaireATM),0
-        ))
+      this.recettes$ = combineLatest([ this.achatService.findAllAchats(), this.reservationService.findAllReservations() ]).pipe(
+        map(([achats, reservations]) => {
+          const totalAchats = achats.reduce(
+            (total, achat) => total + (achat.quantite * achat.prixUnitaireATM), 0
+          );
+          const totalReservations = reservations
+            .filter(r => new Date(r.dateVisite).getTime() <= new Date().getTime())
+            .reduce(
+              (total, reservation) => total + reservation.prix, 0
+            )
+          ;
+          return totalAchats + totalReservations;
+        })
       );
       this.nombreEmployes$ = this.veterinaireService.getAllVeterinaires().pipe(
         map(veterinaires => veterinaires.length)
