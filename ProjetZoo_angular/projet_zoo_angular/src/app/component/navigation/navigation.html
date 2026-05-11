@@ -35,7 +35,7 @@
       @if (authService.isVisiteur()) {
         <li><a routerLink="/reservation">Mes Réservations</a></li>
       }
-      @else {
+      @else if (authService.isAdmin()) {
         <li><a routerLink="/reservation">Réservations</a></li>
       }
 

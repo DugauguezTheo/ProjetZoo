@@ -30,6 +30,11 @@ svg image {
   transition: fill .25s ease, stroke .25s ease, stroke-width .25s ease;
 }
 
+.drawing-elements path[opacity="0.01"],
+.drawing-elements path[data-opacity="0.01"] {
+  pointer-events: none;
+}
+
 .drawing-elements path:hover {
   fill: rgba(101, 154, 122, 0.35); 
   stroke: #2E4738;
