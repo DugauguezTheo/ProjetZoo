@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Reservation } from '../../model/reservation';
 import { ReservationService } from '../../service/reservation-service';
-import { Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReservationRequest } from '../../dto/reservation-request';
@@ -46,6 +46,9 @@ export class ReservationPage {
   protected editingReservation?: Reservation | null;
   protected reservations$!: Observable<Reservation[]>;
 
+  protected pastReservations$!: Observable<Reservation[]>;
+  protected futureReservations$!: Observable<Reservation[]>;
+
   protected visiteurs$!: Observable<Visiteur[]>;
   protected visiteurConnected$!: Observable<VisiteurWithAchats>;
 
@@ -81,13 +84,18 @@ export class ReservationPage {
 
     if (this.isVisiteur) {
       //Recherche des réservations
-      this.reservations$ =
-          this.refresh$.pipe(
-            startWith(0),
-            switchMap(() =>
-              this.reservationService.findMesReservations()
-            )
-          )
+      this.reservations$ = this.refresh$.pipe(
+        startWith(0),
+        switchMap(() => this.reservationService.findMesReservations())
+      );
+
+      this.pastReservations$ = this.reservations$.pipe(
+        map(res => res.filter(r => new Date(r.dateVisite) < new Date()))
+      );
+
+      this.futureReservations$ = this.reservations$.pipe(
+        map(res => res.filter(r => new Date(r.dateVisite) >= new Date()))
+      );
       //Affectation de l'id dans le formulaire
       this.visiteurService.getVisiteurConnecte().subscribe(v => {
         this.formReservation.patchValue({
@@ -172,7 +180,7 @@ export class ReservationPage {
         prix: nbPersonne * this.prixVisite
       });
     }
-
+   
     const reservation: ReservationRequest = {
       visiteurId: this.formVisiteurCtrl.value,
       dateVisite: this.formDateVisiteCtrl.value,
@@ -184,6 +192,7 @@ export class ReservationPage {
 
 
     if (this.editingReservation) {
+
       this.reservationService.updateReservation(this.editingReservation.id, reservation).subscribe(() => {
         this.editingReservation = null;
         this.formReservation.reset();
@@ -211,7 +220,7 @@ export class ReservationPage {
 
     this.formVisiteurCtrl.setValue(reservation.visiteurId);
     this.formDateVisiteCtrl.setValue(reservation.dateVisite);
-    // this.formDateReservationCtrl.setValue(new Date());
+    this.formDateReservationCtrl.setValue(new Date());
     this.formPrixCtrl.setValue(reservation.prix);
     this.formNbPersonneCtrl.setValue(reservation.nbPersonne);
     this.formSpectaclesCtrl.setValue(reservation.spectaclesIds);
