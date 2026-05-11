@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  background: #FFEC9B;
+}
+
+#zoo-map {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* L'image sert seulement de fond : elle ne doit pas capter la souris. */
+svg image {
+  pointer-events: none;
+}
+
+/* Les zones SVG sont les path. On force un hit-area même si fill="none" dans le SVG. */
+.drawing-elements path {
+  fill: transparent;
+  stroke: transparent;
+  opacity: 1 !important;
+  cursor: pointer;
+  pointer-events: all;
+  transition: fill .25s ease, stroke .25s ease, stroke-width .25s ease;
+}
+
+.drawing-elements path:hover {
+  fill: rgba(101, 154, 122, 0.35); 
+  stroke: #2E4738;
+  stroke-width: 3;
+}

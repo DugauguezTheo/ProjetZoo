@@ -7,13 +7,16 @@ import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CarteLogged } from "../carte-logged/carte-logged";
+import { MapZoo } from '../map-zoo/map-zoo';
+
 
 @Component({
   selector: 'app-visiteur-page',
   imports: [
     RouterModule,
     CommonModule,
-    CarteLogged
+    CarteLogged, 
+    MapZoo
 ],
   templateUrl: './visiteur-page.html',
   styleUrl: './visiteur-page.css',
