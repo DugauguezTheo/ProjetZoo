@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Reservation } from '../../model/reservation';
 import { ReservationService } from '../../service/reservation-service';
-import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { map, Observable, of, startWith, Subject, switchMap, take } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReservationRequest } from '../../dto/reservation-request';
@@ -26,9 +26,14 @@ export class ReservationPage {
   futureDateValidator: ValidatorFn =
   (control: AbstractControl): ValidationErrors | null => {
 
-
-    const inputDate = new Date(control.get('dateVisite')?.value);
+    const value = control.get('dateVisite')?.value;
+    if(!value){
+      return null
+    }
+    const inputDate = new Date(value);
     const today = new Date();
+    today.setHours(0,0,0,0);
+    inputDate.setHours(0,0,0,0);
 
     return inputDate < today
       ? { pastDate: true }
@@ -82,26 +87,52 @@ export class ReservationPage {
     this.spectacles$ = this.spectacleService.findAllSpectacles();
 
 
+    //Validators du formulaire
+    this.formVisiteurCtrl = this.formBuilder.control('', this.isVisiteur ? [] : Validators.required);
+    this.formDateVisiteCtrl = this.formBuilder.control('', Validators.required);
+    this.formDateReservationCtrl = this.formBuilder.control('', this.isVisiteur ? [] : Validators.required);
+    this.formPrixCtrl = this.formBuilder.control('', this.isVisiteur ? [] : Validators.required);
+    this.formNbPersonneCtrl = this.formBuilder.control('', Validators.required);
+    this.formSpectaclesCtrl = this.formBuilder.control([]);
+
     if (this.isVisiteur) {
       //Recherche des réservations
+      this.visiteurConnected$ = this.visiteurService.getVisiteurConnecte();
+
+      this.visiteurConnected$.subscribe(v => {
+        this.formVisiteurCtrl.setValue(v.id);
+      });
+
       this.reservations$ = this.refresh$.pipe(
         startWith(0),
         switchMap(() => this.reservationService.findMesReservations())
       );
 
       this.pastReservations$ = this.reservations$.pipe(
-        map(res => res.filter(r => new Date(r.dateVisite) < new Date()))
+        map(res => res.filter(r => {
+
+          const visit = new Date(r.dateVisite);
+          const today = new Date();
+
+          visit.setHours(0,0,0,0);
+          today.setHours(0,0,0,0);
+
+          return visit < today;
+        }))
       );
 
       this.futureReservations$ = this.reservations$.pipe(
-        map(res => res.filter(r => new Date(r.dateVisite) >= new Date()))
+        map(res => res.filter(r => {
+
+          const visit = new Date(r.dateVisite);
+          const today = new Date();
+
+          visit.setHours(0,0,0,0);
+          today.setHours(0,0,0,0);
+
+          return visit >= today;
+        }))
       );
-      //Affectation de l'id dans le formulaire
-      this.visiteurService.getVisiteurConnecte().subscribe(v => {
-        this.formReservation.patchValue({
-          visiteur: v.id
-        });
-      });
     }
     //Si pas visiteur, recherche toutes les réservations
     else {
@@ -114,13 +145,6 @@ export class ReservationPage {
       );
     }
 
-    //Validators du formulaire
-    this.formVisiteurCtrl = this.formBuilder.control('', Validators.required);
-    this.formDateVisiteCtrl = this.formBuilder.control('', Validators.required);
-    this.formDateReservationCtrl = this.formBuilder.control('', Validators.required);
-    this.formPrixCtrl = this.formBuilder.control('', Validators.required);
-    this.formNbPersonneCtrl = this.formBuilder.control('', Validators.required);
-    this.formSpectaclesCtrl = this.formBuilder.control([]);
 
     //Groupe du formulaire
     this.formReservation = this.formBuilder.group({
@@ -148,9 +172,9 @@ export class ReservationPage {
     this.spectaclesOfDay$ = this.formDateVisiteCtrl.valueChanges.pipe(
       startWith(this.formDateVisiteCtrl.value),
       switchMap(date => {
-        if (!date) return [];
+        if (!date) return of([]);
 
-      const formattedDate = date;
+        const formattedDate = date;
 
         return this.spectacleService.findSpectaclesBetween(formattedDate, formattedDate);
       })
@@ -180,7 +204,7 @@ export class ReservationPage {
         prix: nbPersonne * this.prixVisite
       });
     }
-   
+
     const reservation: ReservationRequest = {
       visiteurId: this.formVisiteurCtrl.value,
       dateVisite: this.formDateVisiteCtrl.value,
@@ -225,7 +249,6 @@ export class ReservationPage {
     this.formNbPersonneCtrl.setValue(reservation.nbPersonne);
     this.formSpectaclesCtrl.setValue(reservation.spectaclesIds);
 
-    this.reload();
   }
 
   // public compareEnclos(e1: Enclos, e2: Enclos): boolean {

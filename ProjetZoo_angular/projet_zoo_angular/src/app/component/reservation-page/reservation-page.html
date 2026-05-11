@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="reservation-page.css">
 
-    
+
     <!-- Font moderne -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
 </head>
@@ -174,7 +174,7 @@
                             <th>Nombre de personne</th>
                             <th>Prix</th>
                             <th>Spectacles réservés</th>
-                        </thead>    
+                        </thead>
                         <tbody>
                             <tr *ngFor="let r of pastReservations$ | async">
                             <td>{{ r.dateVisite }}</td>
@@ -199,7 +199,7 @@
                             <th>Prix</th>
                             <th>Spectacles réservés</th>
                             <th>Actions</th>
-                        </thead>  
+                        </thead>
                         <tbody>
                             <tr *ngFor="let r of futureReservations$ | async">
                                 <td>{{ r.dateVisite }}</td>

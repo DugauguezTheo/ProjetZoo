@@ -72,8 +72,8 @@ export class SoinPage implements OnInit {
     const soin: Soin = {
       dateSoin: this.formDateSoinCtrl.value,
       description: this.formDescriptionCtrl.value,
-      veterinaireId: this.formVeterinaireCtrl.value,
-      animalId: this.formAnimalCtrl.value
+      veterinaire: this.formVeterinaireCtrl.value,
+      animal: this.formAnimalCtrl.value
     };
 
     if (this.editingSoin) {
@@ -95,8 +95,8 @@ export class SoinPage implements OnInit {
     this.editingSoin = soin;
     this.formDateSoinCtrl.setValue(soin.dateSoin);
     this.formDescriptionCtrl.setValue(soin.description);
-    this.formVeterinaireCtrl.setValue(soin.veterinaireId);
-    this.formAnimalCtrl.setValue(soin.animalId);
+    this.formVeterinaireCtrl.setValue(soin.veterinaire);
+    this.formAnimalCtrl.setValue(soin.animal);
     this.reload();
   }
 

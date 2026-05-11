@@ -59,6 +59,7 @@ export class AchatArticle implements OnInit {
 
       const id = Number(this.route.snapshot.paramMap.get('id'));
 
+      this.visiteur$ = this.visiteurService.getVisiteurConnecte();
       this.article$ = this.route.paramMap.pipe(
         switchMap(() => {
           return this.articleService.findArticleById(id);
