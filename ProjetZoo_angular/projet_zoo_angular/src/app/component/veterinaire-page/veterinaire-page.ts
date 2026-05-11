@@ -8,13 +8,15 @@ import { CommonModule } from '@angular/common';
 import { CarteLogged } from "../carte-logged/carte-logged";
 import { VeterinaireService } from '../../service/veterinaire-service';
 import { Veterinaire } from '../../model/veterinaire';
+import { MapZoo } from '../map-zoo/map-zoo';
 
 @Component({
   selector: 'app-veterinaire-page',
   imports: [
     RouterModule,
     CommonModule,
-    CarteLogged
+    CarteLogged,
+    MapZoo
 ],
   templateUrl: './veterinaire-page.html',
   styleUrl: './veterinaire-page.css',
