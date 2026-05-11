@@ -15,7 +15,7 @@ public class ReservationResponse {
     private Integer nbPersonne;
     private Integer visiteur_id;
 
-    private List<Integer> spectacleIds;
+    private List<Integer> spectaclesIds;
 
     
 
@@ -53,8 +53,8 @@ public class ReservationResponse {
         return visiteur_id;
     }
 
-    public List<Integer> getSpectacleIds() {
-        return spectacleIds;
+    public List<Integer> getSpectaclesIds() {
+        return spectaclesIds;
     }
 
 
@@ -92,8 +92,8 @@ public class ReservationResponse {
         this.visiteur_id = visiteur_id;
     }
     
-    public void setSpectacleIds(List<Integer> spectacleIds) {
-        this.spectacleIds = spectacleIds;
+    public void setSpectaclesIds(List<Integer> spectaclesIds) {
+        this.spectaclesIds = spectaclesIds;
     }
 
 
@@ -106,7 +106,7 @@ public class ReservationResponse {
         reservationResponse.setPrix(reservation.getPrix());
         reservationResponse.setNbPersonne(reservation.getNbPersonne());
         reservationResponse.setVisiteurId(reservation.getVisiteur().getId());
-        reservationResponse.setSpectacleIds(
+        reservationResponse.setSpectaclesIds(
         
         reservation.getSpectacles()
             .stream()

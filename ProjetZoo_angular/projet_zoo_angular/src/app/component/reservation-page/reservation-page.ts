@@ -53,6 +53,7 @@ export class ReservationPage {
 
 
   protected spectacles$!: Observable<Spectacle[]>;
+  protected spectaclesMap = new Map<number, string>();
 
   private refresh$: Subject<void> = new Subject<void>();
 
@@ -126,7 +127,7 @@ export class ReservationPage {
     // this.formDateReservationCtrl = this.formBuilder.control('', Validators.required);
     this.formPrixCtrl = this.formBuilder.control('', Validators.required);
     this.formNbPersonneCtrl = this.formBuilder.control('', Validators.required);
-    this.formSpectaclesCtrl = this.formBuilder.control('');
+    this.formSpectaclesCtrl = this.formBuilder.control([]);
 
     this.formReservation = this.formBuilder.group({
       dateVisite: this.formDateVisiteCtrl,
@@ -146,6 +147,13 @@ export class ReservationPage {
 
       }
 
+    });
+
+
+    this.spectacles$.subscribe(data => {
+      data.forEach(s => {
+        this.spectaclesMap.set(s.id!, s.titre);
+      });
     });
   }
 
@@ -218,6 +226,13 @@ export class ReservationPage {
   //   );
   // }
 
+  getSpectacleTitles(ids: number[] | undefined): string {
+    if (!ids || !this.spectacles$) return '';
 
+    return ids
+      .map(id => this.spectaclesMap.get(id))
+      .filter(Boolean)
+      .join(', ');
+  }
 
 }

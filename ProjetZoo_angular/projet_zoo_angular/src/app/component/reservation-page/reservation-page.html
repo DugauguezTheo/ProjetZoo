@@ -83,7 +83,7 @@
 
                     <select multiple class="form-control" id="spectacles" formControlName="spectaclesIds"
                         [class.is-invalid]="formSpectaclesCtrl.invalid">
-                        <option value=""> -- Spectacles --</option>
+                        <!-- <option value=""> -- Spectacles --</option> -->
                         <option *ngFor="let s of spectacles$ | async" [ngValue]="s.id">{{s.titre}} - {{s.dateDebut}}</option>
                     </select>
                     <!-- <div *ngIf="formSpectacleCtrl.hasError('required')" class="form-control">
@@ -136,7 +136,7 @@
                     <td>{{ reservation.dateReservation }}</td>
                     <td>{{ reservation.nbPersonne }}</td>
                     <td>{{ reservation.prix }}</td>
-                    <td>{{ reservation.spectaclesIds }}</td>
+                    <td>  {{ getSpectacleTitles(reservation.spectaclesIds) }}</td>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <td>
                         <button class="btn-danger" (click)="deleteReservation(reservation)">Supprimer</button>
