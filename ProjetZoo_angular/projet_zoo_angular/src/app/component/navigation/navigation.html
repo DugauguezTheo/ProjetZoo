@@ -33,7 +33,7 @@
       <li><a routerLink="/spectacle">Spectacles</a></li>
 
       @if (authService.isVisiteur()) {
-        <li><a routerLink="/reservation">Mes-Réservations</a></li>
+        <li><a routerLink="/reservation">Mes Réservations</a></li>
       }
       @else {
         <li><a routerLink="/reservation">Réservations</a></li>
@@ -42,6 +42,22 @@
       <li><a routerLink="/animal">Animaux</a></li>
       <li><a routerLink="/enclos">Enclos</a></li>
       <li><a routerLink="/boutique">Boutique</a></li>
+
+      @if (authService.isAdmin()) {
+        <li><a routerLink="/soin">Soins</a></li>
+      } @else if (authService.isVeterinaire()) {
+        <li><a routerLink="/soin">Mes Soins</a></li>
+      }
+
+      @if (authService.isAdmin()){
+        <li><a routerLink="/achat">Achats</a></li>
+      } @else if (authService.isVisiteur() || authService.isVeterinaire()) {
+        <li><a routerLink="/achat">Mes Achats</a></li>
+      }
+
+      @if (authService.isAdmin()) {
+        <li><a routerLink="/personnel">Personnel</a></li>
+      }
 
       <!-- pousse la suite à droite -->
       <li class="spacer"></li>
@@ -64,17 +80,6 @@
 
       <ng-container *ngIf="authService.isLogged()">
 
-        <li>
-          <a routerLink="/mes-visites">Mes visites</a>
-        </li>
-
-        <li *ngIf="authService.isVisiteur()">
-          <a routerLink="/achat">Mes achats</a>
-        </li>
-
-        <li *ngIf="authService.isAdmin()">
-          <a routerLink="/personnel">Personnel</a>
-        </li>
 
         <li>
           <a href="#" (click)="logout()">Déconnexion</a>

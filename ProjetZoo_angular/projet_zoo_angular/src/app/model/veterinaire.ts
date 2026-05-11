@@ -4,5 +4,5 @@ export interface Veterinaire {
   id?: number;
     login: string;
     password: string;
-    soins : Soin;
+    soins : Soin[];
 }

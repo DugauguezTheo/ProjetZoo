@@ -18,6 +18,14 @@ export class VeterinaireService {
     return this.http.get<Soin>(`/veterinaire/${id}/dernier-soin`)
   }
 
+  public addVeterinaire(veterinaire: Veterinaire) {
+    return this.http.post<Veterinaire>('/veterinaire', veterinaire);
+  }
+
+  public updateVeterinaire(veterinaire: Veterinaire) {
+    return this.http.put<Veterinaire>(`/veterinaire/${veterinaire.id}`, veterinaire);
+  }
+
   public getAllVeterinaires() {
     return this.http.get<Veterinaire[]>("/veterinaire")
   }

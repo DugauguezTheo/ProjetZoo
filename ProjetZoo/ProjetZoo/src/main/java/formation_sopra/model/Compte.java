@@ -18,7 +18,7 @@ public abstract class Compte {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 
-	@Column(length = 50, nullable = false,unique = true)
+	@Column(length = 50, nullable = false, unique = true)
 	protected String login;
 
 	@Column(length = 100, nullable = false)
@@ -35,6 +35,20 @@ public abstract class Compte {
 	public Compte(String login, String password) {
 		this.login = login;
 		this.password = password;
+	}
+
+	// NOUVEAU : rôle déduit dynamiquement
+	public String getRole() {
+		if (this instanceof Admin) {
+			return "ADMIN";
+		}
+		if (this instanceof Veterinaire) {
+			return "VETERINAIRE";
+		}
+		if (this instanceof Visiteur) {
+			return "VISITEUR";
+		}
+		return "UNKNOWN";
 	}
 
 	public Integer getId() {
@@ -60,5 +74,4 @@ public abstract class Compte {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 }

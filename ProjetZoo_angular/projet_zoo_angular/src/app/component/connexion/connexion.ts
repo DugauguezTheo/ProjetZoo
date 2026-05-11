@@ -51,7 +51,7 @@ export class Connexion implements OnInit{
           this.router.navigate([ '/admin' ]);
         }
         else if (this.authService.isVeterinaire()) {
-          this.router.navigate([ '/veterinaire ']);
+          this.router.navigate([ '/veterinaire']);
         }
         else {
           this.router.navigate([ '/visiteur' ]);

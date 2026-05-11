@@ -1,1 +1,160 @@
-<p>compte-page works!</p>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Font moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+        <h2>Liste des comptes</h2>
+
+        @if(authService.isAdmin()) {
+
+        <form (submit)="addOrUpdateCompte()" [formGroup]="formCompte">
+
+            <div class="form-group">
+
+                <div>
+
+                    <div class="inline">
+                        <label for="login"><b>Login</b></label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="login"
+                            formControlName="login"
+                            [class.is-invalid]="formLoginCtrl.invalid" />
+
+                        <div *ngIf="formLoginCtrl.hasError('required')" class="form-control">
+                            Pour ajouter un compte, le login est obligatoire
+                        </div>
+                    </div>
+
+                    <div class="inline">
+                        <label for="password"><b>Password</b></label>
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            formControlName="password"
+                            [class.is-invalid]="formPasswordCtrl.invalid" />
+
+                        <div *ngIf="formPasswordCtrl.hasError('required')" class="form-control">
+                            Pour ajouter un compte, le password est obligatoire
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Sélection du rôle -->
+                <div class="inline">
+
+                    <label for="role"><b>Rôle</b></label>
+
+                    <select
+                        id="role"
+                        class="form-control"
+                        formControlName="role">
+
+                        <option *ngFor="let role of roles" [value]="role">
+                            {{ role }}
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <input
+                        *ngIf="!editingCompte"
+                        [disabled]="formCompte.invalid"
+                        type="submit"
+                        class="btn btn-success"
+                        value="Ajouter" />
+
+                    <input
+                        *ngIf="editingCompte"
+                        [disabled]="formCompte.invalid"
+                        type="submit"
+                        class="btn btn-warning"
+                        value="Modifier" />
+
+                </div>
+
+            </div>
+
+        </form>
+
+        }
+
+    </div>
+
+    @if ((compte$ | async)?.length === 0) {
+
+    <h3>Aucun compte trouvé</h3>
+
+    } @else {
+
+    <div class="tableau-wrapper">
+
+        <table class="tableau">
+
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Login</th>
+                    <th>Password</th>
+                    <th>Rôle</th>
+
+                    @if(authService.isAdmin()) {
+                    <th>Actions</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let compte of compte$ | async">
+
+                    <td>{{ compte.id }}</td>
+                    <td>{{ compte.login }}</td>
+                    <td>{{ compte.password }}</td>
+                    <td>{{ compte.role }}</td>
+
+                    @if(authService.isAdmin()) {
+
+                    <td>
+                        <button class="btn-danger" (click)="deleteCompte(compte)">
+                            Supprimer
+                        </button>
+                    </td>
+
+                    }
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+
+    <div class="panther-container">
+        <img src="panthere_final.gif" class="panther" alt="Panthère">
+    </div>
+
+</body>
+
+</html>

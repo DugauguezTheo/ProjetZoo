@@ -29,6 +29,7 @@ export const routes: Routes = [
     { path: 'spectacle', component: SpectaclePage, canActivate: [authGuard] },
     { path: 'veterinaire', component: VeterinairePage, canActivate: [authGuard] },
     { path: 'visiteur', component: VisiteurPage, canActivate: [authGuard] },
+    { path: 'personnel', component: ComptePage, canActivate: [authGuard] },
 
     { path: 'animal', component: AnimalPage },
     { path: 'boutique', component: ArticlePage },
