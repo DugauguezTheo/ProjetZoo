@@ -23,16 +23,16 @@ export class SpectacleService {
     return this.http.get<Spectacle>(`/spectacle/${numero}/with-reservations`);
   }
 
-  public findSpectaclesBetween(dateDebut: Date, dateFin: Date) {
-    return this.http.get<Spectacle>(`/spectacle/between?dateDebut=${dateDebut}&dateFin=${dateFin}`);
+  public findSpectaclesBetween(dateDebut: string, dateFin: string) {
+    return this.http.get<Spectacle[]>(`/spectacle/between?dateDebut=${dateDebut}&dateFin=${dateFin}`);
   }
 
   public findSpectaclesByEnclosId(enclosId: number) {
-    return this.http.get<Spectacle>(`/spectacle/enclos/${enclosId}`);
+    return this.http.get<Spectacle[]>(`/spectacle/enclos/${enclosId}`);
   }
 
   public findSpectaclesByEnclosIdBetween(enclosId: number, dateDebut: Date, dateFin: Date) {
-    return this.http.get<Spectacle>(`/spectacle/enclos/${enclosId}/between?dateDebut=${dateDebut}&dateFin=${dateFin}`);
+    return this.http.get<Spectacle[]>(`/spectacle/enclos/${enclosId}/between?dateDebut=${dateDebut}&dateFin=${dateFin}`);
   }
 
   public addSpectacle(spectacle: SpectacleRequest) {

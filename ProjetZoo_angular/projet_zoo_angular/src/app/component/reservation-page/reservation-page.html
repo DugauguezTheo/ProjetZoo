@@ -70,7 +70,7 @@
                             id="prix"
                             formControlName="prix"
                             [readonly]="isVisiteur"
-                            [value]="isVisiteur ? formNbPersonneCtrl.value * 20 : formPrixCtrl.value"
+                            [value]="isVisiteur ? formNbPersonneCtrl.value * prixVisite : formPrixCtrl.value"
                             [class.is-invalid]="formPrixCtrl.invalid" />
 
                         <div *ngIf="formPrixCtrl.hasError('required') && !isVisiteur" class="form-control">
@@ -79,12 +79,12 @@
                     </div>
                 </div>
                 <div class="inline">
-                    <label for="spectacles"><b>Spectacles</b></label>
+                    <label for="spectacles"><b>Spectacles du jour</b></label>
 
                     <select multiple class="form-control" id="spectacles" formControlName="spectaclesIds"
                         [class.is-invalid]="formSpectaclesCtrl.invalid">
                         <!-- <option value=""> -- Spectacles --</option> -->
-                        <option *ngFor="let s of spectacles$ | async" [ngValue]="s.id">{{s.titre}} - {{s.dateDebut}}</option>
+                        <option *ngFor="let s of spectaclesOfDay$ | async" [ngValue]="s.id">{{s.titre}} - {{s.dateDebut}}</option>
                     </select>
                     <!-- <div *ngIf="formSpectacleCtrl.hasError('required')" class="form-control">
                         Spectacles obligatoire</div> -->

@@ -53,6 +53,7 @@ export class ReservationPage {
 
 
   protected spectacles$!: Observable<Spectacle[]>;
+  protected spectaclesOfDay$!: Observable<Spectacle[]>;
   protected spectaclesMap = new Map<number, string>();
 
   private refresh$: Subject<void> = new Subject<void>();
@@ -68,32 +69,18 @@ export class ReservationPage {
   protected formNbPersonneCtrl!: FormControl;
   protected formSpectaclesCtrl!: FormControl;
 
+  protected prixVisite: number = 20;
+
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Reservation');
     this.visiteurs$ = this.visiteurService.findAllVisiteur();
     this.isVisiteur = this.authService.isVisiteur();
-
+    
     this.spectacles$ = this.spectacleService.findAllSpectacles();
 
-    // this.reservations$ = this.refresh$.pipe(
-    //   startWith(0),
-      
-    //   switchMap(() => this.reservationService.findAllReservations())
-    // );
     
     if (this.isVisiteur) {
-      
-      // this.reservations$ = this.visiteurService.getVisiteurConnecte().pipe(
-
-      //   switchMap(visiteur =>
-      //     this.refresh$.pipe(
-      //       startWith(0),
-      //       switchMap(() =>
-      //         this.reservationService.findAllByVisiteurId(visiteur.id!)
-      //       )
-      //     )
-      //   )
-      // );
+      //Recherche des réservations
       this.reservations$ = 
           this.refresh$.pipe(
             startWith(0),
@@ -101,16 +88,14 @@ export class ReservationPage {
               this.reservationService.findMesReservations()
             )
           )
-        
-
+      //Affectation de l'id dans le formulaire
       this.visiteurService.getVisiteurConnecte().subscribe(v => {
-
         this.formReservation.patchValue({
           visiteur: v.id
         });
-
       });
     }
+    //Si pas visiteur, recherche toutes les réservations
     else {
 
       this.reservations$ = this.refresh$.pipe(
@@ -121,7 +106,7 @@ export class ReservationPage {
       );
     }
 
-
+    //Validators du formulaire
     this.formVisiteurCtrl = this.formBuilder.control('', Validators.required);
     this.formDateVisiteCtrl = this.formBuilder.control('', Validators.required);
     // this.formDateReservationCtrl = this.formBuilder.control('', Validators.required);
@@ -129,6 +114,7 @@ export class ReservationPage {
     this.formNbPersonneCtrl = this.formBuilder.control('', Validators.required);
     this.formSpectaclesCtrl = this.formBuilder.control([]);
 
+    //Groupe du formulaire
     this.formReservation = this.formBuilder.group({
       dateVisite: this.formDateVisiteCtrl,
       // dateReservation: this.formDateReservationCtrl,
@@ -138,7 +124,7 @@ export class ReservationPage {
       spectaclesIds: this.formSpectaclesCtrl
     }, { validators: [ this.futureDateValidator ] });
 
-
+    //Calcul automatique du prix si on modifie le nombre de personne en tant que visiteur
     this.formNbPersonneCtrl.valueChanges.subscribe(value => {
 
       if (this.isVisiteur) {
@@ -149,7 +135,19 @@ export class ReservationPage {
 
     });
 
+    //Filtre des spectacles du jours choisis dans la réservation
+    this.spectaclesOfDay$ = this.formDateVisiteCtrl.valueChanges.pipe(
+      startWith(this.formDateVisiteCtrl.value),
+      switchMap(date => {
+        if (!date) return [];
 
+      const formattedDate = date;
+
+        return this.spectacleService.findSpectaclesBetween(formattedDate, formattedDate);
+      })
+    );
+
+    //Récupération des titres des spectacles
     this.spectacles$.subscribe(data => {
       data.forEach(s => {
         this.spectaclesMap.set(s.id!, s.titre);
@@ -157,18 +155,20 @@ export class ReservationPage {
     });
   }
 
+  
+
   private reload() {
     this.refresh$.next();
   }
 
   public addOrUpdateReservation() {
-    
+    //Si ivisiteur, calcul du prix automatique
     if (this.isVisiteur) {
 
       const nbPersonne = this.formReservation.value.nbPersonne;
 
       this.formReservation.patchValue({
-        prix: nbPersonne * 20
+        prix: nbPersonne * this.prixVisite
       });
     }
     
