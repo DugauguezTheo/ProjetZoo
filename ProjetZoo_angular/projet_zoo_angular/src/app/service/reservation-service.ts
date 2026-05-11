@@ -19,11 +19,15 @@ export class ReservationService {
   }
 
   public findAllBySpectacleId(id: number | undefined) {
-    return this.http.get<Reservation>(`/reservation/spectacle/${id}`);
+    return this.http.get<Reservation[]>(`/reservation/spectacle/${id}`);
   }
 
   public findAllByVisiteurId(id: number | undefined) {
-    return this.http.get<Reservation>(`/reservation/visiteur/${id}`);
+    return this.http.get<Reservation[]>(`/reservation/visiteur/${id}`);
+  }
+
+  public findMesReservations(){
+    return  this.http.get<Reservation[]>('/reservation/mes-reservations');
   }
 
   public addReservation(reservation: ReservationRequest) {

@@ -12,6 +12,7 @@ import { VisiteurService } from '../../service/visiteur-service';
 import { Visiteur } from '../../model/visiteur';
 import { SpectacleService } from '../../service/spectacle-service';
 import { Spectacle } from '../../model/spectacle';
+import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 
 @Component({
   selector: 'app-reservation-page',
@@ -46,6 +47,10 @@ export class ReservationPage {
   protected reservations$!: Observable<Reservation[]>;
 
   protected visiteurs$!: Observable<Visiteur[]>;
+  protected visiteurConnected$!: Observable<VisiteurWithAchats>;
+
+  protected isVisiteur: boolean = false;
+
 
   protected spectacles$!: Observable<Spectacle[]>;
 
@@ -65,13 +70,56 @@ export class ReservationPage {
   ngOnInit(): void {
     this.titleService.setTitle('Zoo AJC - Reservation');
     this.visiteurs$ = this.visiteurService.findAllVisiteur();
+    this.isVisiteur = this.authService.isVisiteur();
 
     this.spectacles$ = this.spectacleService.findAllSpectacles();
 
-    this.reservations$ = this.refresh$.pipe(
-      startWith(0),
-      switchMap(() => this.reservationService.findAllReservations())
-    );
+    // this.reservations$ = this.refresh$.pipe(
+    //   startWith(0),
+      
+    //   switchMap(() => this.reservationService.findAllReservations())
+    // );
+    
+    if (this.isVisiteur) {
+      
+      // this.reservations$ = this.visiteurService.getVisiteurConnecte().pipe(
+
+      //   switchMap(visiteur =>
+      //     this.refresh$.pipe(
+      //       startWith(0),
+      //       switchMap(() =>
+      //         this.reservationService.findAllByVisiteurId(visiteur.id!)
+      //       )
+      //     )
+      //   )
+      // );
+      this.reservations$ = 
+          this.refresh$.pipe(
+            startWith(0),
+            switchMap(() =>
+              this.reservationService.findMesReservations()
+            )
+          )
+        
+
+      this.visiteurService.getVisiteurConnecte().subscribe(v => {
+
+        this.formReservation.patchValue({
+          visiteur: v.id
+        });
+
+      });
+    }
+    else {
+
+      this.reservations$ = this.refresh$.pipe(
+        startWith(0),
+        switchMap(() =>
+          this.reservationService.findAllReservations()
+        )
+      );
+    }
+
 
     this.formVisiteurCtrl = this.formBuilder.control('', Validators.required);
     this.formDateVisiteCtrl = this.formBuilder.control('', Validators.required);
@@ -86,8 +134,19 @@ export class ReservationPage {
       prix: this.formPrixCtrl,
       nbPersonne: this.formNbPersonneCtrl,
       visiteur: this.formVisiteurCtrl,
-      spectacles: this.formSpectaclesCtrl
+      spectaclesIds: this.formSpectaclesCtrl
     }, { validators: [ this.futureDateValidator ] });
+
+
+    this.formNbPersonneCtrl.valueChanges.subscribe(value => {
+
+      if (this.isVisiteur) {
+
+        this.formPrixCtrl.setValue((value || 0) * 20);
+
+      }
+
+    });
   }
 
   private reload() {
@@ -95,6 +154,16 @@ export class ReservationPage {
   }
 
   public addOrUpdateReservation() {
+    
+    if (this.isVisiteur) {
+
+      const nbPersonne = this.formReservation.value.nbPersonne;
+
+      this.formReservation.patchValue({
+        prix: nbPersonne * 20
+      });
+    }
+    
     const reservation: ReservationRequest = {
       visiteurId: this.formVisiteurCtrl.value,
       dateVisite: this.formDateVisiteCtrl.value,
@@ -103,6 +172,7 @@ export class ReservationPage {
       nbPersonne: this.formNbPersonneCtrl.value,
       spectaclesIds: this.formSpectaclesCtrl.value
     };
+
     
     if (this.editingReservation) {
       this.reservationService.updateReservation(this.editingReservation.id, reservation).subscribe(() => {

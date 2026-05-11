@@ -17,17 +17,28 @@
 
         <h2>Liste des réservations</h2>
 
-        @if(authService.isAdmin() || authService.isVeterinaire()) {
+        <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
         <form (submit)="addOrUpdateReservation()" [formGroup]="formReservation">
             <div class="form-group">
                 <div>
-                    <div class="inline">
+                    <div class="inline" *ngIf="!isVisiteur">
                         <label for="visiteur"><b>Visiteur</b></label>
-                        <select class="form-control" id="visiteur" formControlName="visiteur"
-                            [class.is-invalid]="formVisiteurCtrl.invalid">
+
+                        <select class="form-control"
+                                id="visiteur"
+                                formControlName="visiteur"
+                                [class.is-invalid]="formVisiteurCtrl.invalid">
+
                             <option value=""> -- Visiteur --</option>
-                            <option *ngFor="let v of visiteurs$ | async" [ngValue]="v.id">{{v.id}} - {{v.nom}} {{v.prenom}}</option>
+
+                            <option *ngFor="let v of visiteurs$ | async"
+                                    [ngValue]="v.id">
+
+                                {{v.id}} - {{v.nom}} {{v.prenom}}
+
+                            </option>
                         </select>
+                    <!-- </div> -->
                         <div *ngIf="formVisiteurCtrl.hasError('required')" class="form-control">
                             Visiteur obligatoire</div>
                     </div>
@@ -51,17 +62,26 @@
                             Nombre de personne obligatoire</div>
                     </div>
                     <div class="inline">
-                        <label for="number"><b>Prix</b></label>
-                        <input type="number" class="form-control" id="prix" formControlName="prix" placeholder="5"
-                             [class.is-invalid]="formPrixCtrl.invalid" />
-                        <div *ngIf="formPrixCtrl.hasError('required')" class="form-control">
-                            Prix obligatoire</div>
+                        <label *ngIf="!isVisiteur" for="prix"><b>Prix</b></label>
+                        <label *ngIf="isVisiteur" for="prix"><b>Prix calculé</b></label>
+
+                        <input type="number"
+                            class="form-control"
+                            id="prix"
+                            formControlName="prix"
+                            [readonly]="isVisiteur"
+                            [value]="isVisiteur ? formNbPersonneCtrl.value * 20 : formPrixCtrl.value"
+                            [class.is-invalid]="formPrixCtrl.invalid" />
+
+                        <div *ngIf="formPrixCtrl.hasError('required') && !isVisiteur" class="form-control">
+                            Prix obligatoire
+                        </div>
                     </div>
                 </div>
                 <div class="inline">
                     <label for="spectacles"><b>Spectacles</b></label>
 
-                    <select class="form-control" id="spectacles" formControlName="spectacles"
+                    <select multiple class="form-control" id="spectacles" formControlName="spectaclesIds"
                         [class.is-invalid]="formSpectaclesCtrl.invalid">
                         <option value=""> -- Spectacles --</option>
                         <option *ngFor="let s of spectacles$ | async" [ngValue]="s.id">{{s.titre}} - {{s.dateDebut}}</option>
@@ -79,7 +99,7 @@
             </div>
 
         </form>
-        }
+        <!-- } -->
 
     </div>
 
@@ -91,8 +111,10 @@
         <table class="tableau">
             <thead>
                 <tr>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <th>ID</th>
                     <th>Nom visiteur</th>
+                    }
                     <th>Date de visite</th>
                     <th>Date de réservation</th>
                     <th>Nombre de personne</th>
@@ -106,8 +128,10 @@
 
             <tbody>
                 <tr *ngFor="let reservation of reservations$ | async">
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
                     <td>{{ reservation.id }}</td>
                     <td>{{ reservation.visiteurNom }}</td>
+                    }
                     <td>{{ reservation.dateVisite }}</td>
                     <td>{{ reservation.dateReservation }}</td>
                     <td>{{ reservation.nbPersonne }}</td>
