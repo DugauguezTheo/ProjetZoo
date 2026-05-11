@@ -216,12 +216,20 @@ export class ReservationPage {
 
 
     if (this.editingReservation) {
-
-      this.reservationService.updateReservation(this.editingReservation.id, reservation).subscribe(() => {
-        this.editingReservation = null;
-        this.formReservation.reset();
-        this.reload();
-      });
+      if(this.isVisiteur) {
+        this.reservationService.updateReservation(this.editingReservation.id, reservation).subscribe(() => {
+          this.editingReservation = null;
+          this.formReservation.reset();
+          this.reload();
+        });
+      }
+      else{
+        this.reservationService.updateReservationAsAdmin(this.editingReservation.id, reservation).subscribe(() => {
+          this.editingReservation = null;
+          this.formReservation.reset();
+          this.reload();
+        });
+      }
     }
     else {
       if(this.isVisiteur){
