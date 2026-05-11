@@ -498,6 +498,7 @@ body {
   width: 100%;
 
   box-sizing: border-box;
+  text-align: center;
 
   padding: 0.9rem 1rem;
 
@@ -533,6 +534,21 @@ body {
 
 .achat-form input::placeholder {
   color: rgba(247, 231, 193, 0.5);
+}
+
+/* =========================
+   SUPPRIMER LES FLÈCHES INPUT NUMBER
+========================= */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 /* =========================

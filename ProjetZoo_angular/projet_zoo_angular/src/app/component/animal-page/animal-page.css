@@ -136,6 +136,10 @@ body {
   color: #f4d28c;
 
   font-size: 1rem;
+
+  text-align: center;
+
+  width: 100%;
 }
 
 /* =========================
@@ -147,26 +151,63 @@ body {
 
   width: 100%;
 
+  text-align: center;
+
   box-sizing: border-box;
 
-  padding: 0.9rem 1rem;
+  padding: 0.95rem 1rem;
 
   border-radius: 14px;
 
   border: 2px solid rgba(244, 210, 140, 0.25);
 
   background:
-    rgba(25, 20, 15, 0.92);
+    linear-gradient(
+      145deg,
+      rgba(32, 25, 18, 0.96),
+      rgba(20, 15, 12, 0.98)
+    );
 
   color: #f7e7c1;
 
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
 
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease,
     transform 0.2s ease;
+}
+
+/* =========================
+   SELECT PREMIUM
+========================= */
+
+.input-group select {
+
+  cursor: pointer;
+
+  background-image:
+    linear-gradient(
+      145deg,
+      rgba(32, 25, 18, 0.96),
+      rgba(20, 15, 12, 0.98)
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23f4d28c' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6' stroke='%23f4d28c' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+
+  background-position:
+    center,
+    right 14px center;
+
+  background-size:
+    cover,
+    18px;
 }
 
 .input-group input:focus,
@@ -186,9 +227,63 @@ body {
   color: rgba(247, 231, 193, 0.5);
 }
 
+/* =========================
+   DATE PREMIUM
+========================= */
+
+.input-group input[type="date"] {
+
+  position: relative;
+
+  color-scheme: dark;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator {
+
+  cursor: pointer;
+
+  filter:
+    invert(84%)
+    sepia(33%)
+    saturate(462%)
+    hue-rotate(358deg)
+    brightness(103%)
+    contrast(95%);
+
+  opacity: 0.9;
+
+  transition: 0.2s ease;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+
+  transform: scale(1.08);
+
+  opacity: 1;
+}
+
 .input-group option {
   background: #24372c;
   color: white;
+}
+
+/* =========================
+   REMOVE NUMBER ARROWS
+========================= */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+
+  -webkit-appearance: none;
+
+  margin: 0;
+}
+
+input[type=number] {
+
+  appearance: textfield;
+
+  -moz-appearance: textfield;
 }
 
 /* =========================
@@ -204,6 +299,46 @@ body {
   gap: 15px;
 
   flex-wrap: wrap;
+}
+
+/* =========================
+   VALIDATORS
+========================= */
+
+.invalid-input {
+
+  border: 2px solid rgba(255, 90, 90, 0.85) !important;
+
+  box-shadow:
+    0 0 12px rgba(255, 90, 90, 0.28);
+}
+
+.field-error {
+
+  margin-top: -4px;
+
+  color: #ff9b9b;
+
+  font-size: 0.88rem;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  animation: fadeError 0.2s ease;
+}
+
+@keyframes fadeError {
+
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* =========================

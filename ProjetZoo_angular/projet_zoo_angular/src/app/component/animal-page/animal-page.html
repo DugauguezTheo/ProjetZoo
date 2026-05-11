@@ -39,7 +39,12 @@
                   id="prenom"
                   formControlName="prenom"
                   placeholder="Nom de l'animal"
+                  [class.invalid-input]="formPrenomCtrl.invalid && formPrenomCtrl.touched "
                 />
+
+                <div class="field-error" *ngIf="formPrenomCtrl.invalid && formPrenomCtrl.touched">
+                  Le prénom est obligatoire
+                </div>
               </div>
 
               <div class="input-group">
@@ -49,13 +54,22 @@
                   type="date"
                   id="dateNaissance"
                   formControlName="dateNaissance"
+                  [class.invalid-input]="formDateNaissanceCtrl.invalid && formDateNaissanceCtrl.touched"
                 />
+
+                <div class="field-error" *ngIf="formDateNaissanceCtrl.hasError('required') && formDateNaissanceCtrl.touched">
+                  La date de naissance est obligatoire
+                </div>
+
+                <div class="field-error" *ngIf="formDateNaissanceCtrl.hasError('pastDate')">
+                  La date de naissance doit être dans le passé
+                </div>
               </div>
 
               <div class="input-group">
                 <label for="espece">🐾 Espèce</label>
 
-                <select id="espece" formControlName="espece">
+                <select id="espece" formControlName="espece" [class.invalid-input]="formEspeceCtrl.invalid && formEspeceCtrl.touched">
 
                   <option [ngValue]="null">
                     Choisir une espèce
@@ -66,12 +80,16 @@
                   </option>
 
                 </select>
+
+                <div class="field-error" *ngIf="formEspeceCtrl.invalid && formEspeceCtrl.touched">
+                  Veuillez choisir une espèce
+                </div>
               </div>
 
               <div class="input-group">
                 <label for="enclos">🌿 Enclos</label>
 
-                <select id="enclos" formControlName="idEnclos">
+                <select id="enclos" formControlName="idEnclos" [class.invalid-input]="formEnclosCtrl.invalid && formEnclosCtrl.touched">
 
                   <option [ngValue]="null">
                     Choisir un enclos
@@ -86,6 +104,10 @@
                   </option>
 
                 </select>
+
+                <div class="field-error" *ngIf="formEnclosCtrl.invalid && formEnclosCtrl.touched">
+                  Veuillez choisir un enclos
+                </div>
               </div>
 
             </div>

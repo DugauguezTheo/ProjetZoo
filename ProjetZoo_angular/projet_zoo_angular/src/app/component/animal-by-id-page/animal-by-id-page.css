@@ -265,7 +265,7 @@ body {
 .input-group select {
 
   width: 100%;
-
+  text-align: center;
   box-sizing: border-box;
 
   padding: 0.9rem 1rem;

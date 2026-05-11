@@ -12,6 +12,7 @@ import { Enclos } from '../../model/enclos';
 import { EnclosService } from '../../service/enclos-service';
 import { AuthService } from '../../service/auth-service';
 import { CarteLogged } from "../carte-logged/carte-logged";
+import { pastDateValidator } from '../../validator/past-date-validator';
 
 @Component({
   selector: 'app-animal-page',
@@ -135,7 +136,7 @@ export class AnimalPage implements OnInit {
     this.especes$ = this.especeService.findAllEspeces();
 
     this.formPrenomCtrl = new FormControl("", Validators.required);
-    this.formDateNaissanceCtrl = new FormControl("", Validators.required);
+    this.formDateNaissanceCtrl = new FormControl("", [ Validators.required, pastDateValidator() ]);
     this.formEnclosCtrl = new FormControl(null, Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
 
