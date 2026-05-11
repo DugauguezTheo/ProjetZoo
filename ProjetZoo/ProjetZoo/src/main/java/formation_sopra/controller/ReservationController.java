@@ -81,7 +81,7 @@ public class ReservationController {
     
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
     public EntityCreatedOrUpdatedResponse update(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateReservationRequest request) {
         log.debug("Modification de la reservation {} ...", id);
 
@@ -94,7 +94,7 @@ public class ReservationController {
         
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectacleIds()));
+        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
 
 
         this.daoReservation.save(reservation);
@@ -105,7 +105,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
     @ResponseStatus(HttpStatus.CREATED)
     public EntityCreatedOrUpdatedResponse create(@Valid @RequestBody CreateOrUpdateReservationRequest request) {
         log.debug("Création d'une nouvelle reservation ...");
@@ -119,7 +119,7 @@ public class ReservationController {
 
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectacleIds()));
+        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
 
 
         this.daoReservation.save(reservation);

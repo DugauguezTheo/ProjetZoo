@@ -29,7 +29,7 @@ public class CreateOrUpdateReservationRequest {
     // Hidden
     private Integer visiteurId;
 
-    private List<Integer> spectacleIds;
+    private List<Integer> spectaclesIds;
     
     public LocalDate getDateVisite() {
         return dateVisite;
@@ -71,12 +71,12 @@ public class CreateOrUpdateReservationRequest {
         this.visiteurId = visiteurId;
     }
 
-    public List<Integer> getSpectacleIds() {
-        return spectacleIds;
+    public List<Integer> getSpectaclesIds() {
+        return spectaclesIds;
     }
 
-    public void setSpectacleIds(List<Integer> spectacleIds) {
-        this.spectacleIds = spectacleIds;
+    public void setSpectaclesIds(List<Integer> spectaclesIds) {
+        this.spectaclesIds = spectaclesIds;
     }
 
 }
