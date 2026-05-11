@@ -21,7 +21,7 @@
                 <div>
                     <div class="inline">
                         <label for="dateSoin"><b>Date du soin</b></label>
-                        <input type="date" class="form-control" id="dateSoin" formControlName="dateSoin"
+                        <input type="datetime-local" class="form-control" id="dateSoin" formControlName="dateSoin"
                             [class.is-invalid]="formDateSoinCtrl.invalid" />
                         <div *ngIf="formDateSoinCtrl.hasError('required')" class="form-control">Pour ajouter un soin, la
                             date du soin est obligatoire</div>
@@ -88,7 +88,7 @@
             <tbody>
                 <tr *ngFor="let soin of soin$ | async">
                     <td>{{ soin.id }}</td>
-                    <td>{{ soin.dateSoin | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ soin.dateSoin | date:'dd/MM/yyyy HH:mm' }}</td>
                     <td>{{ soin.veterinaire.login }}</td>
                     <td>{{ soin.animal.prenom }}</td>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {

@@ -20,7 +20,7 @@
 
   <form (submit)="connexion()" [formGroup]="formAuth">
     <div class="form-group">
-      <label for="login">Email</label>
+      <label for="username">Email</label>
       <input type="email" placeholder="ex: paul@email.com" id="username" formControlName="login" [class.is-invalid]="formLoginCtrl.invalid" >
        <div *ngIf="formLoginCtrl.hasError('required')">L'email de connexion est obligatoire</div>
         <div *ngIf="formLoginCtrl.hasError('email')">L'email doit suivre la syntaxe de paul@email.com</div>

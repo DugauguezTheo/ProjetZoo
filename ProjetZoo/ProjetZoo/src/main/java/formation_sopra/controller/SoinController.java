@@ -19,8 +19,6 @@ import formation_sopra.controller.dto.response.SoinResponse;
 import formation_sopra.dao.IDAOAnimal;
 import formation_sopra.dao.IDAOSoin;
 import formation_sopra.dao.IDAOVeterinaire;
-import formation_sopra.exception.AnimalNotFoundException;
-import formation_sopra.exception.CompteNotFoundException;
 import formation_sopra.model.Soin;
 import jakarta.validation.Valid;
 
@@ -63,9 +61,9 @@ public class SoinController {
         Soin soin = new Soin();
 
         soin.setDescription(request.description());
-        soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
+        soin.setAnimal(daoAnimal.findById(request.animalId()));
         soin.setDateSoin(request.dateSoin());
-        soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));
+        soin.setVeterinaire(daoVeterinaire.findbyId(request.veterinaireId));
         
         Soin saved = this.daoSoin.save(soin);
         
@@ -84,9 +82,9 @@ public class SoinController {
 
         soin.setId(id);
         soin.setDescription(request.description());
-        soin.setAnimal(this.daoAnimal.findById(request.animalId()).orElseThrow(AnimalNotFoundException::new));
+        soin.setAnimal(request.animal());
         soin.setDateSoin(request.dateSoin());
-        soin.setVeterinaire(this.daoVeterinaire.findById(request.veterinaireId()).orElseThrow(CompteNotFoundException::new));
+        soin.setVeterinaire(request.veterinaire());
         
         Soin updated = this.daoSoin.save(soin);
         log.info("Soin mis à jour : {}", updated.getId());

@@ -59,8 +59,8 @@ export class SoinPage implements OnInit {
     this.formSoin = this.formBuilder.group({
       dateSoin: this.formDateSoinCtrl,
       description: this.formDescriptionCtrl,
-      idVeterinaire: this.formVeterinaireCtrl,
-      animalId: this.formAnimalCtrl
+      veterinaire: this.formVeterinaireCtrl,
+      animal: this.formAnimalCtrl
     });
   }
 
@@ -70,10 +70,10 @@ export class SoinPage implements OnInit {
 
   public addOrUpdateSoin() {
     const soin: Soin = {
-      dateSoin: this.formDateSoinCtrl.value,
+      dateSoin: this.formDateSoinCtrl.value + ":00",
       description: this.formDescriptionCtrl.value,
-      veterinaireId: this.formVeterinaireCtrl.value,
-      animalId: this.formAnimalCtrl.value
+      veterinaire: this.formVeterinaireCtrl.value,
+      animal: this.formAnimalCtrl.value
     };
 
     if (this.editingSoin) {
@@ -95,8 +95,8 @@ export class SoinPage implements OnInit {
     this.editingSoin = soin;
     this.formDateSoinCtrl.setValue(soin.dateSoin);
     this.formDescriptionCtrl.setValue(soin.description);
-    this.formVeterinaireCtrl.setValue(soin.veterinaireId);
-    this.formAnimalCtrl.setValue(soin.animalId);
+    this.formVeterinaireCtrl.setValue(soin.veterinaire);
+    this.formAnimalCtrl.setValue(soin.animal);
     this.reload();
   }
 

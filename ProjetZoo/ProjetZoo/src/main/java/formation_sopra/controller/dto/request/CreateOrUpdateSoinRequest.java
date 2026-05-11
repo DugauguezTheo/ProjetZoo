@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.Length;
 
+import formation_sopra.model.Animal;
+import formation_sopra.model.Veterinaire;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

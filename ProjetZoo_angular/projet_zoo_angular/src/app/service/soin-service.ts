@@ -9,19 +9,32 @@ export class SoinService {
   constructor(private http: HttpClient){}
 
   public findAllSoin() {
-    return this.http.get<Soin[]>('/soins');
+    return this.http.get<Soin[]>('/soin');
   }
 
   public addSoin(soin: Soin) {
-    return this.http.post<Soin>('/soins', soin);
+    const soinToAdd = {
+      dateSoin: soin.dateSoin,
+      description: soin.description,
+      veterinaireId: soin.veterinaire,
+      animalId: soin.animal
+    };
+
+    return this.http.post<Soin>('/soin', soinToAdd);
   }
 
   public updateSoin(soin: Soin) {
-    return this.http.put<Soin>(`/soins/${soin.id}`, soin);
+    const soinToUpdate = {
+      dateSoin: soin.dateSoin,
+      description: soin.description,
+      veterinaireId: soin.veterinaire,
+      animalId: soin.animal
+    };
+    return this.http.put<Soin>(`/soin/${soin.id}`, soinToUpdate);
   }
 
   public deleteSoin(id: number | undefined) {
-    return this.http.delete(`/soins/${id}`);
+    return this.http.delete(`/soin/${id}`);
   }
 }
 

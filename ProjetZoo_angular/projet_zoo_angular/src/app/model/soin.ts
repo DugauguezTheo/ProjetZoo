@@ -2,7 +2,7 @@ import { Veterinaire } from './veterinaire';
 import { Animal } from './animal';
 export interface Soin {
   id ?: number;
-  dateSoin : Date;
+  dateSoin : string;
   description : string;
   veterinaire : Veterinaire;
   animal : Animal;
