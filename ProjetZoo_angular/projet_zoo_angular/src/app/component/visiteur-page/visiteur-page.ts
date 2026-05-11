@@ -15,7 +15,7 @@ import { MapZoo } from '../map-zoo/map-zoo';
   imports: [
     RouterModule,
     CommonModule,
-    CarteLogged, 
+    CarteLogged,
     MapZoo
 ],
   templateUrl: './visiteur-page.html',

@@ -105,6 +105,30 @@ public class ReservationController {
         return new EntityCreatedOrUpdatedResponse(reservation.getId());
     }
 
+    @PutMapping("/as-admin/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
+    public EntityCreatedOrUpdatedResponse updateAsAdmin(@PathVariable Integer id, @Valid @RequestBody CreateOrUpdateReservationAsAdminRequest request) {
+        log.debug("Modification de la reservation {} ...", id);
+
+        Reservation reservation = this.daoReservation.findById(id).orElseThrow(EntityNotFoundException::new);
+
+        reservation.setDateReservation(request.getDateReservation());
+        reservation.setDateVisite(request.getDateVisite());
+        reservation.setPrix(request.getPrix());
+        reservation.setNbPersonne(request.getNbPersonne());
+        
+        reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
+
+        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
+
+
+        this.daoReservation.save(reservation);
+
+        log.debug("Reservation {} modifiée !", id);
+
+        return new EntityCreatedOrUpdatedResponse(reservation.getId());
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','VISITEUR')")
     @ResponseStatus(HttpStatus.CREATED)

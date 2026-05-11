@@ -8,10 +8,11 @@ import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { EspeceService } from '../../service/espece-service';
 import { Enclos } from '../../model/enclos';
 import { AuthService } from '../../service/auth-service';
+import { CarteLogged } from '../carte-logged/carte-logged';
 
 @Component({
   selector: 'app-enclos-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CarteLogged],
   templateUrl: './enclos-page.html',
   styleUrl: './enclos-page.css',
 })
