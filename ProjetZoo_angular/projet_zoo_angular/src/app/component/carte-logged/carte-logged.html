@@ -13,8 +13,19 @@
 
         <div class="profile-details">
           <p>🎟️ Nombre de visites : 12</p>
-          <p>📅 Dernière visite : 05/05/2026</p>
-          <p *ngIf="dernierAchat$ | async as dernierAchat">🛍️ Dernier achat : {{ dernierAchat.articleLibelle }}</p>
+          <p *ngIf="derniereVisite$ | async as derniereVisite; else noVisit">
+            📅 Dernière visite :
+            {{ derniereVisite.dateReservation | date:'dd/MM/yyyy' }}
+          </p>
+
+          <ng-template #noVisit>
+            <p>📅 Aucune visite enregistrée</p>
+          </ng-template>
+          <p *ngIf="dernierAchat$ | async as dernierAchat; else noAchat">🛍️ Dernier achat : {{ dernierAchat.articleLibelle }}</p>
+
+          <ng-template #noAchat>
+            <p>🛍️ Aucun achat enregistré</p>
+          </ng-template>
         </div>
       </div>
     }
@@ -49,11 +60,43 @@
         </div>
 
         <div class="profile-details">
-          <p>🦁 Nombre d’Animaux : 60</p>
-          <p>🦁 Nombre d’Espèces : 12</p>
-          <p>👤 Nombre d’Employés : 6</p>
-          <p>🎟️ Nombre de visiteurs cette année : 520</p>
-          <p>💰Revenus du Zoo: 12 568€</p>
+          <p *ngIf="nombreAnimaux$ | async as nbAnimaux; else noAnimal">
+            🦁 Nombre d’Animaux : {{ nbAnimaux }}
+          </p>
+
+          <ng-template #noAnimal>
+            <p>🦁 Aucun animal dans le zoo</p>
+          </ng-template>
+
+          <p *ngIf="nombreEspeces$ | async as nbEspeces; else noEspece">
+            🐾 Nombre d’Espèces : {{ nbEspeces }}
+          </p>
+
+          <ng-template #noEspece>
+            <p>🐾 Aucune espèce dans le zoo</p>
+          </ng-template>
+
+          <p *ngIf="nombreEmployes$ | async as nbEmployes; else noEmploye">👤 Nombre d’Employés : {{ nbEmployes }}</p>
+          <ng-template #noEmploye>
+            <p>👤 Nombre d’Employés : 0</p>
+          </ng-template>
+
+          <p *ngIf="nombreVisites$ | async as nbVisites; else noVisitInTheYear">
+            🎟️ Nombre de visites cette année : {{ nbVisites }}
+          </p>
+
+          <ng-template #noVisitInTheYear>
+            <p>🎟️ Aucune visite enregistrée cette année</p>
+          </ng-template>
+
+          <p *ngIf="recettes$ | async as recettes; else pauvre">
+            💰 Revenus du Zoo :
+            {{ recettes | number:'1.2-2' }} €
+          </p>
+
+          <ng-template #pauvre>
+            <p>💰 Pas une thune à l'horizon</p>
+          </ng-template>
         </div>
       </div>
     }

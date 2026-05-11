@@ -7,7 +7,7 @@ import { ReservationRequest } from '../dto/reservation-request';
   providedIn: 'root',
 })
 export class ReservationService {
-  
+
   constructor(private http: HttpClient) { }
 
   public findAllReservations() {

@@ -17,4 +17,8 @@ export class VeterinaireService {
   public getDernierSoin(id : number | undefined) {
     return this.http.get<Soin>(`/veterinaire/${id}/dernier-soin`)
   }
+
+  public getAllVeterinaires() {
+    return this.http.get<Veterinaire[]>("/veterinaire")
+  }
 }
