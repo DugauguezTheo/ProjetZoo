@@ -343,7 +343,7 @@
 
   .sidebar {
     padding-right: 40px;
-    margin-right: 200px;
+    margin: auto;
   }
 
   .profile-info h3 {

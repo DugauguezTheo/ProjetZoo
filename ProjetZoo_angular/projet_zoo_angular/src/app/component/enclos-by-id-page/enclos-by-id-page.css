@@ -1,0 +1,454 @@
+/* enclos-by-id-page.css */
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #1c2b22;
+  color: white;
+  text-align: center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  justify-self: start;
+  max-width: 140px;
+}
+
+.title {
+  justify-self: center;
+  font-family: 'Cinzel', serif;
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #f4d97b;
+}
+
+.spacer {
+  justify-self: end;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.page-layout {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 260px)
+    minmax(0, 1fr)
+    minmax(260px, 420px);
+
+  gap: 30px;
+
+  align-items: start;
+
+  width: 100%;
+
+  margin-top: 30px;
+
+  box-sizing: border-box;
+}
+
+.main-column {
+
+  grid-column: 2/3;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.content {
+
+  width: 100%;
+
+  max-width: 1200px;
+
+  padding: 20px;
+
+  background: rgba(255,255,255,0.05);
+
+  border-radius: 18px;
+
+  backdrop-filter: blur(4px);
+
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+
+  box-sizing: border-box;
+}
+
+/* =========================
+   SECTION TITLES
+========================= */
+
+.section-title {
+
+  margin-top: 40px;
+
+  margin-bottom: 30px;
+
+  font-family: 'Cinzel', serif;
+
+  letter-spacing: 1px;
+
+  color: #f1d46a;
+
+  text-align: center;
+}
+
+/* =========================
+   ENCLOS CARD
+========================= */
+
+.enclos-detail-card {
+
+  max-width: 500px;
+
+  margin: 0 auto 40px auto;
+
+  background: rgba(255,255,255,0.06);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  backdrop-filter: blur(4px);
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.enclos-header {
+
+  padding: 20px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(212,175,55,0.15),
+      rgba(255,255,255,0.05)
+    );
+}
+
+.enclos-header h2 {
+
+  margin: 0;
+
+  color: #d4af37;
+
+  font-family: 'Cinzel', serif;
+
+  font-size: 1.8rem;
+}
+
+.enclos-body {
+
+  padding: 24px;
+
+  text-align: center;
+}
+
+.enclos-body p {
+
+  margin: 14px 0;
+
+  line-height: 1.5;
+}
+
+.label {
+
+  color: #d4af37;
+
+  font-weight: bold;
+}
+
+/* =========================
+   SPECIES GRID
+========================= */
+
+.species-grid {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 18px;
+}
+
+.species-badge {
+
+  width: 180px;
+
+  background: rgba(255,255,255,0.08);
+
+  border: 1px solid rgba(255,255,255,0.1);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  backdrop-filter: blur(8px);
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.species-badge img {
+
+  width: 100%;
+
+  height: 120px;
+
+  object-fit: cover;
+}
+
+.species-badge span {
+
+  display: block;
+
+  padding: 14px;
+
+  color: #f4d28c;
+
+  font-family: 'Cinzel', serif;
+
+  font-size: 0.95rem;
+}
+
+/* =========================
+   ANIMALS GRID
+========================= */
+
+.animals-grid {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 20px;
+
+  justify-content: center;
+}
+
+/* =========================
+   ANIMAL CARD
+========================= */
+
+.animal-card {
+
+  width: 230px;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.35);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  cursor: pointer;
+}
+
+.animal-card:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,0.45);
+}
+
+.animal-header {
+
+  padding: 16px;
+}
+
+.animal-header h3 {
+
+  margin: 0;
+
+  color: #d4af37;
+
+  font-size: 1rem;
+
+  text-align: center;
+
+  font-family: 'Cinzel', serif;
+}
+
+.animal-image {
+
+  width: 100%;
+
+  height: 180px;
+
+  object-fit: cover;
+}
+
+.animal-body {
+
+  padding: 18px;
+
+  text-align: left;
+}
+
+.animal-body p {
+
+  margin: 10px 0;
+
+  line-height: 1.5;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+
+  width: 100%;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background: rgba(255,255,255,0.05);
+
+  border-radius: 18px;
+
+  font-size: 1.1rem;
+
+  opacity: 0.8;
+}
+
+/* =========================
+   FOOTER ANIMALS
+========================= */
+
+.animals {
+
+  margin-top: 40px;
+
+  position: relative;
+
+  height: 120px;
+
+  overflow: hidden;
+}
+
+.animals img {
+
+  position: absolute;
+
+  bottom: 0;
+
+  width: 120px;
+
+  animation: move 12s linear infinite;
+}
+
+.animals img:nth-child(2) {
+
+  animation-delay: 6s;
+}
+
+@keyframes move {
+
+  from {
+    left: -150px;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+  margin-top: 40px;
+
+  padding: 20px;
+
+  font-size: 0.8rem;
+
+  opacity: 0.7;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1400px) {
+
+  .page-layout {
+
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+  }
+
+  .main-column {
+
+    grid-column: 1;
+
+    width: 100%;
+
+    padding: 0 15px;
+
+    box-sizing: border-box;
+  }
+
+  .content {
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    box-sizing: border-box;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .animal-card {
+
+    width: 100%;
+  }
+
+  .species-badge {
+
+    width: 100%;
+  }
+
+}
+

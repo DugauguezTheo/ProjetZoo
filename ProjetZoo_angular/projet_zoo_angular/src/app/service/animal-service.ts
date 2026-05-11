@@ -13,6 +13,10 @@ export class AnimalService {
     return this.http.get<Animal[]>('/animal');
   }
 
+  public findAllByEnclosId(id: number | undefined) {
+    return this.http.get<Animal[]>(`/animal/enclos/${id}`)
+  }
+
   public findAnimalById(id: number | undefined) {
     return this.http.get<Animal>(`/animal/${id}`);
   }

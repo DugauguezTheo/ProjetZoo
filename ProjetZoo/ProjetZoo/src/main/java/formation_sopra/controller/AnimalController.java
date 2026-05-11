@@ -54,6 +54,17 @@ public class AnimalController {
                 ;
     }
 
+    @GetMapping("/enclos/{id}")
+    public List<AnimalResponse> getAnimalsByEnclosId(@PathVariable Integer id) {
+
+        log.debug("Liste des animaux de l'enclos {}...", id);
+
+        return this.daoAnimal.findAllByEnclosId(id)
+                .stream()
+                .map(AnimalResponse::convert)
+                .toList()
+                ;
+    }
     @GetMapping
     public List<AnimalResponse> getAllAnimals() {
 

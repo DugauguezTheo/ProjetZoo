@@ -16,6 +16,7 @@ import { NonauthPage } from './component/nonauth-page/nonauth-page';
 import { CreateComptePage } from './component/create-compte-page/create-compte-page';
 import { AchatArticle } from './component/achat-article/achat-article';
 import { AnimalByIdPage } from './component/animal-by-id-page/animal-by-id-page';
+import { EnclosByIdPage } from './component/enclos-by-id-page/enclos-by-id-page';
 
 export const routes: Routes = [
 
@@ -35,6 +36,7 @@ export const routes: Routes = [
     { path: 'boutique', component: ArticlePage },
     { path: 'boutique/article/:id', component: AchatArticle },
     { path: 'animal/:id', component: AnimalByIdPage },
+    { path: 'enclos/:id', component: EnclosByIdPage },
 
     { path: 'connexion', component: Connexion },
     { path: 'inscription', component: CreateComptePage},

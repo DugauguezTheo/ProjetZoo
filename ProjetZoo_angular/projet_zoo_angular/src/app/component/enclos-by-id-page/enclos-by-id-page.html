@@ -1,0 +1,193 @@
+<!-- enclos-by-id-page.html -->
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="enclos-by-id-page.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+<header class="header">
+
+  <img
+    src="/Arche_sans_fond.png"
+    alt="Logo"
+    class="logo"
+  >
+
+  <h1 class="title">
+    L'Arche des Joyaux Cachés
+  </h1>
+
+  <div class="spacer"></div>
+
+</header>
+
+<div class="page-layout">
+
+  <div class="main-column">
+
+    <section class="content">
+
+      <div *ngIf="enclos$ | async as enclos">
+
+        <!-- CARTE PRINCIPALE -->
+
+        <div class="enclos-detail-card">
+
+          <div class="enclos-header">
+
+            <h2>
+              Enclos #{{ enclos.numero }}
+            </h2>
+
+          </div>
+
+          <div class="enclos-body">
+
+            <p>
+              <span class="label">🌿 Biome :</span>
+              {{ enclos.biome }}
+            </p>
+
+            <p>
+              <span class="label">📦 Capacité :</span>
+              {{ enclos.animals?.length ?? 0 }}/{{ enclos.capacite }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- ESPECES PRESENTES -->
+
+        <h2 class="section-title">
+          Espèces présentes
+        </h2>
+
+        <div
+          class="species-grid"
+          *ngIf="especesDansLEnclos$ | async as especes"
+        >
+
+          <div
+            *ngIf="especes.length === 0"
+            class="empty-state"
+          >
+            Aucune espèce dans cet enclos
+          </div>
+
+          <div
+            class="species-badge"
+            *ngFor="let espece of especes"
+          >
+
+            <img
+              [src]="especeImages[espece]"
+              [alt]="espece"
+            >
+
+            <span>
+              {{ espece.replace('_', ' ') }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- ANIMAUX -->
+
+        <h2 class="section-title">
+          Animaux présents
+        </h2>
+
+        <div
+          class="animals-grid"
+          *ngIf="animals$ | async as animals"
+        >
+
+          <div
+            *ngIf="animals.length === 0"
+            class="empty-state"
+          >
+            Aucun animal dans cet enclos
+          </div>
+
+          <div
+            class="animal-card"
+            *ngFor="let animal of animals"
+            [routerLink]="['/animal', animal.id]"
+          >
+
+            <div class="animal-header">
+
+              <h3>
+                {{ animal.prenom }}
+              </h3>
+
+            </div>
+
+            <img
+              class="animal-image"
+              [src]="especeImages[animal.espece]"
+              [alt]="animal.espece"
+            >
+
+            <div class="animal-body">
+
+              <p>
+                <span class="label">🐾 Espèce :</span>
+                {{ animal.espece.replace('_', ' ') }}
+              </p>
+
+              <p>
+                <span class="label">🎂 Naissance :</span>
+                {{ animal.dateNaissance | date:'dd/MM/yyyy' }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <app-carte-logged></app-carte-logged>
+
+</div>
+
+<div class="animals">
+
+  <img
+    src="/panthere_final.gif"
+    alt="Panthère"
+  >
+
+  <img
+    src="/poissons-qui-nagent.gif"
+    alt="Poissons"
+  >
+
+</div>
+
+<footer>
+  © 2026 Arche des Joyaux Cachés
+</footer>
+
+</body>
+
+</html>
+```
