@@ -117,9 +117,20 @@ export class ComptePage implements OnInit {
 
   public deleteCompte(compte: Compte) {
 
-    this.compteService.deleteCompte(compte.id).subscribe(() => {
-      this.reload();
-    });
+    if (compte.role === 'ADMIN') {
+      alert("Vous ne pouvez pas supprimer un compte ADMIN.");
+      return;
+    } else if (compte.role === 'VETERINAIRE') {
+      this.veterinaireService.deleteVeterinaire(compte.id).subscribe(() => {
+        this.reload();
+      });
+      return;
+    } else if (compte.role === 'VISITEUR') {
+      this.visiteurService.deleteVisiteur(compte.id).subscribe(() => {
+        this.reload();
+      });
+      return;
+    }
   }
 
 }

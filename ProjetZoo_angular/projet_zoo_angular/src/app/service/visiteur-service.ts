@@ -27,6 +27,10 @@ export class VisiteurService {
     return this.http.put<Visiteur>(`/visiteur/${visiteur.id}`, visiteur);
   }
 
+  public deleteVisiteur(id: number | undefined) {
+    return this.http.delete(`/visiteur/${id}`);
+  }
+
   public getLastAchat(id : number | undefined) {
     return this.http.get<Achat>(`/visiteur/${id}/dernier-achat`)
   }

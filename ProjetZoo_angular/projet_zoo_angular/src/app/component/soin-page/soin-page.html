@@ -1,1 +1,113 @@
-<p>soin-page works!</p>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+
+    <!-- Font moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+
+        <h2>Liste des soins</h2>
+        @if(authService.isAdmin() || authService.isVeterinaire()) {
+        <form (submit)="addOrUpdateSoin()" [formGroup]="formSoin">
+            <div class="form-group">
+                <div>
+                    <div class="inline">
+                        <label for="dateSoin"><b>Date du soin</b></label>
+                        <input type="date" class="form-control" id="dateSoin" formControlName="dateSoin"
+                            [class.is-invalid]="formDateSoinCtrl.invalid" />
+                        <div *ngIf="formDateSoinCtrl.hasError('required')" class="form-control">Pour ajouter un soin, la
+                            date du soin est obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="description"><b>Description</b></label>
+                        <input type="text" class="form-control" id="description" formControlName="description"
+                            [class.is-invalid]="formDescriptionCtrl.invalid" />
+                        <div *ngIf="formDescriptionCtrl.hasError('required')" class="form-control">Pour ajouter un soin,
+                            la description est obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="veterinaire"><b>Vétérinaire</b></label>
+                        <select class="form-control" id="veterinaire" formControlName="veterinaire"
+                            [class.is-invalid]="formVeterinaireCtrl.invalid">
+                            <option value="">Sélectionnez un vétérinaire</option>
+                            <option *ngFor="let vet of veterinaire$ | async" [value]="vet.id">{{ vet.login }}</option>
+                        </select>
+                        <div *ngIf="formVeterinaireCtrl.hasError('required')" class="form-control">Pour ajouter un soin,
+                            le vétérinaire est obligatoire</div>
+                    </div>
+                    <div class="inline">
+                        <label for="animal"><b>Animal</b></label>
+                        <select class="form-control" id="animal" formControlName="animal"
+                            [class.is-invalid]="formAnimalCtrl.invalid">
+                            <option value="">Sélectionnez un animal</option>
+                            <option *ngFor="let animal of animal$ | async" [value]="animal.id">{{ animal.prenom }}</option>
+                        </select>
+                        <div *ngIf="formAnimalCtrl.hasError('required')" class="form-control">Pour ajouter un soin, 
+                            l'animal est obligatoire</div>
+                    </div>
+                </div>
+
+                <div>
+                    <input *ngIf="!editingSoin" [disabled]="formSoin.invalid" type="submit" class="btn btn-success"
+                        value="Ajouter" />
+                    <input *ngIf="editingSoin" [disabled]="formSoin.invalid" type="submit" class="btn btn-warning"
+                        value="Modifier" />
+                </div>
+            </div>
+
+        </form>
+        }
+
+    </div>
+
+    @if ((soin$ | async)?.length===0) {
+    <h3>Aucun soin trouvé</h3>
+    } @else {
+    <div class="tableau-wrapper">
+        <table class="tableau">
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Date du soin</th>
+                    <th>Vétérinaire</th>
+                    <th>Animal</th>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
+                    <th>Actions</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let soin of soin$ | async">
+                    <td>{{ soin.id }}</td>
+                    <td>{{ soin.dateSoin | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ soin.veterinaire.login }}</td>
+                    <td>{{ soin.animal.prenom }}</td>
+                    @if(authService.isAdmin() || authService.isVeterinaire()) {
+                    <td>
+                        <button class="btn-danger" (click)="deleteSoin(soin)">Supprimer</button>
+                        <button class="btn-edit" (click)="editerSoin(soin)">Modifier</button>
+                    </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    }
+
+    <div class="panther-container">
+        <img src="panthere_final.gif" class="panther" alt="Panthère">
+    </div>
+
+</body>
+
+</html>
+

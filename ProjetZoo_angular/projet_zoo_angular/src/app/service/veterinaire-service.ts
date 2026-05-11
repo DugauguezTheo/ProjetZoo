@@ -26,6 +26,10 @@ export class VeterinaireService {
     return this.http.put<Veterinaire>(`/veterinaire/${veterinaire.id}`, veterinaire);
   }
 
+  public deleteVeterinaire(id: number | undefined) {
+    return this.http.delete(`/veterinaire/${id}`);
+  }
+
   public getAllVeterinaires() {
     return this.http.get<Veterinaire[]>("/veterinaire")
   }
