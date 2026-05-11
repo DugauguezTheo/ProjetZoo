@@ -64,6 +64,10 @@ body {
 
   border-radius: 18px;
 
+  backdrop-filter: blur(4px);
+
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+
   box-sizing: border-box;
 }
 
@@ -79,7 +83,9 @@ body {
 
   letter-spacing: 1px;
 
-  color: #d4af37;
+  color: #f1d46a;
+
+  text-align: center;
 }
 
 /* =========================
@@ -114,6 +120,13 @@ body {
   padding: 20px;
 
   border-bottom: 1px solid rgba(255,255,255,0.08);
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(212,175,55,0.15),
+      rgba(255,255,255,0.05)
+    );
 }
 
 .animal-header h2 {
@@ -125,6 +138,8 @@ body {
   font-family: 'Cinzel', serif;
 
   font-size: 1.7rem;
+
+  text-align: center;
 }
 
 /* =========================
@@ -152,7 +167,9 @@ body {
 
   cursor: pointer;
 
-  transition: 0.2s;
+  transition: all 0.25s ease;
+
+  backdrop-filter: blur(6px);
 }
 
 .edit-icon-btn:hover {
@@ -160,6 +177,8 @@ body {
   transform: scale(1.08);
 
   background: rgba(212,175,55,0.25);
+
+  box-shadow: 0 0 18px rgba(244, 210, 140, 0.25);
 }
 
 /* =========================
@@ -237,15 +256,15 @@ body {
   display: grid;
 
   grid-template-columns:
-    repeat(auto-fit, minmax(240px, 1fr));
+    repeat(auto-fit, minmax(240px, 320px));
 
   gap: 22px;
+  justify-content: center;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-
   gap: 1rem;
 }
 
@@ -255,6 +274,10 @@ body {
   color: #f4d28c;
 
   font-size: 1rem;
+
+  text-align: center;
+
+  width: 100%;
 }
 
 /* =========================
@@ -265,27 +288,64 @@ body {
 .input-group select {
 
   width: 100%;
+
   text-align: center;
+
   box-sizing: border-box;
 
-  padding: 0.9rem 1rem;
+  padding: 0.95rem 1rem;
 
   border-radius: 14px;
 
   border: 2px solid rgba(244, 210, 140, 0.25);
 
   background:
-    rgba(25, 20, 15, 0.92);
+    linear-gradient(
+      145deg,
+      rgba(32, 25, 18, 0.96),
+      rgba(20, 15, 12, 0.98)
+    );
 
   color: #f7e7c1;
 
   font-size: 1rem;
   font-family: 'Inter', sans-serif;
 
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease,
     transform 0.2s ease;
+}
+
+/* =========================
+   SELECT PREMIUM
+========================= */
+
+.input-group select {
+
+  cursor: pointer;
+
+  background-image:
+    linear-gradient(
+      145deg,
+      rgba(32, 25, 18, 0.96),
+      rgba(20, 15, 12, 0.98)
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23f4d28c' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6' stroke='%23f4d28c' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+
+  background-position:
+    center,
+    right 14px center;
+
+  background-size:
+    cover,
+    18px;
 }
 
 .input-group input:focus,
@@ -305,9 +365,103 @@ body {
   color: rgba(247, 231, 193, 0.5);
 }
 
+/* =========================
+   DATE PREMIUM
+========================= */
+
+.input-group input[type="date"] {
+
+  position: relative;
+
+  color-scheme: dark;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator {
+
+  cursor: pointer;
+
+  filter:
+    invert(84%)
+    sepia(33%)
+    saturate(462%)
+    hue-rotate(358deg)
+    brightness(103%)
+    contrast(95%);
+
+  opacity: 0.9;
+
+  transition: 0.2s ease;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+
+  transform: scale(1.08);
+
+  opacity: 1;
+}
+
 .input-group option {
   background: #24372c;
   color: white;
+}
+
+/* =========================
+   REMOVE NUMBER ARROWS
+========================= */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+
+  -webkit-appearance: none;
+
+  margin: 0;
+}
+
+input[type=number] {
+
+  appearance: textfield;
+
+  -moz-appearance: textfield;
+}
+
+/* =========================
+   VALIDATORS
+========================= */
+
+.invalid-input {
+
+  border: 2px solid rgba(255, 90, 90, 0.85) !important;
+
+  box-shadow:
+    0 0 12px rgba(255, 90, 90, 0.28);
+}
+
+.field-error {
+
+  margin-top: -4px;
+
+  color: #ff9b9b;
+
+  font-size: 0.88rem;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  animation: fadeError 0.2s ease;
+}
+
+@keyframes fadeError {
+
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* =========================
@@ -367,26 +521,50 @@ body {
   cursor: not-allowed;
 }
 
+/* =========================
+   CANCEL BUTTON PREMIUM
+========================= */
+
 .cancel-btn {
 
-  background: transparent;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(70, 70, 70, 0.95),
+      rgba(45, 45, 45, 0.95)
+    );
 
-  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
 
-  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
 
-  padding: 14px 22px;
+  border-radius: 14px;
 
-  border-radius: 12px;
+  padding: 0.9rem 1.4rem;
+
+  font-size: 0.95rem;
+  font-weight: 600;
 
   cursor: pointer;
 
-  transition: 0.2s;
+  transition: all 0.25s ease;
+
+  backdrop-filter: blur(6px);
 }
 
 .cancel-btn:hover {
 
-  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(90, 90, 90, 0.98),
+      rgba(60, 60, 60, 0.98)
+    );
+
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.08);
 }
 
 /* =========================
@@ -412,26 +590,32 @@ body {
 
   width: 220px;
 
-  background: rgba(255,255,255,0.06);
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  border-radius: 18px;
-
   overflow: hidden;
 
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.35);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
   cursor: pointer;
-
-  backdrop-filter: blur(4px);
-
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-
-  transition: transform 0.2s ease;
 }
 
 .animal-card:hover {
 
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,0.45);
 }
 
 .animal-card .animal-header {
@@ -446,6 +630,8 @@ body {
   color: #d4af37;
 
   font-size: 1rem;
+
+  text-align: center;
 }
 
 .animal-card .animal-image {
@@ -489,7 +675,7 @@ body {
 
   inset: 0;
 
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.72);
 
   display: flex;
 
@@ -497,23 +683,33 @@ body {
   align-items: center;
 
   z-index: 9999;
+
+  backdrop-filter: blur(6px);
 }
 
 .popup {
 
-  width: 360px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(25, 25, 25, 0.96),
+      rgba(45, 45, 45, 0.96)
+    );
 
-  background: #243528;
-
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 215, 120, 0.25);
 
   border-radius: 22px;
 
-  padding: 35px;
+  padding: 2rem;
+
+  width: 420px;
+  max-width: 90%;
 
   text-align: center;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  box-shadow:
+    0 0 35px rgba(0,0,0,0.7),
+    0 0 25px rgba(255,215,120,0.12);
 }
 
 .popup h2 {
@@ -522,7 +718,7 @@ body {
 
   margin-bottom: 25px;
 
-  color: #d4af37;
+  color: #f5d27a;
 
   font-family: 'Cinzel', serif;
 }

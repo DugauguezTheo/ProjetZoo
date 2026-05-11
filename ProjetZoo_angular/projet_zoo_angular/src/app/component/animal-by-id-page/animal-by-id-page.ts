@@ -11,6 +11,7 @@ import { Enclos } from '../../model/enclos';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CarteLogged } from "../carte-logged/carte-logged";
+import { pastDateValidator } from '../../validator/past-date-validator';
 
 @Component({
   selector: 'app-animal-by-id-page',
@@ -123,7 +124,7 @@ export class AnimalByIdPage implements OnInit {
   ngOnInit(): void {
 
     this.formPrenomCtrl = new FormControl("", Validators.required);
-    this.formDateNaissanceCtrl = new FormControl("", Validators.required);
+    this.formDateNaissanceCtrl = new FormControl("", [ Validators.required, pastDateValidator() ]);
     this.formEnclosCtrl = new FormControl(null, Validators.required);
     this.formEspeceCtrl = new FormControl(null, Validators.required);
 
@@ -133,6 +134,12 @@ export class AnimalByIdPage implements OnInit {
       idEnclos: this.formEnclosCtrl,
       espece: this.formEspeceCtrl
     });
+
+    const encloss$ = this.enclosService.findAllEncloss();
+
+    this.enclosDisponibles$ = encloss$.pipe(
+      map(enclos => enclos.filter(e => (e.animals?.length ?? 0) < e.capacite))
+    )
 
     this.especes$ = this.especeService.findAllEspeces();
 
@@ -198,7 +205,7 @@ export class AnimalByIdPage implements OnInit {
 
       this.animalService.updateAnimal(animal)
         .pipe(take(1))
-        .subscribe(animalModifie => {
+        .subscribe(animalActuel => {
 
           /*
            * MAJ immédiate de la carte principale
@@ -250,4 +257,10 @@ export class AnimalByIdPage implements OnInit {
     this.popupVisible = false;
 
   }
+
+  public compareEnclos = (e1: Enclos, e2: Enclos): boolean => {
+    return e1 && e2
+      ? e1.numero === e2.numero
+      : e1 === e2;
+  };
 }

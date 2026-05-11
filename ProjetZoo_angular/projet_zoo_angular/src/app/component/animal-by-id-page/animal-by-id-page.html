@@ -116,7 +116,20 @@
                   type="text"
                   id="prenom"
                   formControlName="prenom"
+                  [class.invalid-input]="formPrenomCtrl.invalid && formPrenomCtrl.touched"
                 >
+
+                @if(formPrenomCtrl.invalid && formPrenomCtrl.touched) {
+
+                  <div class="field-error">
+
+                    @if(formPrenomCtrl.errors?.['required']) {
+                      Le prénom est obligatoire
+                    }
+
+                  </div>
+
+                }
 
               </div>
 
@@ -130,7 +143,24 @@
                   type="date"
                   id="dateNaissance"
                   formControlName="dateNaissance"
+                  [class.invalid-input]="formDateNaissanceCtrl.invalid && formDateNaissanceCtrl.touched"
                 >
+
+                @if(formDateNaissanceCtrl.invalid && formDateNaissanceCtrl.touched) {
+
+                  <div class="field-error">
+
+                    @if(formDateNaissanceCtrl.errors?.['required']) {
+                      La date est obligatoire
+                    }
+
+                    @if(formDateNaissanceCtrl.errors?.['pastDate']) {
+                      La date doit être dans le passé
+                    }
+
+                  </div>
+
+                }
 
               </div>
 
@@ -143,6 +173,7 @@
                 <select
                   id="espece"
                   formControlName="espece"
+                  [class.invalid-input]="formEspeceCtrl.invalid && formEspeceCtrl.touched"
                 >
 
                   <option [ngValue]="null">
@@ -158,6 +189,14 @@
 
                 </select>
 
+                @if(formEspeceCtrl.invalid && formEspeceCtrl.touched) {
+
+                  <div class="field-error">
+                    Veuillez choisir une espèce
+                  </div>
+
+                }
+
               </div>
 
               <div class="input-group">
@@ -169,6 +208,8 @@
                 <select
                   id="enclos"
                   formControlName="idEnclos"
+                  [compareWith]="compareEnclos"
+                  [class.invalid-input]="formEnclosCtrl.invalid && formEnclosCtrl.touched"
                 >
 
                   <option [ngValue]="null">
@@ -188,6 +229,14 @@
                   </option>
 
                 </select>
+
+                @if(formEnclosCtrl.invalid && formEnclosCtrl.touched) {
+
+                  <div class="field-error">
+                    Veuillez choisir un enclos
+                  </div>
+
+                }
 
               </div>
 
