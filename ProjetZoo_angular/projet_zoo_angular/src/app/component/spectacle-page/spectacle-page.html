@@ -11,87 +11,116 @@
 
 <body>
 
-    <div class="container">
-
+    <!-- <div class="container"> -->
+    <header class="header">
         <img src="Arche_sans_fond.png" alt="Logo" class="logo">
 
-        <h2>Liste des spectacles</h2>
+        <h1 class="title">L'Arche des Joyaux Cachés</h1>
 
-        @if(authService.isAdmin() || authService.isVeterinaire()) {
-        <form (submit)="addOrUpdateSpectacle()" [formGroup]="formSpectacle">
-            <div class="form-group">
-                <div>
-                    <div class="inline">
-                        <label for="titre"><b>Titre</b></label>
-                        <!-- <input type="text" class="form-control" id="titre" formControlName="titre"
-                            [class.is-invalid]="formTitreCtrl.invalid" /> -->
+        <div class="spacer"></div>
+    </header>
 
-                        <select class="form-control"
-                            id="titre"
-                            formControlName="titre"
-                            [class.is-invalid]="formTitreCtrl.invalid">
+    <div class="page-layout">
+        <div class="main-column">
+            <section class="content">
+                @if(authService.isAdmin() || authService.isVeterinaire()) {
+                    <div class ="container">
+                        <form class="spectacle-form" (submit)="addOrUpdateSpectacle()" [formGroup]="formSpectacle">
+                            <div class="form-grid">
+                
+                                <div class="input-group">
+                                    <label for="titre"><b>Titre</b></label>
+                                <!-- <input type="text" class="form-control" id="titre" formControlName="titre"
+                                [class.is-invalid]="formTitreCtrl.invalid" /> -->
 
-                        <option value=""> -- Choisir un spectacle -- </option>
+                                    <select class="form-control"
+                                        id="titre"
+                                        formControlName="titre"
+                                        [class.invalid-input]="formTitreCtrl.invalid && formTitreCtrl.touched">
 
-                        <option *ngFor="let titre of titresSpectacles"
-                                [value]="titre">
-                            {{ titre }}
-                        </option>
-                        </select>
-                        <div *ngIf="formTitreCtrl.hasError('required')" class="form-control">
-                            Titre obligatoire</div>
-                    </div>
-                    <div class="inline">
-                        <label for="date"><b>Date</b></label>
-                        <input type="date" class="form-control" id="date" formControlName="date"
-                            [class.is-invalid]="formDateCtrl.invalid" />
-                        <div *ngIf="formDateCtrl.hasError('required')" class="form-control">
-                            Date obligatoire</div>
-                    </div>
+                                        <option value="" disabled selected hidden>
+ 
+                                            -- Choisir un spectacle -- </option>
+
+                                        <option *ngFor="let titre of titresSpectacles"
+                                            [value]="titre">
+                                            {{ titre }}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="formTitreCtrl.hasError('required') && formTitreCtrl.touched" class="field-error">
+                                    Titre obligatoire</div>
+                                </div>
+                            
+                                <div class="input-group">
+                                    <label for="date"><b>Date</b></label>
+                                    <input type="date" id="date" formControlName="date"
+                                        [class.is-invalid]="formDateCtrl.invalid" />
+                                    <div *ngIf="formDateCtrl.hasError('required') && formDateCtrl.touched" class="field-error">
+                                        Date obligatoire</div>
+                                </div>
+                
+
+                
+                                <div class="input-group">
+                                    <label for="heure"><b>Heure</b></label>
+                                    <input type="time"  id="heure" formControlName="heure"
+                                        [class.invalid-input]="formHeureCtrl.invalid && formHeureCtrl.touched" />
+                                    <div *ngIf="formHeureCtrl.hasError('required') && formHeureCtrl.touched" class="field-error">
+                                        Heure obligatoire</div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="duree"><b>Durée</b></label>
+                                    <div class="quantity-selector">
+                                        <button
+                                        type="button" class="qty-btn"
+                                        (click)="formDureeCtrl.setValue(formDureeCtrl.value - 5)"
+                                        [disabled]="formDureeCtrl.value <= 5">
+                                            −</button>
+                                        
+                                        <input type="number" id="duree" formControlName="duree" placeholder="5"
+                                        step="5" min="5" [class.invalid-input]="formDureeCtrl.invalid && formDureeCtrl.touched" />
+                                        
+                                        <button type="button" class="qty-btn"
+                                            (click)="formDureeCtrl.setValue(formDureeCtrl.value + 5)">
+                                            +</button>
+                                    </div>
+                                    <div *ngIf="formDureeCtrl.hasError('required') && formDureeCtrl.touched" class="field-error">
+                                    Durée obligatoire</div>
+                                </div>
+                    
+                                <div class="input-group">
+                                    <label for="enclos"><b>Enclos</b></label>
+
+                                    <select id="enclos" formControlName="enclos"
+                                        [class.invalid-input]="formEnclosCtrl.invalid && formEnclosCtrl.touched">
+                                        <option value="" disabled selected hidden>
+                                             -- Enclos --</option>
+                                        <option *ngFor="let e of enclos | async" [ngValue]="e.numero">{{e.numero}} - {{e.biome}}</option>
+                                    </select>
+                                    <div *ngIf="formEnclosCtrl.hasError('required') && formEnclosCtrl.touched" class="field-error">
+                                        Enclos obligatoire</div>
+                                </div>
+                            </div>
+
+                        <div class="form-actions">
+                            <button *ngIf="!editingSpectacle" [disabled]="formSpectacle.invalid" type="submit"
+                                class="gold-btn">✨ Ajouter le spectacle</button>
+                            <button *ngIf="editingSpectacle" [disabled]="formSpectacle.invalid" type="submit" 
+                            class="gold-btn">🛠️ Modifier le spectacle</button>
+                        </div>
+                    </form>
                 </div>
+            }
 
-                <div>
-                    <div class="inline">
-                        <label for="heure"><b>Heure</b></label>
-                        <input type="time" class="form-control" id="heure" formControlName="heure"
-                            [class.is-invalid]="formHeureCtrl.invalid" />
-                        <div *ngIf="formHeureCtrl.hasError('required')" class="form-control">
-                            Heure obligatoire</div>
+    <!-- </div> -->
+
+                <h2 class="section-title">Liste des spectacles</h2>
+                <div class="spectacles-grid" *ngIf="spectacles$ | async as spectacles">
+                    <div *ngIf="spectacles.length === 0" class="empty-state">
+                    Aucun spectacle prévus au zoo
                     </div>
-                    <div class="inline">
-                        <label for="duree"><b>Durée</b></label>
-                        <input type="number" class="form-control" id="duree" formControlName="duree" placeholder="5"
-                            step="5" min="5" [class.is-invalid]="formDureeCtrl.invalid" />
-                        <div *ngIf="formDureeCtrl.hasError('required')" class="form-control">
-                            Durée obligatoire</div>
-                    </div>
-                </div>
-                <div class="inline">
-                    <label for="enclos"><b>Enclos</b></label>
-
-                    <select class="form-control" id="enclos" formControlName="enclos"
-                        [class.is-invalid]="formEnclosCtrl.invalid">
-                        <option value=""> -- Enclos --</option>
-                        <option *ngFor="let e of enclos | async" [ngValue]="e.numero">{{e.biome}}</option>
-                    </select>
-                    <div *ngIf="formEnclosCtrl.hasError('required')" class="form-control">
-                        Enclos obligatoire</div>
-                </div>
-            </div>
-
-            <div>
-                <input *ngIf="!editingSpectacle" [disabled]="formSpectacle.invalid" type="submit"
-                    class="btn btn-success" value="Ajouter" />
-                <input *ngIf="editingSpectacle" [disabled]="formSpectacle.invalid" type="submit" class="btn btn-warning"
-                    value="Modifier" />
-            </div>
-
-        </form>
-        }
-
-    </div>
-
-    @if ((spectacles$ | async)?.length===0) {
+    <!-- @if ((spectacles$ | async)?.length===0) {
     <h3>Aucun spectacle trouvé</h3>
     } @else {
     <div class="tableau-wrapper">
@@ -106,31 +135,58 @@
                     <th>Durée</th>
                     <th>Enclos</th>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <th>Actions</th>
-                    }
-                </tr>
-            </thead>
+                    <th>Actions</th> -->
+                    <!-- } -->
+                    <div class="spectacle-card" *ngFor="let spectacle of spectacles">
+                        <div class ="spectacle-header">
+                            <h3>#{{ spectacle.id }} - {{ spectacle.titre }}</h3>
+                            @if(authService.isAdmin() || authService.isVeterinaire()) {
+                                <div class="card-actions">
 
-            <tbody>
-                <tr *ngFor="let spectacle of spectacles$ | async">
-                    <td>{{ spectacle.id }}</td>
-                    <td>{{ spectacle.titre }}</td>
-                    <td>{{ spectacle.dateDebut }}</td>
-                    <td>{{ spectacle.heureDebut }}</td>
-                    <td>{{ spectacle.duree }}</td>
-                    <td>{{ spectacle.enclosId }} - {{ spectacle.enclosBiome }}</td>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <td>
-                        <button class="btn-danger" (click)="deleteSpectacle(spectacle)">Supprimer</button>
-                        <button class="btn-edit" (click)="editerSpectacle(spectacle)">Modifier</button>
-                    </td>
-                    }
-                </tr>
+                                    <button
+                                    class="edit-icon-btn"
+                                    type="button"
+                                    (click)="editerSpectacle(spectacle)"
+                                    >
+                                    ✏️
+                                    </button>
+
+                                    <button
+                                    class="delete-icon-btn"
+                                    type="button"
+                                    (click)="deleteSpectacle(spectacle)"
+                                    >
+                                    🗑️
+                                    </button>
+
+                                </div>
+                            }
+                        </div>
+                        <div class="spectacle-body">
+
+                            <p> <span class = "label">📆 Date de debut :</span>
+                                {{spectacle.dateDebut}} </p>
+                            <p> <span class = "label">⏰ Heure de debut :</span>
+                                {{spectacle.heureDebut}} </p>
+                            <p> <span class = "label">⏱ Duree :</span>
+                                {{spectacle.duree}} </p>
+                            <p> <span class = "label">🏠 Enclos :</span>
+                                {{ spectacle.enclosId }} - {{ spectacle.enclosBiome }}</p>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- </tr>
             </tbody>
         </table>
     </div>
+    } -->
+            </section>
+        </div>
+    </div>
+    @if (authService.isAdmin() || authService.isVeterinaire() || authService.isVisiteur()) {
+        <app-carte-logged></app-carte-logged>
     }
-
     <div class="panther-container">
         <img src="panthere_final.gif" class="panther" alt="Panthère">
     </div>

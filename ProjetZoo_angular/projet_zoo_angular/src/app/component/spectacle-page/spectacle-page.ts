@@ -10,10 +10,11 @@ import { Enclos } from '../../model/enclos';
 import { EnclosService } from '../../service/enclos-service';
 import { SpectacleRequest } from '../../dto/spectacle-request';
 import { AuthService } from '../../service/auth-service';
+import { CarteLogged } from '../carte-logged/carte-logged';
 
 @Component({
   selector: 'app-spectacle-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CarteLogged],
   templateUrl: './spectacle-page.html',
   styleUrl: './spectacle-page.css',
 })
