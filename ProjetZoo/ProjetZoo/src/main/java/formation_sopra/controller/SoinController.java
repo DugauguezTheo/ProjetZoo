@@ -61,9 +61,9 @@ public class SoinController {
         Soin soin = new Soin();
 
         soin.setDescription(request.description());
-        soin.setAnimal(daoAnimal.findById(request.animalId()));
+        soin.setAnimal(daoAnimal.findById(request.animalId()).orElseThrow(() -> new RuntimeException("Animal non trouvé")));
         soin.setDateSoin(request.dateSoin());
-        soin.setVeterinaire(daoVeterinaire.findbyId(request.veterinaireId));
+        soin.setVeterinaire(daoVeterinaire.findById(request.veterinaireId()).orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé")));
         
         Soin saved = this.daoSoin.save(soin);
         
@@ -82,9 +82,9 @@ public class SoinController {
 
         soin.setId(id);
         soin.setDescription(request.description());
-        soin.setAnimal(request.animal());
+        soin.setAnimal(daoAnimal.findById(request.animalId()).orElseThrow(() -> new RuntimeException("Animal non trouvé")));
         soin.setDateSoin(request.dateSoin());
-        soin.setVeterinaire(request.veterinaire());
+        soin.setVeterinaire(daoVeterinaire.findById(request.veterinaireId()).orElseThrow(() -> new RuntimeException("Vétérinaire non trouvé")));
         
         Soin updated = this.daoSoin.save(soin);
         log.info("Soin mis à jour : {}", updated.getId());

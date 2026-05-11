@@ -47,7 +47,10 @@ export class SoinPage implements OnInit {
     this.veterinaire$ = this.veterinaireService.getAllVeterinaires();
     this.animal$ = this.animalService.findAllAnimals();
 
-    this.soin$ = this.soinService.findAllSoin();
+    this.soin$ = this.refresh$.pipe(
+  startWith(void 0),
+  switchMap(() => this.soinService.findAllSoin())
+);
 
 
 
@@ -70,6 +73,7 @@ export class SoinPage implements OnInit {
 
   public addOrUpdateSoin() {
     const soin: Soin = {
+      id: this.editingSoin?.id,
       dateSoin: this.formDateSoinCtrl.value + ":00",
       description: this.formDescriptionCtrl.value,
       veterinaire: this.formVeterinaireCtrl.value,
@@ -93,7 +97,7 @@ export class SoinPage implements OnInit {
 
   public editerSoin(soin: Soin) {
     this.editingSoin = soin;
-    this.formDateSoinCtrl.setValue(soin.dateSoin);
+    this.formDateSoinCtrl.setValue(soin.dateSoin?.slice(0,16));
     this.formDescriptionCtrl.setValue(soin.description);
     this.formVeterinaireCtrl.setValue(soin.veterinaire);
     this.formAnimalCtrl.setValue(soin.animal);

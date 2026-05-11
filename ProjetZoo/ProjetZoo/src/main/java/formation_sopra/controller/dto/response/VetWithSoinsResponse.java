@@ -6,20 +6,20 @@ import formation_sopra.model.Soin;
 
 public class VetWithSoinsResponse extends VeterinaireResponse {
 
-    private List<Soin> soins;
+    private List<SoinResponse> soins;
 
     public VetWithSoinsResponse() {
     }
 
-    public VetWithSoinsResponse(List<Soin> soins) {
+    public VetWithSoinsResponse(List<SoinResponse> soins) {
         this.soins = soins;
     }
 
-    public List<Soin> getSoins() {
+    public List<SoinResponse> getSoins() {
         return soins;
     }
 
-    public void setSoins(List<Soin> soins) {
+    public void setSoins(List<SoinResponse> soins) {
         this.soins = soins;
     }
 
@@ -31,7 +31,8 @@ public class VetWithSoinsResponse extends VeterinaireResponse {
         vetWithSoinsResponse.setPassword(veterinaire.getPassword());
 
         List<Soin> soins = veterinaire.getSoins();
-        vetWithSoinsResponse.setSoins(soins);
+        List<SoinResponse> soinsResponses = soins.stream().map(SoinResponse::convert).collect(java.util.stream.Collectors.toList());
+        vetWithSoinsResponse.setSoins(soinsResponses);
 
         return vetWithSoinsResponse;
     }
