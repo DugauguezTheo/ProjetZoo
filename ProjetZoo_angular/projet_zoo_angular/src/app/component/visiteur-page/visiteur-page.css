@@ -19,11 +19,16 @@
 }
 
 .title {
+  color: #f4d28c;
   justify-self: center;
   font-family: 'Cinzel', serif;
   margin: 0;
   letter-spacing: 2px;
   text-align: center;
+}
+
+h2 {
+  color: #f4d28c;
 }
 
 /* sert à équilibrer la grille */

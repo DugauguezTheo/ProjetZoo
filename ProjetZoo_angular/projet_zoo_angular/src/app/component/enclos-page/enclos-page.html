@@ -1,99 +1,253 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="enclos-page.css">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="enclos-page.css">
 
-
-    <!-- Font moderne -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="container">
+  <!-- =========================
+       HEADER
+  ========================= -->
 
-        <img src="Arche_sans_fond.png" alt="Logo" class="logo">
+  <header class="header">
 
-        <h2>Liste des enclos</h2>
+    <img src="/Arche_sans_fond.png" alt="Logo" class="logo">
+
+    <h1 class="title">L'Arche des Joyaux Cachés</h1>
+
+    <div class="spacer"></div>
+
+  </header>
+
+  <!-- =========================
+       LAYOUT
+  ========================= -->
+
+  <div class="page-layout">
+
+    <div class="main-column">
+
+      <section class="content">
+
+        <!-- =========================
+             FORMULAIRE
+        ========================= -->
+
         @if(authService.isAdmin() || authService.isVeterinaire()) {
-        <form (submit)="addOrUpdateEnclos()" [formGroup]="formEnclos">
-            <div class="form-group">
-                <div>
-                    <div class="inline">
-                        <label for="biome"><b>Biome</b></label>
-                        <input type="text" class="form-control" id="biome" formControlName="biome"
-                            [class.is-invalid]="formBiomeCtrl.invalid" />
-                        <div *ngIf="formBiomeCtrl.hasError('required')" class="form-control">Pour ajouter un enclos, le
-                            biome est obligatoire</div>
-                    </div>
-                    <div class="inline">
-                        <label for="capacite"><b>Capacité</b></label>
-                        <input type="number" class="form-control" id="capacite" formControlName="capacite"
-                            [class.is-invalid]="formCapaciteCtrl.invalid" />
-                        <div *ngIf="formCapaciteCtrl.hasError('required')" class="form-control">Pour ajouter un enclos,
-                            la capacité est obligatoire</div>
-                    </div>
+
+        <div class="container">
+
+          <form class="enclos-form" (submit)="addOrUpdateEnclos()" [formGroup]="formEnclos">
+
+            <div class="form-grid">
+
+              <div class="input-group">
+
+                <label for="biome">🌿 Biome</label>
+
+                <input
+                  type="text"
+                  id="biome"
+                  formControlName="biome"
+                  placeholder="Ex: Savane"
+                  [class.invalid-input]="formBiomeCtrl.invalid && formBiomeCtrl.touched"
+                />
+
+                <div class="field-error"
+                     *ngIf="formBiomeCtrl.invalid && formBiomeCtrl.touched">
+
+                  Le biome est obligatoire
+
                 </div>
 
-                <div>
-                    <input *ngIf="!editingEnclos" [disabled]="formEnclos.invalid" type="submit" class="btn btn-success"
-                        value="Ajouter" />
-                    <input *ngIf="editingEnclos" [disabled]="formEnclos.invalid" type="submit" class="btn btn-warning"
-                        value="Modifier" />
+              </div>
+
+              <div class="input-group">
+                <label for="capacite">🏕️ Capacité</label>
+
+                <div class="quantity-selector">
+
+                  <button
+                    type="button"
+                    class="qty-btn"
+                    (click)="formCapaciteCtrl.setValue(formCapaciteCtrl.value - 1)"
+                    [disabled]="formCapaciteCtrl.value <= 1"
+                  >
+                    −
+                  </button>
+
+                  <input
+                    id="capacite"
+                    type="number"
+                    formControlName="capacite"
+                    min="1"
+                    [class.invalid-input]="formCapaciteCtrl.invalid && formCapaciteCtrl.touched"
+                  >
+
+                  <button
+                    type="button"
+                    class="qty-btn"
+                    (click)="formCapaciteCtrl.setValue(formCapaciteCtrl.value + 1)"
+                  >
+                    +
+                  </button>
+
                 </div>
+
+                <div
+                  class="field-error"
+                  *ngIf="formCapaciteCtrl.invalid && formCapaciteCtrl.touched"
+                >
+                  La capacité est obligatoire
+                </div>
+              </div>
+
             </div>
 
-        </form>
+            <div class="form-actions">
+
+              <button
+                *ngIf="!editingEnclos"
+                [disabled]="formEnclos.invalid"
+                class="gold-btn"
+                type="submit"
+              >
+                ✨ Ajouter l'enclos
+              </button>
+
+              <button
+                *ngIf="editingEnclos"
+                [disabled]="formEnclos.invalid"
+                class="gold-btn"
+                type="submit"
+              >
+                🛠️ Modifier l'enclos
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
         }
 
+        <!-- =========================
+             LISTE ENCLOS
+        ========================= -->
+
+        <h2 class="section-title">Liste des enclos</h2>
+
+        <div class="enclos-grid" *ngIf="enclos$ | async as enclos">
+
+          <div *ngIf="enclos.length === 0" class="empty-state">
+            Aucun enclos dans le zoo
+          </div>
+
+          <div class="enclos-card" *ngFor="let e of enclos">
+
+            <!-- HEADER -->
+            <div class="enclos-header">
+
+              <h3>
+                🌿 {{ e.biome }}
+              </h3>
+
+              @if(authService.isAdmin() || authService.isVeterinaire()) {
+
+              <div class="card-actions">
+
+                <button
+                  class="icon-btn edit-btn"
+                  type="button"
+                  (click)="editerEnclos(e)"
+                >
+                  ✏️
+                </button>
+
+                <button
+                  class="icon-btn delete-btn"
+                  type="button"
+                  (click)="deleteEnclos(e)"
+                >
+                  🗑️
+                </button>
+
+              </div>
+
+              }
+
+            </div>
+
+            <!-- BODY -->
+            <div class="enclos-body">
+
+              <p>
+                <span class="label">🔢 Numéro :</span>
+                {{ e.numero }}
+              </p>
+
+              <p>
+                <span class="label">📦 Capacité :</span>
+                {{ e.capacite }}
+              </p>
+
+              <div class="especes-section">
+
+                <span class="label">🐾 Espèces :</span>
+
+                @if (!e.especes || e.especes.length === 0) {
+
+                  <div class="empty-especes">
+                    Enclos vide pour le moment
+                  </div>
+
+                } @else {
+
+                  <div class="badge-container">
+
+                    <span
+                      class="espece-badge"
+                      *ngFor="let espece of e.especes"
+                    >
+                      {{ espece.replace("_", " ") }}
+                    </span>
+
+                  </div>
+
+                }
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </div>
 
-    @if ((enclos$ | async)?.length===0) {
-    <h3>Aucun enclos trouvé</h3>
-    } @else {
-    <div class="tableau-wrapper">
-        <table class="tableau">
-            <thead>
-                <tr>
-                    <th>Numéro</th>
-                    <th>Biome</th>
-                    <th>Capacité</th>
-                    <th>Espèces présentes</th>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <th>Actions</th>
-                    }
-                </tr>
-            </thead>
+    <!-- =========================
+         CARTE LOGGED
+    ========================= -->
 
-            <tbody>
-                <tr *ngFor="let enclos of enclos$ | async">
-                    <td>{{ enclos.numero }}</td>
-                    <td>{{ enclos.biome }}</td>
-                    <td>{{ enclos.capacite }}</td>
-                    <td>@if (!enclos.especes || enclos.especes.length === 0) {
-                        <p>Enclos vide pour le moment</p>
-                        } @else {
-                        <span *ngFor="let espece of enclos.especes; let last = last">
-                          {{ espece.replace("_"," ") }}<span *ngIf="!last">, </span>
-                        </span>
-                        }
-                    </td>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
-                    <td>
-                        <button class="btn-danger" (click)="deleteEnclos(enclos)">Supprimer</button>
-                        <button class="btn-edit" (click)="editerEnclos(enclos)">Modifier</button>
-                    </td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    }
+    <app-carte-logged></app-carte-logged>
 
-    <div class="panther-container">
-        <img src="panthere_final.gif" class="panther" alt="Panthère">
-    </div>
+  </div>
+
+  <!-- =========================
+       PANTHERE
+  ========================= -->
+
+  <div class="panther-container">
+    <img src="panthere_final.gif" class="panther" alt="Panthère">
+  </div>
 
 </body>
 
