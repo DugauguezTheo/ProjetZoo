@@ -12,7 +12,8 @@
         </div>
 
         <div class="profile-details">
-          <p>🎟️ Nombre de visites : 12</p>
+          <p *ngIf="nombreVisites$ | async as nbVisites; else AucuneVisite">🎟️ Nombre de visites : {{ nbVisites }}</p>
+          <ng-template #AucuneVisite>🎟️ Nombre de visites : {{ 0 }}</ng-template>
           <p *ngIf="derniereVisite$ | async as derniereVisite; else noVisit">
             📅 Dernière visite :
             {{ derniereVisite.dateReservation | date:'dd/MM/yyyy' }}
@@ -21,6 +22,7 @@
           <ng-template #noVisit>
             <p>📅 Aucune visite enregistrée</p>
           </ng-template>
+
           <p *ngIf="dernierAchat$ | async as dernierAchat; else noAchat">🛍️ Dernier achat : {{ dernierAchat.articleLibelle }}</p>
 
           <ng-template #noAchat>

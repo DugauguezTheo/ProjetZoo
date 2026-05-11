@@ -64,8 +64,20 @@ export class CarteLogged implements OnInit {
           .sort(
             (a, b) => b.id! - a.id!
           )
-          .filter(r => r.dateReservation.getTime() <= new Date().getTime())
+          .filter(r => new Date(r.dateReservation).getTime() <= new Date().getTime())
           [0]
+        )
+      );
+
+      this.dernierAchat$ = this.visiteur$.pipe(
+        switchMap(visiteur =>
+          this.visiteurService.getLastAchat(visiteur.id)
+        )
+      );
+
+      this.nombreVisites$ = this.visiteur$.pipe(
+        switchMap(visiteur => this.reservationService.findAllByVisiteurId(visiteur.id)),
+        map(reservations => reservations.filter(r => new Date(r.dateReservation).getTime() <= new Date().getTime()).length
         )
       );
 
