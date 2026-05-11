@@ -120,9 +120,9 @@
                     <th>Nombre de personne</th>
                     <th>Prix</th>
                     <th>Spectacles réservés</th>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
+                    <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
                     <th>Actions</th>
-                    }
+                    <!-- } -->
                 </tr>
             </thead>
 
@@ -137,12 +137,12 @@
                     <td>{{ reservation.nbPersonne }}</td>
                     <td>{{ reservation.prix }}</td>
                     <td>  {{ getSpectacleTitles(reservation.spectaclesIds) }}</td>
-                    @if(authService.isAdmin() || authService.isVeterinaire()) {
+                    <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
                     <td>
                         <button class="btn-danger" (click)="deleteReservation(reservation)">Supprimer</button>
                         <button class="btn-edit" (click)="editerReservation(reservation)">Modifier</button>
                     </td>
-                    }
+                    <!-- } -->
                 </tr>
             </tbody>
         </table>
