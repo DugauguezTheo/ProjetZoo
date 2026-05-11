@@ -23,8 +23,21 @@
                 <div>
                     <div class="inline">
                         <label for="titre"><b>Titre</b></label>
-                        <input type="text" class="form-control" id="titre" formControlName="titre"
-                            [class.is-invalid]="formTitreCtrl.invalid" />
+                        <!-- <input type="text" class="form-control" id="titre" formControlName="titre"
+                            [class.is-invalid]="formTitreCtrl.invalid" /> -->
+
+                        <select class="form-control"
+                            id="titre"
+                            formControlName="titre"
+                            [class.is-invalid]="formTitreCtrl.invalid">
+
+                        <option value=""> -- Choisir un spectacle -- </option>
+
+                        <option *ngFor="let titre of titresSpectacles"
+                                [value]="titre">
+                            {{ titre }}
+                        </option>
+                        </select>
                         <div *ngIf="formTitreCtrl.hasError('required')" class="form-control">
                             Titre obligatoire</div>
                     </div>

@@ -30,6 +30,19 @@ export class SpectaclePage {
   protected editingSpectacle?: Spectacle | null;
   protected spectacles$!: Observable<Spectacle[]>;
 
+  protected titresSpectacles: string[] = [
+    'Le Réveil des Lions',
+    'Danse des Dauphins',
+    'Vol des Rapaces',
+    'Parade des Éléphants',
+    'Le Royaume des Tigres',
+    'Aventure en Jungle',
+    'Les Singes Acrobates',
+    'Nuit des Prédateurs',
+    'Le Monde Marin',
+    'Safari Tropical'
+  ];
+
   protected enclos!: Observable<Enclos[]>;
 
   // protected reservations$!: Observable<Reservation[]>;
