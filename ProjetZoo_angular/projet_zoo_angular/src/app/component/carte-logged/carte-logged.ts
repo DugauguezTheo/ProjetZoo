@@ -58,12 +58,15 @@ export class CarteLogged implements OnInit {
       this.derniereVisite$ = this.visiteur$.pipe(
         switchMap(visiteur => this.reservationService.findAllByVisiteurId(visiteur.id)),
         map(reservations =>
-          reservations.sort(
-            (a, b) => new Date(b.dateReservation).getTime() - new Date(a.dateReservation).getTime()
-          )
-          .sort(
-            (a, b) => b.id! - a.id!
-          )
+          reservations.sort((a, b) => {
+            const diffDate = new Date(b.dateReservation).getTime() - new Date(a.dateReservation).getTime();
+
+            if (diffDate !== 0) {
+              return diffDate;
+            }
+
+            return (b.id ?? 0) - (a.id ?? 0);
+          })
           .filter(r => new Date(r.dateReservation).getTime() <= new Date().getTime())
           [0]
         )
