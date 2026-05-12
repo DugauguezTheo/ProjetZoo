@@ -282,23 +282,11 @@
                       {{ r.dateVisite }}
                     </h3>
 
-                    <div class="card-actions">
+                    <div class="card-actions readonly-actions">
 
-                      <button
-                        class="edit-icon-btn"
-                        (click)="editerReservation(r)">
-
-                        ✏️
-
-                      </button>
-
-                      <button
-                        class="delete-icon-btn"
-                        (click)="deleteReservation(r)">
-
-                        🗑️
-
-                      </button>
+                      <span class="past-badge">
+                        Terminée
+                      </span>
 
                     </div>
 

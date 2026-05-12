@@ -8,6 +8,7 @@ import formation_sopra.dao.IDAOReservation;
 import formation_sopra.dao.IDAOSpectacle;
 import formation_sopra.dao.IDAOVisiteur;
 import formation_sopra.model.Reservation;
+import formation_sopra.model.Spectacle;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -144,7 +146,11 @@ public class ReservationController {
 
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
+        List<Spectacle> spectacles = new ArrayList<>();
+        if (request.getSpectaclesIds() != null && !request.getSpectaclesIds().isEmpty()){
+            spectacles = this.daoSpectacle.findAllById(request.getSpectaclesIds());
+        }
+        reservation.setSpectacles(spectacles);
 
 
         this.daoReservation.save(reservation);
@@ -169,7 +175,11 @@ public class ReservationController {
 
         reservation.setVisiteur(this.daoVisiteur.findById(request.getVisiteurId()).orElseThrow(EntityNotFoundException::new));
 
-        reservation.setSpectacles(this.daoSpectacle.findAllById(request.getSpectaclesIds()));
+        List<Spectacle> spectacles = new ArrayList<>();
+        if (request.getSpectaclesIds() != null && !request.getSpectaclesIds().isEmpty()){
+            spectacles = this.daoSpectacle.findAllById(request.getSpectaclesIds());
+        }
+        reservation.setSpectacles(spectacles);
 
 
         this.daoReservation.save(reservation);
