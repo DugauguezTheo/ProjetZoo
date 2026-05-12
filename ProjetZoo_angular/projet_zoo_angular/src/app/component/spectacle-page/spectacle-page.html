@@ -27,7 +27,7 @@
                     <div class ="container">
                         <form class="spectacle-form" (submit)="addOrUpdateSpectacle()" [formGroup]="formSpectacle">
                             <div class="form-grid">
-                
+
                                 <div class="input-group">
                                     <label for="titre"><b>Titre</b></label>
                                 <!-- <input type="text" class="form-control" id="titre" formControlName="titre"
@@ -39,7 +39,7 @@
                                         [class.invalid-input]="formTitreCtrl.invalid && formTitreCtrl.touched">
 
                                         <option value="" disabled selected hidden>
- 
+
                                             -- Choisir un spectacle -- </option>
 
                                         <option *ngFor="let titre of titresSpectacles"
@@ -50,7 +50,7 @@
                                     <div *ngIf="formTitreCtrl.hasError('required') && formTitreCtrl.touched" class="field-error">
                                     Titre obligatoire</div>
                                 </div>
-                            
+
                                 <div class="input-group">
                                     <label for="date"><b>Date</b></label>
                                     <input type="date" id="date" formControlName="date"
@@ -58,9 +58,9 @@
                                     <div *ngIf="formDateCtrl.hasError('required') && formDateCtrl.touched" class="field-error">
                                         Date obligatoire</div>
                                 </div>
-                
 
-                
+
+
                                 <div class="input-group">
                                     <label for="heure"><b>Heure</b></label>
                                     <input type="time"  id="heure" formControlName="heure"
@@ -77,10 +77,10 @@
                                         (click)="formDureeCtrl.setValue(formDureeCtrl.value - 5)"
                                         [disabled]="formDureeCtrl.value <= 5">
                                             −</button>
-                                        
+
                                         <input type="number" id="duree" formControlName="duree" placeholder="5"
                                         step="5" min="5" [class.invalid-input]="formDureeCtrl.invalid && formDureeCtrl.touched" />
-                                        
+
                                         <button type="button" class="qty-btn"
                                             (click)="formDureeCtrl.setValue(formDureeCtrl.value + 5)">
                                             +</button>
@@ -88,7 +88,7 @@
                                     <div *ngIf="formDureeCtrl.hasError('required') && formDureeCtrl.touched" class="field-error">
                                     Durée obligatoire</div>
                                 </div>
-                    
+
                                 <div class="input-group">
                                     <label for="enclos"><b>Enclos</b></label>
 
@@ -106,7 +106,7 @@
                         <div class="form-actions">
                             <button *ngIf="!editingSpectacle" [disabled]="formSpectacle.invalid" type="submit"
                                 class="gold-btn">✨ Ajouter le spectacle</button>
-                            <button *ngIf="editingSpectacle" [disabled]="formSpectacle.invalid" type="submit" 
+                            <button *ngIf="editingSpectacle" [disabled]="formSpectacle.invalid" type="submit"
                             class="gold-btn">🛠️ Modifier le spectacle</button>
                         </div>
                     </form>
@@ -183,10 +183,9 @@
     } -->
             </section>
         </div>
-    </div>
-    @if (authService.isAdmin() || authService.isVeterinaire() || authService.isVisiteur()) {
         <app-carte-logged></app-carte-logged>
-    }
+    </div>
+
     <div class="panther-container">
         <img src="panthere_final.gif" class="panther" alt="Panthère">
     </div>
