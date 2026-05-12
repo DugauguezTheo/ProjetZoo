@@ -50,7 +50,7 @@
                             <option value="">Sélectionnez un animal</option>
                             <option *ngFor="let animal of animal$ | async" [value]="animal.id">{{ animal.prenom }}</option>
                         </select>
-                        <div *ngIf="formAnimalCtrl.hasError('required')" class="form-control">Pour ajouter un soin, 
+                        <div *ngIf="formAnimalCtrl.hasError('required')" class="form-control">Pour ajouter un soin,
                             l'animal est obligatoire</div>
                     </div>
                 </div>
@@ -77,6 +77,7 @@
                 <tr>
                     <th>Numéro</th>
                     <th>Date du soin</th>
+                    <th>Description</th>
                     <th>Vétérinaire</th>
                     <th>Animal</th>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {
@@ -89,6 +90,7 @@
                 <tr *ngFor="let soin of soin$ | async">
                     <td>{{ soin.id }}</td>
                     <td>{{ soin.dateSoin | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ soin.description }}</td>
                     <td>{{ soin.veterinaire.login }}</td>
                     <td>{{ soin.animal.prenom }}</td>
                     @if(authService.isAdmin() || authService.isVeterinaire()) {
