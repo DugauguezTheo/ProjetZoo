@@ -169,6 +169,46 @@ form {
 }
 
 /* =========================
+   VALIDATORS
+========================= */
+
+.invalid-input {
+
+  border: 2px solid rgba(255, 90, 90, 0.85) !important;
+
+  box-shadow:
+    0 0 12px rgba(255, 90, 90, 0.28);
+}
+
+.field-error {
+
+  margin-top: -4px;
+
+  color: #ff9b9b;
+
+  font-size: 0.88rem;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  animation: fadeError 0.2s ease;
+}
+
+@keyframes fadeError {
+
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
    INPUTS PREMIUM
 ========================= */
 
@@ -208,6 +248,75 @@ form {
     border-color 0.25s ease,
     box-shadow 0.25s ease,
     transform 0.2s ease;
+}
+
+/* =========================
+   QUANTITY SELECTOR
+========================= */
+
+.quantity-selector {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 1rem;
+
+  width: 100%;
+}
+
+.quantity-selector input {
+
+  max-width: 120px;
+
+  text-align: center;
+}
+
+/* =========================
+   BUTTONS + / -
+========================= */
+
+.qty-btn {
+
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background:
+    linear-gradient(145deg, #f4d28c, #c89b3c);
+
+  color: #2b1d0e;
+
+  font-size: 1.4rem;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.qty-btn:hover:not(:disabled) {
+
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 10px rgba(244, 210, 140, 0.6);
+}
+
+.qty-btn:disabled {
+
+  opacity: 0.4;
+
+  cursor: not-allowed;
 }
 
 /* =========================
