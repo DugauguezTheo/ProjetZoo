@@ -1,231 +1,489 @@
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="reservation-page.css">
-
-
-    <!-- Font moderne -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter&display=swap" rel="stylesheet">
-</head>
-
 <body>
 
-    <div class="container">
+<div class="page-layout">
 
-        <!-- <img src="Arche_sans_fond.png" alt="Logo" class="logo"> -->
+  <div class="page-top-spacing">
 
-        <h2>Liste des réservations</h2>
+      <h1 class="hero-title">
+        Réservations - AJC Zoo
+      </h1>
 
-        <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
-        <form (submit)="addOrUpdateReservation()" [formGroup]="formReservation">
-            <div class="form-group">
-                <div>
-                    <div class="inline" *ngIf="!isVisiteur">
-                        <label for="visiteur"><b>Visiteur</b></label>
+    </div>
 
-                        <select class="form-control"
-                                id="visiteur"
-                                formControlName="visiteur"
-                                [class.is-invalid]="formVisiteurCtrl.invalid">
+  <div class="main-column">
 
-                            <option value=""> -- Visiteur --</option>
+    <section class="content">
 
-                            <option *ngFor="let v of visiteurs$ | async"
-                                    [ngValue]="v.id">
 
-                                {{v.id}} - {{v.nom}} {{v.prenom}}
+      <div class="container">
 
-                            </option>
-                        </select>
-                    <!-- </div> -->
-                        <div *ngIf="formVisiteurCtrl.hasError('required')" class="form-control">
-                            Visiteur obligatoire</div>
-                    </div>
+        <h2 class="page-title">
+          Liste des réservations
+        </h2>
 
-                    @if (!isVisiteur){
-                      <div class="inline">
-                          <label for="dateReservation"><b>Date Réservation</b></label>
-                          <input type="date" class="form-control" id="dateReservation" formControlName="dateReservation"
-                              [class.is-invalid]="formDateReservationCtrl.invalid" />
-                          <div *ngIf="formDateReservationCtrl.hasError('required')" class="form-control">
-                              Date de réservation obligatoire</div>
-                      </div>
-                    }
+        <!-- =========================
+             FORMULAIRE
+        ========================== -->
 
-                    <div class="inline">
-                        <label for="dateVisite"><b>Date Visite</b></label>
-                        <input type="date" class="form-control" id="dateVisite" formControlName="dateVisite"
-                            [class.is-invalid]="formDateVisiteCtrl.invalid" />
-                        <div *ngIf="formDateVisiteCtrl.hasError('required')" class="form-control">
-                            Date de visite obligatoire</div>
-                        <div class="form-control" *ngIf="formDateVisiteCtrl.touched && formReservation.errors?.['pastDate']">
-                        La date ne peut pas être dans le passé</div>
-                    </div>
-                </div>
+        <form
+          (submit)="addOrUpdateReservation()"
+          [formGroup]="formReservation">
 
-                <div>
-                    <div class="inline">
-                        <label for="nbPersonne"><b>Nombre de personne</b></label>
-                        <input type="number" class="form-control" id="nbPersonne" formControlName="nbPersonne"
-                            [class.is-invalid]="formNbPersonneCtrl.invalid" max = "10"/>
-                        <div *ngIf="formNbPersonneCtrl.hasError('required')" class="form-control">
-                            Nombre de personne obligatoire</div>
-                    </div>
-                    <div class="inline">
-                        <label *ngIf="!isVisiteur" for="prix"><b>Prix</b></label>
-                        <label *ngIf="isVisiteur" for="prix"><b>Prix calculé</b></label>
+          <div class="form-grid">
 
-                        <input type="number"
-                            class="form-control"
-                            id="prix"
-                            formControlName="prix"
-                            [readonly]="isVisiteur"
-                            [value]="isVisiteur ? formNbPersonneCtrl.value * prixVisite : formPrixCtrl.value"
-                            [class.is-invalid]="formPrixCtrl.invalid" />
+            <!-- VISITEUR -->
+            <div
+              class="input-group"
+              *ngIf="!isVisiteur">
 
-                        <div *ngIf="formPrixCtrl.hasError('required') && !isVisiteur" class="form-control">
-                            Prix obligatoire
-                        </div>
-                    </div>
-                </div>
-                <div class="inline">
-                    <label for="spectacles"><b>Spectacles du jour</b></label>
+              <label for="visiteur">
+                <b>Visiteur</b>
+              </label>
 
-                    <select multiple class="form-control" id="spectacles" formControlName="spectaclesIds"
-                        [class.is-invalid]="formSpectaclesCtrl.invalid">
-                        <!-- <option value=""> -- Spectacles --</option> -->
-                        <option *ngFor="let s of spectaclesOfDay$ | async" [ngValue]="s.id">{{s.titre}} - {{s.dateDebut}}</option>
-                    </select>
-                    <!-- <div *ngIf="formSpectacleCtrl.hasError('required')" class="form-control">
-                        Spectacles obligatoire</div> -->
-                </div>
+              <select
+                id="visiteur"
+                formControlName="visiteur">
+
+                <option value="">
+                  -- Visiteur --
+                </option>
+
+                <option
+                  *ngFor="let v of visiteurs$ | async"
+                  [ngValue]="v.id">
+
+                  {{v.id}} - {{v.nom}} {{v.prenom}}
+
+                </option>
+
+              </select>
+
             </div>
 
-            <div>
-                <input *ngIf="!editingReservation" [disabled]="formReservation.invalid" type="submit"
-                    class="btn btn-success" value="Ajouter" />
-                <input *ngIf="editingReservation" [disabled]="formReservation.invalid" type="submit" class="btn btn-warning"
-                    value="Modifier" />
+            <!-- DATE RESA -->
+            @if (!isVisiteur){
+
+            <div class="input-group">
+
+              <label for="dateReservation">
+                <b>Date Réservation</b>
+              </label>
+
+              <input
+                type="date"
+                id="dateReservation"
+                formControlName="dateReservation"/>
+
             </div>
+
+            }
+
+            <!-- DATE VISITE -->
+            <div class="input-group">
+
+              <label for="dateVisite">
+                <b>Date Visite</b>
+              </label>
+
+              <input
+                type="date"
+                id="dateVisite"
+                formControlName="dateVisite"/>
+
+            </div>
+
+            <!-- NB PERSONNES -->
+            <div class="input-group">
+
+              <label for="nbPersonne">
+                <b>Nombre de personnes</b>
+              </label>
+
+              <input
+                type="number"
+                id="nbPersonne"
+                formControlName="nbPersonne"
+                max="10"/>
+
+            </div>
+
+            <!-- PRIX -->
+            <div class="input-group">
+
+              <label for="prix">
+
+                <b>
+                  {{ isVisiteur ? 'Prix calculé' : 'Prix' }}
+                </b>
+
+              </label>
+
+              <input
+                type="number"
+                id="prix"
+                formControlName="prix"
+                [readonly]="isVisiteur"/>
+
+            </div>
+
+            <!-- SPECTACLES -->
+            <div class="input-group spectacles-group">
+
+              <label for="spectacles">
+                <b>Spectacles du jour</b>
+              </label>
+
+              <select
+                id="spectacles"
+                multiple
+                size="1"
+                formControlName="spectaclesIds"
+                class="premium-multiselect">
+
+                <ng-container *ngIf="(spectaclesOfDay$ | async) as spectacles">
+
+                  <!-- Aucun spectacle -->
+                  <option
+                    *ngIf="spectacles.length === 0"
+                    disabled
+                    selected>
+
+                    Aucun spectacle programmé ce jour
+
+                  </option>
+
+                  <!-- Placeholder -->
+                  <option
+                    *ngIf="spectacles.length > 0"
+                    disabled>
+
+                    Choisir un ou plusieurs spectacles
+
+                  </option>
+
+                  <!-- Spectacles -->
+                  <option
+                    *ngFor="let s of spectacles"
+                    [ngValue]="s.id">
+
+                    {{ s.titre }} - {{ s.dateDebut }}
+
+                  </option>
+
+                </ng-container>
+
+              </select>
+
+              <small class="multiselect-hint">
+                Maintenir CTRL (ou CMD sur Mac) pour sélectionner plusieurs spectacles
+              </small>
+
+            </div>
+
+          </div>
+
+          <!-- BOUTONS -->
+          <div class="form-actions">
+
+            <input
+              *ngIf="!editingReservation"
+              type="submit"
+              class="gold-btn"
+              value="✨ Ajouter"
+              [disabled]="formReservation.invalid"/>
+
+            <input
+              *ngIf="editingReservation"
+              type="submit"
+              class="gold-btn"
+              value="Modifier"
+              [disabled]="formReservation.invalid"/>
+
+          </div>
 
         </form>
-        <!-- } -->
 
-    </div>
+        <!-- =========================
+             VISITEUR
+        ========================== -->
 
-    @if ((reservations$ | async)?.length===0) {
-    <h3>Aucune réservation trouvée</h3>
-    } @else {
-    <div class="tableau-wrapper">
-        <div *ngIf="!isVisiteur">
+        <div
+          *ngIf="isVisiteur"
+          class="reservations-wrapper">
 
-            <table class="tableau">
-                <thead>
-                    <tr>
-                        @if(authService.isAdmin() || authService.isVeterinaire()) {
-                        <th>ID</th>
-                        <th>Nom visiteur</th>
-                        }
-                        <th>Date de visite</th>
-                        <th>Date de réservation</th>
-                        <th>Nombre de personne</th>
-                        <th>Prix</th>
-                        <th>Spectacles réservés</th>
-                        <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
-                        <th>Actions</th>
-                        <!-- } -->
-                    </tr>
-                </thead>
+          <div class="reservations-columns">
 
-                <tbody>
-                    <tr *ngFor="let reservation of reservations$ | async">
-                        @if(authService.isAdmin() || authService.isVeterinaire()) {
-                        <td>{{ reservation.id }}</td>
-                        <td>{{ reservation.visiteurNom }}</td>
-                        }
-                        <td>{{ reservation.dateVisite }}</td>
-                        <td>{{ reservation.dateReservation }}</td>
-                        <td>{{ reservation.nbPersonne }}</td>
-                        <td>{{ reservation.prix }}</td>
-                        <td>  {{ getSpectacleTitles(reservation.spectaclesIds) }}</td>
-                        <!-- @if(authService.isAdmin() || authService.isVeterinaire()) { -->
-                        <td>
-                            <button class="btn-danger" (click)="deleteReservation(reservation)">Supprimer</button>
-                            <button class="btn-edit" (click)="editerReservation(reservation)">Modifier</button>
-                        </td>
-                        <!-- } -->
-                    </tr>
-                </tbody>
-            </table>
+            <!-- PASSEES -->
+            <div class="reservation-column">
+
+              <h2 class="section-title">
+                Réservations passées
+              </h2>
+
+              <div class="cards-grid">
+
+                <div
+                  class="reservation-card"
+                  *ngFor="let r of pastReservations$ | async">
+
+                  <div class="card-header">
+
+                    <h3>
+                      {{ r.dateVisite }}
+                    </h3>
+
+                    <div class="card-actions">
+
+                      <button
+                        class="edit-icon-btn"
+                        (click)="editerReservation(r)">
+
+                        ✏️
+
+                      </button>
+
+                      <button
+                        class="delete-icon-btn"
+                        (click)="deleteReservation(r)">
+
+                        🗑️
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                  <div class="card-body">
+
+                    <p>
+                      <span class="label">
+                        Réservation :
+                      </span>
+
+                      {{ r.dateReservation }}
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Personnes :
+                      </span>
+
+                      {{ r.nbPersonne }}
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Prix :
+                      </span>
+
+                      {{ r.prix }} €
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Spectacles :
+                      </span>
+
+                      {{ getSpectacleTitles(r.spectaclesIds) }}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- FUTURES -->
+            <div class="reservation-column">
+
+              <h2 class="section-title">
+                Réservations à venir
+              </h2>
+
+              <div class="cards-grid">
+
+                <div
+                  class="reservation-card"
+                  *ngFor="let r of futureReservations$ | async">
+
+                  <div class="card-header">
+
+                    <h3>
+                      {{ r.dateVisite }}
+                    </h3>
+
+                    <div class="card-actions">
+
+                      <button
+                        class="edit-icon-btn"
+                        (click)="editerReservation(r)">
+
+                        ✏️
+
+                      </button>
+
+                      <button
+                        class="delete-icon-btn"
+                        (click)="deleteReservation(r)">
+
+                        🗑️
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                  <div class="card-body">
+
+                    <p>
+                      <span class="label">
+                        Réservation :
+                      </span>
+
+                      {{ r.dateReservation }}
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Personnes :
+                      </span>
+
+                      {{ r.nbPersonne }}
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Prix :
+                      </span>
+
+                      {{ r.prix }} €
+                    </p>
+
+                    <p>
+                      <span class="label">
+                        Spectacles :
+                      </span>
+
+                      {{ getSpectacleTitles(r.spectaclesIds) }}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <!-- Reservation d'un visiteur -->
-            <div *ngIf="isVisiteur" class="split-container">
+        <!-- =========================
+             ADMIN / VETO
+        ========================== -->
 
-                <!-- LEFT: past -->
-                <div class="split-box">
-                    <h3>Réservations passées</h3>
+        <div
+          *ngIf="!isVisiteur"
+          class="reservations-wrapper">
 
-                    <table class="tableau">
-                        <thead>
-                            <th>Date de visite</th>
-                            <th>Date de réservation</th>
-                            <th>Nombre de personne</th>
-                            <th>Prix</th>
-                            <th>Spectacles réservés</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let r of pastReservations$ | async">
-                            <td>{{ r.dateVisite }}</td>
-                            <td>{{ r.dateReservation }}</td>
-                            <td>{{ r.nbPersonne }}</td>
-                            <td>{{ r.prix }}</td>
-                            <td>{{ getSpectacleTitles(r.spectaclesIds) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+          <div class="cards-grid">
 
-                <!-- RIGHT: future -->
-                <div class="split-box">
-                    <h3>Réservations à venir</h3>
+            <div
+              class="reservation-card"
+              *ngFor="let r of reservations$ | async">
 
-                    <table class="tableau">
-                        <thead>
-                            <th>Date de visite</th>
-                            <th>Date de réservation</th>
-                            <th>Nombre de personne</th>
-                            <th>Prix</th>
-                            <th>Spectacles réservés</th>
-                            <th>Actions</th>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let r of futureReservations$ | async">
-                                <td>{{ r.dateVisite }}</td>
-                                <td>{{ r.dateReservation }}</td>
-                                <td>{{ r.nbPersonne }}</td>
-                                <td>{{ r.prix }}</td>
-                                <td>{{ getSpectacleTitles(r.spectaclesIds) }}</td>
-                                <td>
-                                    <button class="btn-danger" (click)="deleteReservation(r)">Supprimer</button>
-                                    <button class="btn-edit" (click)="editerReservation(r)">Modifier</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+              <div class="card-header">
+
+                <h3>
+                  {{ r.visiteurNom }}
+                </h3>
+
+                <div class="card-actions">
+
+                  <button
+                    class="edit-icon-btn"
+                    (click)="editerReservation(r)">
+
+                    ✏️
+
+                  </button>
+
+                  <button
+                    class="delete-icon-btn"
+                    (click)="deleteReservation(r)">
+
+                    🗑️
+
+                  </button>
 
                 </div>
 
+              </div>
 
-    </div>
-    }
+              <div class="card-body">
 
-    <div class="panther-container">
-        <img src="panthere_final.gif" class="panther" alt="Panthère">
-    </div>
+                <p>
+                  <span class="label">
+                    Date visite :
+                  </span>
+
+                  {{ r.dateVisite }}
+                </p>
+
+                <p>
+                  <span class="label">
+                    Réservation :
+                  </span>
+
+                  {{ r.dateReservation }}
+                </p>
+
+                <p>
+                  <span class="label">
+                    Personnes :
+                  </span>
+
+                  {{ r.nbPersonne }}
+                </p>
+
+                <p>
+                  <span class="label">
+                    Prix :
+                  </span>
+
+                  {{ r.prix }} €
+                </p>
+
+                <p>
+                  <span class="label">
+                    Spectacles :
+                  </span>
+
+                  {{ getSpectacleTitles(r.spectaclesIds) }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <app-carte-logged></app-carte-logged>
+
+
+</div>
 
 </body>
-
-</html>

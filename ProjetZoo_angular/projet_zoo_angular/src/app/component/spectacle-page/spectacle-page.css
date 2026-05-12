@@ -305,6 +305,85 @@ body {
 }
 
 /* =========================
+   TIME INPUT PREMIUM
+========================= */
+
+.input-group input[type="time"] {
+
+  width: 100%;
+
+  text-align: center;
+
+  color-scheme: dark;
+
+  letter-spacing: 1px;
+}
+
+/* Icône horloge */
+.input-group input[type="time"]::-webkit-calendar-picker-indicator {
+
+  cursor: pointer;
+
+  filter:
+    invert(84%)
+    sepia(33%)
+    saturate(462%)
+    hue-rotate(358deg)
+    brightness(103%)
+    contrast(95%);
+
+  opacity: 0.9;
+
+  transition: 0.2s ease;
+}
+
+.input-group input[type="time"]::-webkit-calendar-picker-indicator:hover {
+
+  transform: scale(1.08);
+
+  opacity: 1;
+}
+
+/* Champs internes heure/minutes */
+.input-group input[type="time"]::-webkit-datetime-edit {
+
+  color: #f7e7c1;
+
+  padding: 0;
+}
+
+/* Séparateurs ":" */
+.input-group input[type="time"]::-webkit-datetime-edit-text {
+
+  color: #d4af37;
+}
+
+/* Heure */
+.input-group input[type="time"]::-webkit-datetime-edit-hour-field {
+
+  border-radius: 6px;
+
+  padding: 2px 4px;
+}
+
+/* Minutes */
+.input-group input[type="time"]::-webkit-datetime-edit-minute-field {
+
+  border-radius: 6px;
+
+  padding: 2px 4px;
+}
+
+/* Focus des sous-champs */
+.input-group input[type="time"]::-webkit-datetime-edit-hour-field:focus,
+.input-group input[type="time"]::-webkit-datetime-edit-minute-field:focus {
+
+  background: rgba(244, 210, 140, 0.15);
+
+  outline: none;
+}
+
+/* =========================
    REMOVE NUMBER ARROWS
 ========================= */
 
@@ -435,7 +514,7 @@ input[type=number] {
 }
 
 /* =========================
-   BOUTON 
+   BOUTON
 ========================= */
 
 .gold-btn {

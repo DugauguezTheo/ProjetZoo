@@ -1,3 +1,4 @@
+import { CarteLogged } from './../carte-logged/carte-logged';
 import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -16,7 +17,7 @@ import { VisiteurWithAchats } from '../../model/visiteur-with-achats';
 
 @Component({
   selector: 'app-reservation-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CarteLogged],
   templateUrl: './reservation-page.html',
   styleUrl: './reservation-page.css',
 })
