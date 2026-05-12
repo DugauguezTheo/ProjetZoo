@@ -16,7 +16,7 @@
           <ng-template #AucuneVisite>🎟️ Nombre de visites : {{ 0 }}</ng-template>
           <p *ngIf="derniereVisite$ | async as derniereVisite; else noVisit">
             📅 Dernière visite :
-            {{ derniereVisite.dateReservation | date:'dd/MM/yyyy' }}
+            {{ derniereVisite.dateVisite | date:'dd/MM/yyyy' }}
           </p>
 
           <ng-template #noVisit>
@@ -44,8 +44,8 @@
         </div>
 
         <div class="profile-details">
-          <p>🎟️ Nombre de soins : 12</p>
-          <p *ngIf="dernierSoin$ | async as dernierSoin">🛍️ Dernier Soin : {{ dernierSoin.description }}</p>
+          <p>🎟️ Nombre de soins : 2</p>
+          <p *ngIf="dernierSoin$ | async as dernierSoin">📅 Dernier Soin : {{ dernierSoin.dateSoin }}</p>
         </div>
       </div>
     }

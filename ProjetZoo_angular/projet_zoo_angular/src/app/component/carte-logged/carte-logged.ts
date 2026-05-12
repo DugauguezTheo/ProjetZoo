@@ -59,7 +59,7 @@ export class CarteLogged implements OnInit {
         switchMap(visiteur => this.reservationService.findAllByVisiteurId(visiteur.id)),
         map(reservations =>
           reservations.sort((a, b) => {
-            const diffDate = new Date(b.dateReservation).getTime() - new Date(a.dateReservation).getTime();
+            const diffDate = new Date(b.dateVisite).getTime() - new Date(a.dateVisite).getTime();
 
             if (diffDate !== 0) {
               return diffDate;
@@ -67,7 +67,7 @@ export class CarteLogged implements OnInit {
 
             return (b.id ?? 0) - (a.id ?? 0);
           })
-          .filter(r => new Date(r.dateReservation).getTime() <= new Date().getTime())
+          .filter(r => new Date(r.dateVisite).getTime() < new Date().setHours(0,0,0,0))
           [0]
         )
       );
@@ -80,7 +80,7 @@ export class CarteLogged implements OnInit {
 
       this.nombreVisites$ = this.visiteur$.pipe(
         switchMap(visiteur => this.reservationService.findAllByVisiteurId(visiteur.id)),
-        map(reservations => reservations.filter(r => new Date(r.dateReservation).getTime() <= new Date().getTime()).length
+        map(reservations => reservations.filter(r => new Date(r.dateVisite).getTime() < new Date().setHours(0,0,0,0)).length
         )
       );
 

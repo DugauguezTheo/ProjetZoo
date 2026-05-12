@@ -70,14 +70,14 @@ public class ReservationController {
 
     @GetMapping("/spectacle/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ReservationResponse> findAllBySpectacleId(@PathVariable Integer spectacleId) {
+    public List<ReservationResponse> findAllBySpectacleId(@PathVariable("id") Integer spectacleId) {
         log.debug("Liste des reservations pour le spectacle {}...", spectacleId);
         return this.daoReservation.findAllBySpectacleId(spectacleId).stream().map(ReservationResponse::convert).toList();
     }
 
     @GetMapping("/visiteur/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ReservationResponse> findAllByVisiteurId(@PathVariable Integer visiteurId) {
+    public List<ReservationResponse> findAllByVisiteurId(@PathVariable("id") Integer visiteurId) {
         log.debug("Liste des reservations du visiteur {}...", visiteurId);
         return this.daoReservation.findAllWithSpectaclesByIdVisiteur(visiteurId).stream().map(ReservationResponse::convert).toList();
     }

@@ -76,8 +76,8 @@
                 type="date"
                 id="dateReservation"
                 formControlName="dateReservation"
-                [class.invalid-input]="formDateReservationCtrl.invalid && formDateReservationCtrl.touched">/>
-            
+                [class.invalid-input]="formDateReservationCtrl.invalid && formDateReservationCtrl.touched"/>
+
               <div *ngIf="formDateReservationCtrl.hasError('required') && formDateReservationCtrl.touched" class="field-error">
               Date de réservation obligatoire</div>
             </div>
@@ -100,7 +100,7 @@
 
 
               <div *ngIf="formDateVisiteCtrl.hasError('required') && formDateVisiteCtrl.touched" class="field-error">
-              Date de visite obligatoire</div>  
+              Date de visite obligatoire</div>
             </div>
 
            <!-- NB PERSONNES -->
