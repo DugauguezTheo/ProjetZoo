@@ -148,7 +148,7 @@
             Aucun enclos dans le zoo
           </div>
 
-          <div class="enclos-card" *ngFor="let e of enclos">
+          <div class="enclos-card" *ngFor="let e of enclos" [routerLink]="['/enclos', e.numero]">
 
             <!-- HEADER -->
             <div class="enclos-header">

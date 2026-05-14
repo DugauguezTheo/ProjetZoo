@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EnclosService } from '../../service/enclos-service';
 import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 import { EspeceService } from '../../service/espece-service';
@@ -12,7 +12,7 @@ import { CarteLogged } from '../carte-logged/carte-logged';
 
 @Component({
   selector: 'app-enclos-page',
-  imports: [CommonModule, ReactiveFormsModule, CarteLogged],
+  imports: [CommonModule, ReactiveFormsModule, CarteLogged, RouterLink],
   templateUrl: './enclos-page.html',
   styleUrl: './enclos-page.css',
 })
