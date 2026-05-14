@@ -96,7 +96,7 @@
                                         [class.invalid-input]="formEnclosCtrl.invalid && formEnclosCtrl.touched">
                                         <option value="" disabled selected hidden>
                                              -- Enclos --</option>
-                                        <option *ngFor="let e of enclos | async" [ngValue]="e.numero">{{e.numero}} - {{e.biome}}</option>
+                                        <option *ngFor="let e of enclos | async" [ngValue]="e.numero">{{e.numero}} - {{e.biome}} ({{ e.especes?.map(espece => espece.replace('_', ' '))?.join(', ') || 'Aucune espèce' }})</option>
                                     </select>
                                     <div *ngIf="formEnclosCtrl.hasError('required') && formEnclosCtrl.touched" class="field-error">
                                         Enclos obligatoire</div>
