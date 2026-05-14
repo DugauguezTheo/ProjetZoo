@@ -226,6 +226,8 @@
 
                     [{{ e.animals?.length ?? 0 }}/{{ e.capacite }}]
 
+                    ({{ e.especes?.map(espece => espece.replace('_', ' '))?.join(', ') || 'Aucune espèce' }})
+
                   </option>
 
                 </select>
